@@ -14,7 +14,9 @@ private:
 public:
 	Estacionamento();
 	virtual ~Estacionamento();
-	bool ola(){return true;}
+
+	bool ola() {return false;}
+
 };
 
 #endif /* SRC_ESTACIONAMENTO_H_ */
