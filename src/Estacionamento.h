@@ -12,6 +12,7 @@ class Estacionamento {
 public:
 	Estacionamento();
 	virtual ~Estacionamento();
+	bool ola() {return false;}
 };
 
 #endif /* SRC_ESTACIONAMENTO_H_ */
