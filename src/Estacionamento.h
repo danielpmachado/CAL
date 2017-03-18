@@ -9,10 +9,14 @@
 #define SRC_ESTACIONAMENTO_H_
 
 class Estacionamento {
+private:
+
 public:
 	Estacionamento();
 	virtual ~Estacionamento();
+
 	bool ola() {return false;}
+
 };
 
 #endif /* SRC_ESTACIONAMENTO_H_ */
