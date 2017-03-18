@@ -199,4 +199,3 @@ int Graph<T>::maxNewChildren(Vertex<T> *v, T &inf) const {
 	return maxChildren;
 }
 
-
