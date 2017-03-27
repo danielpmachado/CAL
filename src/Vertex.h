@@ -20,7 +20,7 @@ class Vertex {
 	friend class Graph;
 	Point info; /** <private member containing the coordinates of the vertex> */
 	vector<Edge*> adj; /** <private member containing the adjacent vertexes> */
-	double minDistance; /** <private member containing the minimum distance> */
+	double minDistance; /** <private member containing the minimum distance> distancia minima deste vertice ao primeiro vertice de todos (a origem) */
 	Vertex* previous; /** <private member contains the previous vertex> */
 public:
 	/**
