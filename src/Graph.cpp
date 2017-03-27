@@ -1,201 +1,194 @@
+/*
+ * Graph.cpp
+ */
+
 #include "Graph.h"
+#include "Vertex.h"
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <map>
+#include <cfloat>
+#include <queue>
+#include <climits>
 
-//VERTEX
+using namespace std;
 
-template <class T>
-Vertex<T>::Vertex(T in): info(in), visited(false){}
+Graph::Graph() : lastComputedSource(NULL) { }
 
-template <class T>
-T Vertex<T>::getInfo() const {
-	return this->info;
-}
-
-template <class T>
-bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
-	typename vector<Edge<T> >::iterator it= adj.begin();
-	typename vector<Edge<T> >::iterator ite= adj.end();
-	while (it!=ite) {
-		if (it->dest == d) {
-			adj.erase(it);
-			return true;
-		}
-		else it++;
-	}
-	return false;
-}
-
-template <class T>
-void Vertex<T>::addEdge(Vertex<T> *dest, double w) {
-	Edge<T> edgeD(dest,w);
-	adj.push_back(edgeD);
-}
-
-//EDGE
-
-template <class T>
-Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w){}
-
-//GRAPH
-
-template <class T>
-int Graph<T>::getNumVertex() const {
+int Graph::getNumVertex() const {
 	return vertexSet.size();
 }
-template <class T>
-vector<Vertex<T> * > Graph<T>::getVertexSet() const {
+
+vector<Vertex> Graph::getVertexSet() const {
 	return vertexSet;
 }
 
-template <class T>
-bool Graph<T>::addVertex(const T &in) {
-	typename vector<Vertex<T>*>::iterator it= vertexSet.begin();
-	typename vector<Vertex<T>*>::iterator ite= vertexSet.end();
-	for (; it!=ite; it++)
-		if ((*it)->info == in) return false;
-	Vertex<T> *v1 = new Vertex<T>(in);
-	vertexSet.push_back(v1);
+bool Graph::addVertex(const Point &in) {
+
+	for (unsigned int i = 0; i < vertexSet.size(); i++) {
+		if (vertexSet[i].info == in)
+			return false;
+	}
+
+	vertexSet.push_back(Vertex(in));
 	return true;
 }
 
-template <class T>
-bool Graph<T>::removeVertex(const T &in) {
-	typename vector<Vertex<T>*>::iterator it= vertexSet.begin();
-	typename vector<Vertex<T>*>::iterator ite= vertexSet.end();
-	for (; it!=ite; it++) {
-		if ((*it)->info == in) {
-			Vertex<T> * v= *it;
-			vertexSet.erase(it);
-			typename vector<Vertex<T>*>::iterator it1= vertexSet.begin();
-			typename vector<Vertex<T>*>::iterator it1e= vertexSet.end();
-			for (; it1!=it1e; it1++) {
-				(*it1)->removeEdgeTo(v);
-			}
-			delete v;
-			return true;
+bool Graph::addEdge(const Point &sourc, const Point &dest, Road* road) {
+	int sourceIndex = 0;
+	int destIndex = 0;
+	bool hasSource = false, hasDest = false;
+
+	for (unsigned int i = 0; i < vertexSet.size(); i++) {
+		if (vertexSet[i].info == sourc) {
+			sourceIndex = i;
+			hasSource = true;
 		}
 	}
-	return false;
-}
 
-template <class T>
-bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
-	typename vector<Vertex<T>*>::iterator it= vertexSet.begin();
-	typename vector<Vertex<T>*>::iterator ite= vertexSet.end();
-	int found=0;
-	Vertex<T> *vS, *vD;
-	while (found!=2 && it!=ite ) {
-		if ( (*it)->info == sourc )
-			{ vS=*it; found++;}
-		if ( (*it)->info == dest )
-			{ vD=*it; found++;}
-		it ++;
+	for (unsigned int i = 0; i < vertexSet.size(); i++) {
+		if (vertexSet[i].info == dest) {
+			destIndex = i;
+			hasDest = true;
+		}
 	}
-	if (found!=2) return false;
-	vS->addEdge(vD,w);
+
+	if (!hasDest || !hasSource)
+		return false;
+
+	Edge* edge = new Edge(&vertexSet[sourceIndex], &vertexSet[destIndex], road);
+	vertexSet[sourceIndex].adj.push_back(edge);
+
+	if (road->getTwoWay()) {
+		vertexSet[destIndex].adj.push_back(edge);
+	}
+
 	return true;
 }
 
-template <class T>
-bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
-	typename vector<Vertex<T>*>::iterator it= vertexSet.begin();
-	typename vector<Vertex<T>*>::iterator ite= vertexSet.end();
-	int found=0;
-	Vertex<T> *vS, *vD;
-	while (found!=2 && it!=ite ) {
-		if ( (*it)->info == sourc )
-			{ vS=*it; found++;}
-		if ( (*it)->info == dest )
-			{ vD=*it; found++;}
-		it ++;
+list<Vertex*> Graph::getShortestPath(Vertex* source, Vertex* goal) {
+	if(lastComputedSource == NULL || source != lastComputedSource)
+		computePaths(source);
+
+	list<Vertex*> path = list<Vertex*>();
+	Vertex* v = goal;
+
+	if(goal->getDistance() == DBL_MAX)
+		return path;
+
+	while(v->previous != NULL) {
+		path.push_front(v->previous);
+		v = v->previous;
 	}
-	if (found!=2) return false;
-	return vS->removeEdgeTo(vD);
+
+	return path;
 }
 
+void Graph::computePaths(Vertex* source) {
+	resetPathfinding();
 
+	source->minDistance = 0;
 
+	priority_queue<Vertex*> toBeProcessed = priority_queue<Vertex*>();
+	toBeProcessed.push(source);
 
-template <class T>
-vector<T> Graph<T>::dfs() const {
-	typename vector<Vertex<T>*>::const_iterator it= vertexSet.begin();
-	typename vector<Vertex<T>*>::const_iterator ite= vertexSet.end();
-	for (; it !=ite; it++)
-		(*it)->visited=false;
-	vector<T> res;
-	it=vertexSet.begin();
-	for (; it !=ite; it++)
-	    if ( (*it)->visited==false )
-	    	dfs(*it,res);
-	return res;
-}
+	while(!toBeProcessed.empty()) {
+		Vertex* beingProcessed = toBeProcessed.top();
+		toBeProcessed.pop();
 
-template <class T>
-void Graph<T>::dfs(Vertex<T> *v,vector<T> &res) const {
-	v->visited = true;
-	res.push_back(v->info);
-	typename vector<Edge<T> >::iterator it= (v->adj).begin();
-	typename vector<Edge<T> >::iterator ite= (v->adj).end();
-	for (; it !=ite; it++)
-	    if ( it->dest->visited == false )
-	    	dfs(it->dest, res);
-}
+		for(unsigned int i = 0; i < beingProcessed->adj.size(); i++) {
+			Vertex* dest = beingProcessed->adj[i]->destination;
+			double distanceToDest = beingProcessed->adj[i]->distance + beingProcessed->minDistance;
 
-template <class T>
-vector<T> Graph<T>::bfs(Vertex<T> *v) const {
-	vector<T> res;
-	queue<Vertex<T> *> q;
-	q.push(v);
-	v->visited = true;
-	while (!q.empty()) {
-		Vertex<T> *v1 = q.front();
-		q.pop();
-		res.push_back(v1->info);
-		typename vector<Edge<T> >::iterator it=v1->adj.begin();
-		typename vector<Edge<T> >::iterator ite=v1->adj.end();
-		for (; it!=ite; it++) {
-			Vertex<T> *d = it->dest;
-			if (d->visited==false) {
-				d->visited=true;
-				q.push(d);
+			if(distanceToDest < dest->minDistance) {
+				dest->minDistance = distanceToDest;
+				dest->previous = beingProcessed;
+
+				toBeProcessed.push(dest);
 			}
 		}
 	}
-	return res;
 }
 
-template <class T>
-int Graph<T>::maxNewChildren(Vertex<T> *v, T &inf) const {
-	vector<T> res;
-	queue<Vertex<T> *> q;
-	queue<int> level;
-	int maxChildren=0;
-	inf =v->info;
-	q.push(v);
-	level.push(0);
-	v->visited = true;
-	while (!q.empty()) {
-		Vertex<T> *v1 = q.front();
-		q.pop();
-		res.push_back(v1->info);
-		int l=level.front();
-		level.pop(); l++;
-		int nChildren=0;
-		typename vector<Edge<T> >::iterator it=v1->adj.begin();
-		typename vector<Edge<T> >::iterator ite=v1->adj.end();
-		for (; it!=ite; it++) {
-			Vertex<T> *d = it->dest;
-			if (d->visited==false) {
-				d->visited=true;
-				q.push(d);
-				level.push(l);
-				nChildren++;
+Vertex* Graph::getVertexFromID(unsigned int pointID) {
+	for (unsigned int i = 0; i < vertexSet.size(); i++) {
+		if (vertexSet[i].info.getId() == pointID)
+			return &vertexSet[i];
+	}
+
+	return NULL;
+}
+
+Vertex* Graph::getApproximateVertex(const string &roadName) {
+	unsigned int minEditDist = UINT_MAX;
+	Vertex* minVertex = NULL;
+	unsigned int roadDist, POIDist;
+
+	for(unsigned int i = 0; i < vertexSet.size(); i++) {
+		POIDist = EasyPilot::editDistance(roadName, vertexSet[i].getInfo().getPOI());
+
+		if(POIDist < minEditDist) {
+			minVertex = &vertexSet[i];
+			minEditDist = POIDist;
+		}
+
+		for(unsigned int j = 0; j < vertexSet[i].getAdj().size(); j++) {
+			roadDist = EasyPilot::editDistance(roadName, vertexSet[i].getAdj()[j]->getRoad()->getName());
+
+			if(roadDist < minEditDist) {
+				minVertex = &vertexSet[i];
+				minEditDist = roadDist;
 			}
 		}
-		if (nChildren>maxChildren) {
-			maxChildren=nChildren;
-			inf = v1->info;
-		}
 	}
-	return maxChildren;
+
+	cout << "Could not find an exact match. Assuming " << minVertex->getRoadName();
+
+	return minVertex;
 }
 
+Vertex* Graph::getVertexFromRoadName(const string &roadName) {
+
+	for(unsigned int i = 0; i < vertexSet.size(); i++){
+		if(EasyPilot::exactMatch(vertexSet[i].getInfo().getPOI(), roadName)) {
+			cout << "Found an exact match.\n";
+			return &vertexSet[i];
+		}
+
+		for(unsigned int j = 0; j < vertexSet[i].getAdj().size();j++){
+			if(EasyPilot::exactMatch(vertexSet[i].getAdj()[j]->getRoad()->getName(), roadName)) {
+				cout << "Found an exact match.\n";
+				return &vertexSet[i];
+			}
+		}
+	}
+
+	return getApproximateVertex(roadName);
+}
+
+/*Vertex* Graph::getVertexFromRoadName(const string &roadName) {
+	for(unsigned int i = 0; i < vertexSet.size(); i++){
+		for(unsigned int j = 0; j < vertexSet[i].getAdj().size();j++){
+			if(vertexSet[i].getAdj()[j]->getRoad()->getName().find(roadName) != string::npos ||
+					vertexSet[i].getInfo().getPOI().find(roadName) != string::npos)
+				return &vertexSet[i];
+		}
+	}
+	return NULL;
+}*/
+
+void Graph::resetPathfinding() {
+	for(unsigned int i = 0; i < vertexSet.size(); i++) {
+		vertexSet[i].minDistance = DBL_MAX;
+		vertexSet[i].previous = NULL;
+	}
+}
+
+unsigned int Graph::getVertexSetSize() const {
+	return vertexSet.size();
+}
+
+Vertex* Graph::getVertexFromIndex(unsigned int index) {
+	return &vertexSet[index];
+}
