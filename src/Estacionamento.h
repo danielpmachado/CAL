@@ -14,8 +14,13 @@ private:
 public:
 	Estacionamento();
 	virtual ~Estacionamento();
+<<<<<<< HEAD
+	bool ola() {return true;}
+
+=======
 
 	bool ola() {return false;}
+>>>>>>> origin/Daniel
 
 };
 
