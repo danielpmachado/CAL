@@ -9,6 +9,16 @@ private:
 	double price; //euros per hour
 	Vertex * node; //point in the graph
 	string name;
+public:
+	Park (string type, double price, Vertex * node, string name);
+	string getType () const;
+	double getPrice () const;
+	Vertex * getNode () const;
+	string getName () const;
+	void setType (string type);
+	void setPrice (double price);
+	void setNode (Vertex * node);
+	void setName (string name);
 };
 
 #endif
