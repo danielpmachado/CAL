@@ -9,6 +9,16 @@ ParkingSystem::ParkingSystem(unsigned int windowWidth, unsigned int windowHeight
 	gv->defineEdgeColor("black");
 }
 
+void ParkingSystem::start(){
+
+	Vertex* begin;
+	Vertex* destination;
+	list<Vertex*> path;
+	cout << "Reading files...\n";
+	loadFiles();
+}
+
+
 int loadFiles () {
 	//Used to temporarily store information from the text files.
 		map<unsigned long, Point*> points;
