@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>CAL</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>.settings</name>
+			<type>2</type>
+			<location>C:/Users/bibib/Downloads/Ficha JUNG/.settings</location>
+		</link>
+		<link>
+			<name>Debug</name>
+			<type>2</type>
+			<location>C:/Users/bibib/Downloads/Ficha JUNG/Debug</location>
+		</link>
+		<link>
+			<name>docs</name>
+			<type>2</type>
+			<location>C:/Users/bibib/Downloads/Ficha JUNG/docs</location>
+		</link>
+	</linkedResources>
+</projectDescription>
