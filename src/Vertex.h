@@ -17,6 +17,7 @@ class Graph;
  */
 
 class Vertex {
+private:
 	friend class Graph;
 	Point info; /** <private member containing the coordinates of the vertex> */
 	vector<Edge*> adj; /** <private member containing the adjacent vertexes> */
@@ -27,7 +28,7 @@ public:
 	 * @brief function that returns the point
 	 * @return Point
 	 */
-	Point& getInfo();
+	Point getInfo();
 	/**
 	 * @brief function that returns the vector with all the adjacent edges
 	 * @return vector of edges
@@ -38,7 +39,7 @@ public:
 	 * Initializes an empty Road
 	 * @param point
 	 */
-	Vertex(const Point &in);
+	Vertex(Point in);
 	/**
 	 * @brief function that return the edge between this point and the other given as argument
 	 * @param vertex
