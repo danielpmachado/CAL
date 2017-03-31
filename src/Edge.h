@@ -21,6 +21,7 @@ class Graph;
  * between source and destination.
  */
 class Edge {
+private:
 	Vertex* source; /** < Source vertex */
 	Vertex* destination; /** < Destination vertex*/
 	Road* road; /** <Road the edge belongs to */

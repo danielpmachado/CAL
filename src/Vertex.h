@@ -17,8 +17,9 @@ class Graph;
  */
 
 class Vertex {
+private:
 	friend class Graph;
-	Point info; /** <private member containing the coordinates of the vertex> */
+	Point* info; /** <private member containing the coordinates of the vertex> */
 	vector<Edge*> adj; /** <private member containing the adjacent vertexes> */
 	double minDistance; /** <private member containing the minimum distance> distancia minima deste vertice ao primeiro vertice de todos (a origem) */
 	Vertex* previous; /** <private member contains the previous vertex> */
@@ -27,7 +28,7 @@ public:
 	 * @brief function that returns the point
 	 * @return Point
 	 */
-	Point& getInfo();
+	Point* getInfo();
 	/**
 	 * @brief function that returns the vector with all the adjacent edges
 	 * @return vector of edges
@@ -38,7 +39,12 @@ public:
 	 * Initializes an empty Road
 	 * @param point
 	 */
-	Vertex(const Point &in);
+	Vertex(Point in);
+	/**
+	 * add edge to the vector of edges
+	 */
+	void addEdge (Edge * e);
+
 	/**
 	 * @brief function that return the edge between this point and the other given as argument
 	 * @param vertex

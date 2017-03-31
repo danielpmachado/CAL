@@ -20,19 +20,12 @@ int Graph::getNumVertex() const {
 	return vertexSet.size();
 }
 
-vector<Vertex> Graph::getVertexSet() const {
+vector<Vertex*> Graph::getVertexSet() const {
 	return vertexSet;
 }
 
-bool Graph::addVertex(const Point &in) {
-
-	for (unsigned int i = 0; i < vertexSet.size(); i++) {
-		if (vertexSet[i].info == in)
-			return false;
-	}
-
-	vertexSet.push_back(Vertex(in));
-	return true;
+void Graph::addVertex( Vertex* node) {
+	vertexSet.push_back(node);
 }
 
 bool Graph::addEdge(const Point &sourc, const Point &dest, Road* road) {

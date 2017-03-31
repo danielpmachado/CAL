@@ -9,6 +9,9 @@ class ParkingSystem {
 private:
 	GraphViewer *gv; /** < Pointer to Graph Viewer Interface*/
 	Graph mapGraph; /** < Graph that contains the map */
+	map<unsigned long, Road *> roads;
+	map<unsigned long, GasPump *> gasPumps;
+	map<unsigned long, Park *>parks;
 	const static string START_NODE_COLOR; /** < Start node color */
 	const static string PATH_FOUND_COLOR; /** < Nodes in the path color*/
 	const static string END_NODE_COLOR; /** < End node color*/
@@ -28,10 +31,21 @@ public:
 	 */
 	ParkingSystem(unsigned int windowWidth, unsigned int windowHeight);
 	/**
-	 * @brief Starts the program
+	 * @brief inicia o programa
 	 */
 	void start();
-
+	/**
+	 * @brief lê a informação dos nós que se encontra no ficheiro mapA.txt
+	 */
+	void readNodes(const char* filename);
+	/**
+	 * @brief lê a informação das ruas que se encontra no ficheiro mapB.txt
+	 */
+	void readRoads(const char* filename);
+	/**
+	 * @brief lê a informação das arestas do grafo que se encontra no ficheiro mapC.txt
+	 */
+	void readEdges(const char *filename);
 	/**
 	 * @brief Computes the prefix of the given pattern
 	 *
@@ -39,7 +53,14 @@ public:
 	 * @param prefix Prefix
 	 */
 	static void computePrefix(const string &pattern, int prefix[]);
-
+	/**
+	 * @brief lê a informação sobre as bombas de gasolina guardada no ficheiro gasPump.txt
+	 */
+	void readGasPumps(const char* filename);
+	/**
+	 * @brief lê a informação sobre os parques de estacionamento guardada no ficheiro park.txt
+	 */
+	void readParks(const char* filename);
 	/**
 	 * @brief Uses the KMP algorithm to find an exact match.
 	 *
@@ -59,59 +80,62 @@ public:
 	static unsigned int editDistance(const string &pattern, const string &text);
 
 	/**
-	 * @brief Read the files and create the graph
+	 * @brief lê todos os ficheiros e preenche o grafo
 	 *
 	 * @return Returns 0 on success.
 	 */
 	int loadFiles();
-
 	/**
-	 * @brief Displays path in GUI
+	 * @brief pede ao utilizador para introduzir os dados do caminho a traçar e processa-os
+	 */
+	void askForPath();
+	/**
+	 * @brief Desenha o caminho
 	 *
-	 * @param path Path to be displayed
-	 * @param start Start node
-	 * @param destination Destination node
+	 * @param path caminho a ser desenhado
+	 * @param start ponto de origem
+	 * @param destination ponto de destino
 	 */
 	void displayPath(const list<Vertex*> &path, Vertex* start,
 			Vertex* destination);
 
 	/**
-	 * @brief Populates the GUI with nodes and edges from the graph
+	 * @brief adiciona os nós e arestas do grafo ao GraphViewer
 	 */
-	void populateGraphViewer();
+	void fillGraphViewer();
 
 	/**
-	 * @brief Reads a vertex from the console.
+	 * @brief lê o input do utilizador (que é um ponto/vértice de destino do caminho a traçar)
 	 *
 	 * @return Returns the vertex read.
 	 */
 	Vertex* readVertex();
 
 	/**
-	 * @brief Adds nodes to the GUI
+	 * @brief adiciona os nós ao GraphViewer
 	 */
 	void addNodesToGraphViewer();
 
 	/**
-	 * @brief Adds edges to the GUI
+	 * @brief adiciona as arestas ao GraphViewer
 	 */
 	void addEdgesToGraphViewer();
 
 	/**
-	 * @brief Converts longitude to the x GUI coordinate
+	 * @brief converte a longitude em coordenadas x no ecrã
 	 *
-	 * @param longitude Longitude to convert
+	 * @param longitude longitude a ser convertida
 	 *
-	 * @return Returns the x coordinate
+	 * @return Returns x resultante da conversão
 	 */
 	int convertLongitudeToX(float longitude);
 
 	/**
-	 * @brief Converts latitude to the y GUI coordinate
+	 * @brief converte a latitude em coordenadas y no ecrã
 	 *
-	 * @param latitude Latitude to convert
+	 * @param latitude latitude a ser convertida
 	 *
-	 * @return Returns the y coordinate
+	 * @return Returns y resultante da conversão
 	 */
 	int convertLatitudeToY(float latitude);
 };

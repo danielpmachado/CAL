@@ -18,7 +18,8 @@ class Vertex;
  * Graph class that holds the nodes and edges
  */
 class Graph {
-	vector<Vertex> vertexSet; /** < Vector of all vertexes*/
+private:
+	vector<Vertex*> vertexSet; /** < Vector of all vertexes*/
 	Vertex* lastComputedSource; /** < Last computed source */
 public:
 	/**
@@ -47,7 +48,7 @@ public:
 	 *
 	 * @return Returns true on success.
 	 */
-	bool addVertex(const Point &in);
+	void addVertex(Vertex * node);
 
 	/**
 	 * @brief Adds a edge connected to sourc and dest, belonging to road.
