@@ -48,6 +48,7 @@ void ParkingSystem::readNodes(const char* filename) {
 				ss >> id;
 				file_buf.clear();
 				ss.clear();
+
 			}
 
 			if (getline(file, file_buf, ';')) {//extrair latitude_in_degrees
@@ -251,7 +252,7 @@ void ParkingSystem::readParks(const char* filename) {
 			}
 			getline(file, parkType, ';'); //extrair o tipo de estacionamento
 
-			if (getline(file, buff)) {//extrair preço do estacionamento
+			if (getline(file, buff)) {//extrair preï¿½o do estacionamento
 						ss << buff;
 						ss >> price;
 						ss.clear();
@@ -392,7 +393,7 @@ void ParkingSystem::displayPath(const list<Vertex*> &path, Vertex* start,Vertex*
 	list<Vertex*>::const_iterator nextIt = path.begin()++;
 	list<Vertex*>::const_iterator it;
 	for (it = path.begin(); nextIt != path.end(); it++) {
-		//nextIt++; acho que assim vai estar a passar por cima de um vértice do caminho
+		//nextIt++; acho que assim vai estar a passar por cima de um vï¿½rtice do caminho
 		Edge* edgeBetween = (*it)->getEdgeBetween(*nextIt);
 
 		gv->setVertexColor((*it)->getInfo().getId(), PATH_FOUND_COLOR);
@@ -459,11 +460,11 @@ void ParkingSystem::addEdgesToGraphViewer() {
 
 			if (edge->getRoad()->getTwoWay()) {
 				set<unsigned int>::iterator it = addedEdges.find(edge->getDestination()->getEdgeBetween(edge->getSource())->getEdgeID());
-				if(it != addedEdges.end())  {//edge já tinha sido colocado no GraphViewer
+				if(it != addedEdges.end())  {//edge jï¿½ tinha sido colocado no GraphViewer
 					addedEdges.erase(it);
 				} else {
 					gv->addEdge(edge->getEdgeID(), srcID, destID, EdgeType::UNDIRECTED);
-					addedEdges.insert(edge->getEdgeID());//necessário para o edge não aparecer repetido no GraphViewer
+					addedEdges.insert(edge->getEdgeID());//necessï¿½rio para o edge nï¿½o aparecer repetido no GraphViewer
 				}
 			} else {
 				gv->addEdge(edge->getEdgeID(), srcID, destID,

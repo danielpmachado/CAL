@@ -1,9 +1,3 @@
-/*
- * Edge.cpp
- *
- *  Created on: 18/04/2016
- *      Author: Bernardo
- */
 
 #include "Edge.h"
 
