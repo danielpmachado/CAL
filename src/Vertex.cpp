@@ -5,7 +5,7 @@
 #include "Vertex.h"
 #include <cfloat>
 
-Vertex::Vertex(Point in) :
+Vertex::Vertex(Point* in) :
 info(in), minDistance(DBL_MAX), previous(NULL) {
 }
 
@@ -13,7 +13,11 @@ vector<Edge*>& Vertex::getAdj() {
 	return adj;
 }
 
-Point Vertex::getInfo() {
+void Vertex::addEdge (Edge * e) {
+	adj.push_back(e);
+}
+
+Point* Vertex::getInfo() {
 	return info;
 }
 

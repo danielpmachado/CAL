@@ -9,6 +9,23 @@ ParkingSystem::ParkingSystem(unsigned int windowWidth, unsigned int windowHeight
 	gv->defineEdgeColor("black");
 }
 
+void ParkingSystem::start() {
+	float distance = 0;
+		char answer = 'Y';
+		Vertex* begin;
+		Vertex* destination;
+		list<Vertex*> path;
+		cout << "Reading files...\n";
+		loadFiles();
+		cout << "Finished reading files ...\n";
+		cout << "Filling the graph viewer with more information...\n";
+		fillGraphViewer();
+		cout << "Graph viewer is ready!\n";
+
+		//cout << "Please introduce the starting point: ";
+		askForPath();
+}
+
 void ParkingSystem::readNodes(const char* filename) {
 
 	ifstream file;
@@ -70,17 +87,13 @@ void ParkingSystem::readNodes(const char* filename) {
 	file.close();
 }
 
-/**
- * vector that reads the Roads from a file and stores them in a vector
- */
-void readRoads(const char* filename) {
-	vector<Road *> vec;
+void ParkingSystem::readRoads(const char* filename) {
 	ifstream file;
 
 	file.open(filename);
 
 	if (!file.is_open())
-		return vec;
+		return;
 
 	while (!file.eof()) {
 
@@ -105,24 +118,15 @@ void readRoads(const char* filename) {
 		}
 
 		Road *newRoad = new Road(id, name, twoWay);
-		vec.push_back(newRoad);
+		roads.insert(pair<unsigned int, Road *>(newRoad->getId(), newRoad));
 	}
 
 	file.close();
 
-	return vec;
+	return;
 }
 
-/**
- * \brief function that reads the edges from the subroads file and creates the aproppriate edges in the nodes
- *
- * the function creates an Edge, sets the Road it refers to and checks if it is two way and
- * calls the addEdge function in the Node(s)
- *
- * TODO end
- */
-void readEdges(const char *filename, vector<Node *> &nodes,
-		vector<Road *> &roads, vector<unsigned long> roadIds) {
+void ParkingSystem::readEdges(const char *filename) {
 
 	ifstream file;
 	file.open(filename);
@@ -141,62 +145,34 @@ void readEdges(const char *filename, vector<Node *> &nodes,
 		unsigned long edgeID, nodeFromID, nodeToID;
 		Node *nodeFrom, *nodeTo;
 
-		if (getline(file, buff, ';')) {
+		if (getline(file, buff, ';')) {//extrair road_id
 			ss << buff;
 			ss >> edgeID;
 			ss.clear();
 		}
 
-		if (getline(file, buff, ';')) {
+		if (getline(file, buff, ';')) {//extrair node1_id
 			ss << buff;
 			ss >> nodeFromID;
 			ss.clear();
 		}
 
-		if (getline(file, buff)) {
+		if (getline(file, buff)) {//extrair node2_id
 			ss << buff;
 			ss >> nodeToID;
 			ss.clear();
 		}
 
-		bool foundMatch = false;
+		nodeFrom = mapGraph.getVertexFromID(nodeFromID);
+		nodeTo = mapGraph.getVertexFromID(nodeToID);
+		currRoad = roads.find(edgeID)->second;
+		twoway = currRoad->getTwoWay();
+		Edge * newEdge = new Edge(nodeFrom, nodeTo, currRoad);
 
-		for (unsigned int i = 0; i < roads.size(); i++) {
-			if (roads[i]->getID() == edgeID) {
-				twoway = roads[i]->isTwoWay();
-				currRoad = roads[i];
-				foundMatch = true;
-			}
-		}
-
-		if (!foundMatch) {
-			cout << "Search failure\n";
-			cin.get();
-			continue;
-		}
-
-		for (unsigned int i = 0; i < nodes.size(); i++) {
-			if (nodes[i]->getId() == nodeFromID)
-				nodeFrom = nodes[i];
-
-			if (nodes[i]->getId() == nodeToID)
-				nodeTo = nodes[i];
-		}
-
-		if (nodeFrom == NULL) {
-			cout << "nodeFrom from not found\n";
-			continue;
-		}
-
-		if (nodeTo == NULL) {
-			cout << "nodeTo not found\n";
-			continue;
-		}
-
-		nodeFrom->addEdgeTo(nodeTo, new Edge(currRoad));
+		nodeFrom->addEdge(newEdge);
 
 		if (twoway) {
-			nodeTo->addEdgeTo(nodeFrom, new Edge(currRoad));
+			nodeTo->addEdge(newEdge);
 		}
 	}
 
@@ -204,17 +180,306 @@ void readEdges(const char *filename, vector<Node *> &nodes,
 
 }
 
-int loadFiles () {
-	vector<Road *> roadVec;
-	vector<unsigned long> roadIds;
+void ParkingSystem::computePrefix(const string &pattern, int prefix[]) {
+	unsigned int length = pattern.length();
+	int k = -1;
 
-	nodeVec = readNodes("mapA.txt");
-	roadVec = readRoads("mapB.txt", roadIds);
+	prefix[0] = -1;
 
-	readEdges("mapC.txt", nodeVec, roadVec, roadIds);
+	for (unsigned int i = 1; i < length; i++) {
+		while (k > -1 && tolower(pattern[k+1]) != tolower(pattern[i])) {
+			k = prefix[k];
+		}
+
+		if (tolower(pattern[k+1]) == tolower(pattern[i]))
+			k++;
+
+		prefix[i] = k;
+	}
+}
+
+void ParkingSystem::readGasPumps(const char* filename) {
+	ifstream file;
+		file.open(filename);
+
+		if (!file.is_open())
+			return;
+
+		while (!file.eof()) {
+
+			string buff;
+			buff.clear();
+			stringstream ss;
+
+			unsigned long vertexID;
+
+			if (getline(file, buff)) {//extrair node_id
+				ss << buff;
+				ss >> vertexID;
+				ss.clear();
+			}
+
+			Vertex * node = mapGraph.getVertexFromID(vertexID);
+			node->getInfo().setPOI("Gas Pump");
+			GasPump * g = new GasPump(node);
+			gasPumps.insert(pair<unsigned long, GasPump *>(vertexID, g));
+		}
+
+		file.close();
+}
+
+void ParkingSystem::readParks(const char* filename) {
+	ifstream file;
+		file.open(filename);
+
+		if (!file.is_open())
+			return;
+
+		while (!file.eof()) {
+
+			string buff;
+			buff.clear();
+			stringstream ss;
+
+			unsigned long vertexID, price;
+			string parkType;
+
+			if (getline(file, buff, ';')) {//extrair node_id
+				ss << buff;
+				ss >> vertexID;
+				ss.clear();
+			}
+			getline(file, parkType, ';'); //extrair o tipo de estacionamento
+
+			if (getline(file, buff)) {//extrair preço do estacionamento
+						ss << buff;
+						ss >> price;
+						ss.clear();
+					}
+			Vertex * node = mapGraph.getVertexFromID(vertexID);
+			node->getInfo().setPOI("Park");
+			Park * p = new Park(parkType, price, node);
+			parks.insert(pair<unsigned long, Park *>(vertexID, p));
+		}
+
+		file.close();
+}
+
+int ParkingSystem::exactMatch(const string &text, const string &pattern) {
+	int num = 0;
+	int prefix[pattern.length()];
+
+	computePrefix(pattern, prefix);
+
+	int q = -1;
+	for (unsigned int i = 0; i < text.length(); i++) {
+
+		while (q > -1 && tolower(pattern[q+1]) != tolower(text[i]))
+			q = prefix[q];
+
+		if (tolower(pattern[q+1]) == tolower(text[i]))
+			q++;
+
+		if (q == pattern.length() - 1) {
+			num++;
+			q = prefix[q];
+		}
+	}
+
+	return num;
+}
+
+unsigned int ParkingSystem::editDistance(const string &pattern, const string &text) {
+	unsigned int distance[text.length()+1];
+	unsigned int oldDistance, newDistance;
+
+	for (unsigned int i = 0; i <= text.length(); i++)
+		distance[i] = i;
+
+	for (unsigned int i = 1; i <= pattern.length(); i++) {
+		oldDistance = distance[0];
+		distance[0] = i;
+
+		for (unsigned int j = 1; j <= text.length(); j++) {
+			//Check is not case sensitive
+			if (tolower(pattern[i-1]) == tolower(text[j-1]))
+				newDistance = oldDistance;
+			else {
+				newDistance = min(oldDistance, min(distance[j], distance[j-1]));
+				newDistance++;
+			}
+
+			oldDistance = distance[j];
+			distance[j] = newDistance;
+		}
+	}
+
+	return distance[text.length()];
+}
+
+int ParkingSystem::loadFiles () {
+
+	readNodes("mapA.txt");
+	readRoads("mapB.txt");
+	readEdges("mapC.txt");
+	readGasPumps("gasPump.txt");//TODO: criar ficheiros
+	readParks("park.txt");
 
 		return 0;
 	}
 
+void ParkingSystem::addNodesToGraphViewer() {
+	for (unsigned int i = 0; i < mapGraph.getVertexSetSize(); i++) {
+		Vertex* vertex = mapGraph.getVertexFromIndex(i);
 
+		gv->addNode(vertex->getInfo().getId(),
+				convertLatitudeToY(vertex->getInfo().getLatitude()),
+				convertLongitudeToX(vertex->getInfo().getLongitude()));
+		gv->setVertexLabel(vertex->getInfo().getId(), ".");
 
+		if(vertex->getInfo().getPOI() != ""){
+			gv->setVertexColor(vertex->getInfo().getId(),POI_NODE_COLOR);
+			gv->setVertexLabel(vertex->getInfo().getId(), vertex->getInfo().getPOI());
+		}
+	}
+}
+
+int ParkingSystem::convertLongitudeToX(float longitude) {
+	return floor(((longitude - MIN_LON) * (IMAGE_Y)) / (MAX_LON - MIN_LON));
+}
+
+int ParkingSystem::convertLatitudeToY(float latitude) {
+	return floor(((latitude - MIN_LAT) * (IMAGE_X)) / (MAX_LAT - MIN_LAT));
+}
+
+void ParkingSystem::askForPath() {
+	Vertex* start = readVertex();
+		begin = start;
+
+		while(toupper(answer) == 'Y'){
+			destination = readVertex();
+			list<Vertex*> temp = mapGraph.getShortestPath(start, destination);
+
+			if(destination->getDistance() != DBL_MAX) {
+				distance += destination->getDistance();
+				cout << "\nDistance between " << start->getRoadName() << " and " << destination->getRoadName() << " is " << destination->getDistance() << " kilometers.\n";
+			}
+
+			list<Vertex*>::iterator it2=temp.end();
+			list<Vertex*>::iterator it1=temp.begin();
+			list<Vertex*>::iterator it=path.end();
+			path.insert(it,it1,it2);//copia para a lista path a nova parte do caminho a acrescentar
+
+			start=destination;
+			cout << "Do you want to add another place? (Y/N) ";
+			cin >> answer;
+			cin.ignore();
+			cin.clear();
+		}
+
+		displayPath(path, begin, destination);
+		if(distance > 0)
+			cout << "\nTotal path distance is " << distance << " kilometers.\n";
+}
+
+void ParkingSystem::displayPath(const list<Vertex*> &path, Vertex* start,Vertex* destination) {
+
+	if (path.size() < 1) {
+		cout << "Path not found.\nAre you sure there is a connection?\n";
+		return;
+	}
+
+	list<Vertex*>::const_iterator nextIt = path.begin()++;
+	list<Vertex*>::const_iterator it;
+	for (it = path.begin(); nextIt != path.end(); it++) {
+		//nextIt++; acho que assim vai estar a passar por cima de um vértice do caminho
+		Edge* edgeBetween = (*it)->getEdgeBetween(*nextIt);
+
+		gv->setVertexColor((*it)->getInfo().getId(), PATH_FOUND_COLOR);
+		if(edgeBetween != NULL) {
+			//If the road is two way, we have to color both of the edges.
+			//Even though one of them may not be displayed
+
+			if(edgeBetween->getRoad()->getTwoWay()) {
+				gv->setEdgeThickness((*nextIt)->getEdgeBetween(*it)->getEdgeID(), 5);
+				gv->setEdgeColor((*nextIt)->getEdgeBetween(*it)->getEdgeID(), PATH_FOUND_COLOR);
+			}
+
+			gv->setEdgeThickness(edgeBetween->getEdgeID(), 5);
+			gv->setEdgeColor(edgeBetween->getEdgeID(), PATH_FOUND_COLOR);
+		}
+	}
+
+	gv->setVertexColor(start->getInfo().getId(), START_NODE_COLOR);
+	gv->setVertexColor(destination->getInfo().getId(), END_NODE_COLOR);
+}
+
+Vertex* ParkingSystem::readVertex() {
+	Vertex *vertex;
+	string roadName;
+
+	cout << "Please introduce a point: ";
+	getline(cin, roadName);
+
+	while ((vertex = mapGraph.getVertexFromRoadName(roadName)) == NULL) {
+		cout << "Invalid road name. Try again.\n";
+		getline(cin, roadName);
+	}
+
+	cout << "What suburb does the road belong to?\n";
+
+	string suburb;
+	getline(cin, suburb);
+
+	if(!exactMatch(vertex->getInfo().getSuburb(), suburb)) {
+		cout << "The road you provided does not belong to the suburb you specified.\nDo you want to choose another road? (Y/N)\n";
+
+		string answer;
+		cin >> answer;
+
+		cin.ignore();
+		cin.clear();
+
+		if(exactMatch("Y", answer))
+			return readVertex();
+	}
+
+	return vertex;
+}
+
+void ParkingSystem::addEdgesToGraphViewer() {
+	set<unsigned int> addedEdges = set<unsigned int>();
+
+	for (unsigned int i = 0; i < mapGraph.getVertexSetSize(); i++) {
+		Vertex* vertex = mapGraph.getVertexFromIndex(i);
+		for (unsigned int j = 0; j < vertex->getAdj().size();j++) {
+			Edge* edge = vertex->getAdj()[j];
+			int destID = edge->getDestination()->getInfo().getId();
+			int srcID = edge->getSource()->getInfo().getId();
+
+			if (edge->getRoad()->getTwoWay()) {
+				set<unsigned int>::iterator it = addedEdges.find(edge->getDestination()->getEdgeBetween(edge->getSource())->getEdgeID());
+				if(it != addedEdges.end())  {//edge já tinha sido colocado no GraphViewer
+					addedEdges.erase(it);
+				} else {
+					gv->addEdge(edge->getEdgeID(), srcID, destID, EdgeType::UNDIRECTED);
+					addedEdges.insert(edge->getEdgeID());//necessário para o edge não aparecer repetido no GraphViewer
+				}
+			} else {
+				gv->addEdge(edge->getEdgeID(), srcID, destID,
+						EdgeType::DIRECTED);
+			}
+		}
+	}
+}
+
+void EasyPilot::fillGraphViewer() {
+	cout << "Adding nodes to graph viewer...\n";
+	addNodesToGraphViewer();
+	cout << "Finished adding nodes to graph viewer...\n";
+	cout << "Adding edges to graph viewer...\n";
+	addEdgesToGraphViewer();
+	cout << "Finished adding edges to graph viewer...\n";
+
+	gv->rearrange();
+}
