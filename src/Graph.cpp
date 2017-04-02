@@ -1,187 +1,185 @@
 /*
  * Graph.cpp
+ *
+ *  Created on: 01/04/2017
+ *      Author: bibib
  */
-
 #include "Graph.h"
-#include "Vertex.h"
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <map>
-#include <cfloat>
-#include <queue>
-#include <climits>
+/*
+ * CLASS VERTEX
+ */
+Vertex::Vertex(int id, double lon, double lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
+	this->id = id;
+	path = NULL;
+}
 
-using namespace std;
+void Vertex::addEdge(Vertex *dest, double w) {
+	Edge *edgeD = new Edge(dest,w);
+	adj.push_back(edgeD);
+}
+int Vertex::getID() const {
+	return id;
+}
 
-Graph::Graph() : lastComputedSource(NULL) { }
+double Vertex::getLongitude() const {
+	return longitude;
+}
 
+double Vertex::getLatitude() const {
+	return latitude;
+}
+
+int Vertex::getDist() const {
+	return this->dist;
+}
+
+void Vertex::setLongitude(double lon) {
+	this->longitude = lon;
+}
+
+void Vertex::setLatitude(double lat) {
+	this->latitude = lat;
+}
+
+void Vertex::setID(int id) {
+	this->id = id;
+}
+
+int Vertex::getIndegree() const {
+	return this->indegree;
+}
+
+/*
+ * CLASS EDGE
+ */
+Edge::Edge(Vertex *d, double w): dest(d), weight(w){}
+
+double Edge::getWeight() {return weight;}
+
+/*
+ * CLASS GRAPH
+ */
 int Graph::getNumVertex() const {
 	return vertexSet.size();
 }
 
-vector<Vertex*> Graph::getVertexSet() const {
+vector<Vertex * > Graph::getVertexSet() const {
 	return vertexSet;
 }
+bool Graph::addVertex(Vertex * v) {
+	typename vector<Vertex*>::iterator it= vertexSet.begin();
+	typename vector<Vertex*>::iterator ite= vertexSet.end();
+	for (; it!=ite; it++)
+		if ((*it) == v) return false;
 
-void Graph::addVertex( Vertex* node) {
-	vertexSet.push_back(node);
-}
-
-bool Graph::addEdge(const Point &sourc, const Point &dest, Road* road) {
-	int sourceIndex = 0;
-	int destIndex = 0;
-	bool hasSource = false, hasDest = false;
-
-	for (unsigned int i = 0; i < vertexSet.size(); i++) {
-		if (vertexSet[i].info == sourc) {
-			sourceIndex = i;
-			hasSource = true;
-		}
-	}
-
-	for (unsigned int i = 0; i < vertexSet.size(); i++) {
-		if (vertexSet[i].info == dest) {
-			destIndex = i;
-			hasDest = true;
-		}
-	}
-
-	if (!hasDest || !hasSource)
-		return false;
-
-	Edge* edge = new Edge(&vertexSet[sourceIndex], &vertexSet[destIndex], road);
-	vertexSet[sourceIndex].adj.push_back(edge);
-
-	if (road->getTwoWay()) {
-		vertexSet[destIndex].adj.push_back(edge);
-	}
-
+	vertexSet.push_back(v);
 	return true;
 }
-
-list<Vertex*> Graph::getShortestPath(Vertex* source, Vertex* goal) {
-	if(lastComputedSource == NULL || source != lastComputedSource)
-		computePaths(source);
-
-	list<Vertex*> path = list<Vertex*>();
-	Vertex* v = goal;
-
-	if(goal->getDistance() == DBL_MAX)
-		return path;
-
-	while(v->previous != NULL) {
-		path.push_front(v->previous);
-		v = v->previous;
-	}
-
-	return path;
-}
-
-void Graph::computePaths(Vertex* source) {
-	resetPathfinding();
-
-	source->minDistance = 0;
-
-	priority_queue<Vertex*> toBeProcessed = priority_queue<Vertex*>();
-	toBeProcessed.push(source);
-
-	while(!toBeProcessed.empty()) {
-		Vertex* beingProcessed = toBeProcessed.top();
-		toBeProcessed.pop();
-
-		for(unsigned int i = 0; i < beingProcessed->adj.size(); i++) {
-			Vertex* dest = beingProcessed->adj[i]->destination;
-			double distanceToDest = beingProcessed->adj[i]->distance + beingProcessed->minDistance;
-
-			if(distanceToDest < dest->minDistance) {
-				dest->minDistance = distanceToDest;
-				dest->previous = beingProcessed;
-
-				toBeProcessed.push(dest);
+bool Graph::removeVertex(Vertex * v) {
+	typename vector<Vertex*>::iterator it= vertexSet.begin();
+	typename vector<Vertex*>::iterator ite= vertexSet.end();
+	for (; it!=ite; it++) {
+		if ((*it) == v) {
+			Vertex * vertexRemoved= *it;
+			vertexSet.erase(it);
+			typename vector<Vertex*>::iterator it1= vertexSet.begin();
+			typename vector<Vertex*>::iterator it1e= vertexSet.end();
+			for (; it1!=it1e; it1++) {
+				(*it1)->removeEdgeTo(vertexRemoved);
 			}
+
+			typename vector<Edge>::iterator itAdj= vertexRemoved->adj.begin();
+			typename vector<Edge>::iterator itAdje= vertexRemoved->adj.end();
+			for (; itAdj!=itAdje; itAdj++) {
+				itAdj->dest->indegree--;
+			}
+			delete v;
+			return true;
 		}
 	}
+	return false;
+}
+vector<Vertex*> Graph::dfs() const {
+	typename vector<Vertex*>::const_iterator it= vertexSet.begin();
+	typename vector<Vertex*>::const_iterator ite= vertexSet.end();
+	for (; it !=ite; it++)
+		(*it)->visited=false;
+	vector<Vertex*> res;
+	it=vertexSet.begin();
+	for (; it !=ite; it++)
+	    if ( (*it)->visited==false )
+	    	dfs(*it,res);
+	return res;
 }
 
-Vertex* Graph::getVertexFromID(unsigned int pointID) {
-	for (unsigned int i = 0; i < vertexSet.size(); i++) {
-		if (vertexSet[i].info.getId() == pointID)
-			return &vertexSet[i];
-	}
-
-	return NULL;
+void Graph::dfs(Vertex *v,vector<Vertex*> &res) const {
+	v->visited = true;
+	res.push_back(v);
+	typename vector<Edge*>::iterator it= (v->adj).begin();
+	typename vector<Edge*>::iterator ite= (v->adj).end();
+	for (; it !=ite; it++)
+	    if ( (*it)->dest->visited == false ){
+	    	dfs((*it)->dest, res);
+	    }
 }
 
-Vertex* Graph::getApproximateVertex(const string &roadName) {
-	unsigned int minEditDist = UINT_MAX;
-	Vertex* minVertex = NULL;
-	unsigned int roadDist, POIDist;
-
+vector<Vertex*> Graph::getSources() const {
+	vector< Vertex* > buffer;
 	for(unsigned int i = 0; i < vertexSet.size(); i++) {
-		POIDist = EasyPilot::editDistance(roadName, vertexSet[i].getInfo().getPOI());
-
-		if(POIDist < minEditDist) {
-			minVertex = &vertexSet[i];
-			minEditDist = POIDist;
-		}
-
-		for(unsigned int j = 0; j < vertexSet[i].getAdj().size(); j++) {
-			roadDist = EasyPilot::editDistance(roadName, vertexSet[i].getAdj()[j]->getRoad()->getName());
-
-			if(roadDist < minEditDist) {
-				minVertex = &vertexSet[i];
-				minEditDist = roadDist;
-			}
-		}
+		if( vertexSet[i]->indegree == 0 ) buffer.push_back( vertexSet[i] );
 	}
-
-	cout << "Could not find an exact match. Assuming " << minVertex->getRoadName();
-
-	return minVertex;
+	return buffer;
 }
 
-Vertex* Graph::getVertexFromRoadName(const string &roadName) {
-
-	for(unsigned int i = 0; i < vertexSet.size(); i++){
-		if(EasyPilot::exactMatch(vertexSet[i].getInfo().getPOI(), roadName)) {
-			cout << "Found an exact match.\n";
-			return &vertexSet[i];
-		}
-
-		for(unsigned int j = 0; j < vertexSet[i].getAdj().size();j++){
-			if(EasyPilot::exactMatch(vertexSet[i].getAdj()[j]->getRoad()->getName(), roadName)) {
-				cout << "Found an exact match.\n";
-				return &vertexSet[i];
-			}
-		}
-	}
-
-	return getApproximateVertex(roadName);
-}
-
-/*Vertex* Graph::getVertexFromRoadName(const string &roadName) {
-	for(unsigned int i = 0; i < vertexSet.size(); i++){
-		for(unsigned int j = 0; j < vertexSet[i].getAdj().size();j++){
-			if(vertexSet[i].getAdj()[j]->getRoad()->getName().find(roadName) != string::npos ||
-					vertexSet[i].getInfo().getPOI().find(roadName) != string::npos)
-				return &vertexSet[i];
-		}
-	}
-	return NULL;
-}*/
-
-void Graph::resetPathfinding() {
+void Graph::dijkstraShortestPath(Vertex * v) {
 	for(unsigned int i = 0; i < vertexSet.size(); i++) {
-		vertexSet[i].minDistance = DBL_MAX;
-		vertexSet[i].previous = NULL;
+		vertexSet[i]->path = NULL;
+		vertexSet[i]->dist = INT_INFINITY;
+	}
+
+	v->dist = 0;
+	priority_queue< Vertex* > q;
+	q.push(v);
+	v->inQueue = true;
+
+	while( !q.empty() ) {
+		Vertex * processingVertex = q.top(); q.pop();
+		processingVertex->inQueue = false;
+		for(unsigned int i = 0; i < processingVertex->adj.size(); i++) {
+			Vertex* w = processingVertex->adj[i]->dest;
+			if( w->dist > (processingVertex->dist+ processingVertex->adj[i]->weight) ) {
+				w->dist = (v->dist+ v->adj[i]->weight);
+				w->path = processingVertex;
+				if(!(w->inQueue)) {
+					q.push(w);
+					w->inQueue = true;
+				}
+			}
+		}
 	}
 }
 
-unsigned int Graph::getVertexSetSize() const {
-	return vertexSet.size();
+vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest){
+
+	list<Vertex *> buffer;
+	Vertex * v = dest;
+	//cout << v->info << " ";
+	buffer.push_front(dest);
+	while ( v->path != NULL &&  v->path != origin) {
+		v = v->path;
+		buffer.push_front(v);
+	}
+	if( v->path != NULL )
+		buffer.push_front(v->path);
+	else
+		buffer.push_front(v);
+
+
+	vector<Vertex *> res;
+	while( !buffer.empty() ) {
+		res.push_back( buffer.front() );
+		buffer.pop_front();
+	}
+	return res;
 }
 
-Vertex* Graph::getVertexFromIndex(unsigned int index) {
-	return &vertexSet[index];
-}
