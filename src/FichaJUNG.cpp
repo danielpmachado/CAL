@@ -3,12 +3,101 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <map>
 
 void exercicio1();
 void exercicio2();
 void exercicio3();
+Graph myGraph = Graph();
+map<int, Road*>roads;
 
-void loadNodes();
+void loadNodes() {
+	ifstream file;
+	stringstream ss;
+	file.open("nodes.txt");
+	if(file.is_open()) {
+		int id;
+		double longitude, latitude, x, y;
+		string file_buf;
+		file_buf.clear();
+
+		while(!file.eof()) {
+			if (getline(file, file_buf, ';')) {
+				ss << file_buf;
+				ss >> id;
+				file_buf.clear();
+				ss.clear();
+			}
+
+			if (getline(file, file_buf, ';')) {
+				ss << file_buf;
+				ss >> latitude;
+				file_buf.clear();
+				ss.clear();
+			}
+
+			if (getline(file, file_buf, ';')) {
+				ss << file_buf;
+				ss >> longitude;
+				file_buf.clear();
+				ss.clear();
+			}
+
+			if (getline(file, file_buf, ';')) {
+				ss << file_buf;
+				ss >> x;
+				file_buf.clear();
+				ss.clear();
+			}
+
+			if (getline(file, file_buf)) {
+				ss << file_buf;
+				ss >> y;
+				file_buf.clear();
+				ss.clear();
+			}
+			Vertex * v = new Vertex(id, longitude, latitude, x, y);
+			myGraph.addVertex(v);
+		}
+	}
+}
+
+void loadRoads() {
+	ifstream file;
+
+	file.open("roads.txt");
+
+	if (!file.is_open())
+		return;
+
+	while (!file.eof()) {
+
+		string buff;
+		buff.clear();
+		stringstream ss;
+
+		unsigned long id;
+		string name;
+		bool twoWays = false;
+
+		if (getline(file, buff, ';')) {
+			ss << buff;
+			ss >> id;
+			ss.clear();
+		}
+
+		getline(file, name, ';');
+
+		if (getline(file, buff)) {
+			twoWays = (buff.c_str()[0] == 'F') ? false : true;
+		}
+
+		Road *newRoad = new Road(id, name, twoWays);
+		roads.insert(pair<int,Road*>(id, newRoad));
+	}
+
+	file.close();
+}
 
 void exercicio1()
 {
