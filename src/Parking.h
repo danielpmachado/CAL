@@ -14,6 +14,7 @@
 #include <sstream>
 
 #include "Road.h";
+#include "utils.h"
 
 
 using namespace std;
@@ -23,6 +24,8 @@ public:
 	Parking();
 	virtual ~Parking();
 	void readRoadsFile();
+	void readConnectionsFile();
+	void readNodesFile();
 };
 
 #endif /* SRC_PARKING_H_ */
