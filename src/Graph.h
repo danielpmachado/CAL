@@ -11,8 +11,9 @@
 #include <vector>
 #include <queue>
 #include <list>
-#include <limits>
+#include <climits>
 #include <cmath>
+#include <cstdint>
 using namespace std;
 
 class Edge;
@@ -83,7 +84,7 @@ private:
 public:
 	bool addVertex(Vertex * v);
 	bool addEdge(Vertex * sourc, Vertex * dest, double w);
-	bool removeVertex(double lon, double lat);
+	bool removeVertex(Vertex * v);
 	bool removeEdge(Vertex * sourc, Vertex * dest);
 	vector<Vertex * > getVertexSet() const;
 	int getNumVertex() const;

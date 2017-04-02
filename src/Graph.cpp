@@ -49,6 +49,20 @@ int Vertex::getIndegree() const {
 	return this->indegree;
 }
 
+bool Vertex::removeEdgeTo(Vertex *d) {
+	d->indegree--; //adicionado do exercicio 5
+	typename vector<Edge*>::iterator it= adj.begin();
+	typename vector<Edge*>::iterator ite= adj.end();
+	while (it!=ite) {
+		if ((*it)->dest == d) {
+			adj.erase(it);
+			return true;
+		}
+		else it++;
+	}
+	return false;
+}
+
 /*
  * CLASS EDGE
  */
@@ -88,10 +102,10 @@ bool Graph::removeVertex(Vertex * v) {
 				(*it1)->removeEdgeTo(vertexRemoved);
 			}
 
-			typename vector<Edge>::iterator itAdj= vertexRemoved->adj.begin();
-			typename vector<Edge>::iterator itAdje= vertexRemoved->adj.end();
+			typename vector<Edge*>::iterator itAdj= vertexRemoved->adj.begin();
+			typename vector<Edge*>::iterator itAdje= vertexRemoved->adj.end();
 			for (; itAdj!=itAdje; itAdj++) {
-				itAdj->dest->indegree--;
+				(*itAdj)->dest->indegree--;
 			}
 			delete v;
 			return true;
