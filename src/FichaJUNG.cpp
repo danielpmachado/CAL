@@ -362,6 +362,7 @@ void exercicio3()
 	gv->rearrange();
 }
 
+/*
 int main() {
 	//exercicio1();
 	exercicio2();
@@ -369,3 +370,4 @@ int main() {
 	getchar();
 	return 0;
 }
+*/
