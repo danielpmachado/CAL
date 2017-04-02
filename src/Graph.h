@@ -14,6 +14,7 @@
 #include <climits>
 #include <cmath>
 #include <cstdint>
+#include "Road.h"
 using namespace std;
 
 class Edge;
@@ -45,7 +46,7 @@ public:
 	Vertex(int id, double lon, double lat, double x, double y);
 	friend class Graph;
 
-	void addEdge(Vertex *dest, double w);
+	void addEdge(Vertex *dest, Road * road, double w);
 	bool removeEdgeTo(Vertex *d);
 
 	int getID() const;
@@ -70,11 +71,15 @@ public:
  */
 class Edge {
 private:
+	static int edgesID;
+	int id;
 	Vertex * dest;
 	double weight;
+	Road * road;
 public:
-	Edge(Vertex *d, double w);
+	Edge(Vertex *d, Road * road, double w);
 	double getWeight();
+	int getID();
 	friend class Graph;
 	friend class Vertex;
 };
@@ -89,7 +94,7 @@ private:
 public:
 	Graph() {}
 	bool addVertex(Vertex * v);
-	bool addEdge(Vertex * sourc, Vertex * dest, double w);
+	bool addEdge(int sourcID, int destID, double w, Road * road);
 	bool removeVertex(Vertex * v);
 	bool removeEdge(Vertex * sourc, Vertex * dest);
 	vector<Vertex * > getVertexSet() const;

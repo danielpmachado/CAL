@@ -15,8 +15,8 @@ Vertex::Vertex(int id, double lon, double lat, double x, double y): longitude(lo
 	path = NULL;
 }
 
-void Vertex::addEdge(Vertex *dest, double w) {
-	Edge *edgeD = new Edge(dest,w);
+void Vertex::addEdge(Vertex *dest, Road * road, double w) {
+	Edge *edgeD = new Edge(dest, road, w);
 	adj.push_back(edgeD);
 }
 int Vertex::getID() const {
@@ -81,8 +81,15 @@ bool Vertex::removeEdgeTo(Vertex *d) {
 /*
  * CLASS EDGE
  */
-Edge::Edge(Vertex *d, double w): dest(d), weight(w){}
-
+int Edge::edgesID = 0;
+Edge::Edge(Vertex *d, Road * road, double w): dest(d), weight(w){
+	edgesID++;
+	this->id = edgesID;
+	this->road = road;
+}
+int Edge::getID() {
+	return id;
+}
 double Edge::getWeight() {return weight;}
 
 /*
@@ -102,6 +109,24 @@ bool Graph::addVertex(Vertex * v) {
 		if ((*it) == v) return false;
 
 	vertexSet.push_back(v);
+	return true;
+}
+bool Graph::addEdge(int sourcID, int destID, double w, Road * road) {
+	typename vector<Vertex*>::iterator it= vertexSet.begin();
+	typename vector<Vertex*>::iterator ite= vertexSet.end();
+	int found=0;
+	Vertex *vS, *vD;
+	while (found!=2 && it!=ite ) {
+		if ( (*it)->getID() == sourcID )
+			{ vS=*it; found++;}
+		if ( (*it)->getID() == destID )
+			{ vD=*it; found++;}
+		it ++;
+	}
+	if (found!=2) return false;
+	vD->indegree++;
+	vS->addEdge(vD, road, w);
+
 	return true;
 }
 bool Graph::removeVertex(Vertex * v) {

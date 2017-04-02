@@ -4,12 +4,15 @@
 #include <iostream>
 #include <sstream>
 #include <map>
+#include "Graph.h"
+//#include "Road.h"
 
 void exercicio1();
 void exercicio2();
 void exercicio3();
 Graph myGraph = Graph();
 map<int, Road*>roads;
+static int edgeID = 0;
 
 void loadNodes() {
 	ifstream file;
@@ -97,6 +100,45 @@ void loadRoads() {
 	}
 
 	file.close();
+}
+
+void loadSubroads() {
+	ifstream file;
+	file.open("subroads.txt");
+
+	if (!file.is_open())
+		return;
+
+	while (!file.eof()) {
+
+		string buff;
+		buff.clear();
+		stringstream ss;
+
+		unsigned long roadID, srcNodeID, destNodeID;
+
+		if (getline(file, buff, ';')) {
+			ss << buff;
+			ss >> roadID;
+			ss.clear();
+		}
+
+		if (getline(file, buff, ';')) {
+			ss << buff;
+			ss >> srcNodeID;
+			ss.clear();
+		}
+
+		if (getline(file, buff)) {
+			ss << buff;
+			ss >> destNodeID;
+			ss.clear();
+		}
+		myGraph.addEdge(srcNodeID, destNodeID, 1, roads.find(roadID)->second);
+		if((roads.find(roadID)->second)->isTwoWays()) {
+			myGraph.addEdge(destNodeID, srcNodeID, 1, roads.find(roadID)->second);
+		}
+	}
 }
 
 void exercicio1()
