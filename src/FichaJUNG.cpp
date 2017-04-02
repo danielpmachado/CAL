@@ -8,6 +8,7 @@ void exercicio1();
 void exercicio2();
 void exercicio3();
 
+void loadNodes();
 
 void exercicio1()
 {
