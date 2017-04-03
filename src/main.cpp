@@ -15,7 +15,8 @@ using namespace std;
 int main(){
 
 	Parking p;
-
+	p.createGraphViewer();
+	getchar();
 	return 0;
 
 

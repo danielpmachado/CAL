@@ -167,11 +167,37 @@ void Parking::createGraphViewer() {
 	 }
 	 }
 	 */
-
+	graphViewerNodes();
+	graphViewerEdges();
 	myGV->rearrange();
 
 }
 
+void Parking::graphViewerNodes() {
+	myGV->createWindow(600, 600);
+	myGV->defineVertexColor("blue");
+	myGV->defineEdgeColor("black");
+	for(int i = 0; i < myGraph.getNumVertex(); i++) {
+		Vertex * v = myGraph.getVertexSet()[i];
+		myGV->addNode(v->getID(),convertLongitudeToX(v->getLongitude()),convertLatitudeToY(v->getLatitude()));
+	}
+}
+void Parking::graphViewerEdges() {
+	for(int i = 0; i < myGraph.getNumVertex(); i++) {
+		Vertex * v = myGraph.getVertexSet()[i];
+		for(int j = 0; j < v->getAdj().size(); j++) {
+			Edge * e = v->getAdj()[j];
+			if(!e->isInGraphViewer()) {
+				if(e->getRoad()->isTwoWays()) {
+					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::UNDIRECTED);
+				} else {
+					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::DIRECTED);
+				}
+				e->setInGraphViewer();
+			}
+		}
+	}
+}
 double distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
 	double lat1r = v1->getLatitude();

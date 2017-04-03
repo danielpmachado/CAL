@@ -36,6 +36,8 @@ public:
 	void readConnectionsFile();
 	void readNodesFile();
 	void createGraphViewer();
+	void graphViewerNodes();
+	void graphViewerEdges();
 };
 
 
