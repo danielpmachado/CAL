@@ -10,6 +10,10 @@
 
 #include "Graph.h"
 
+#define earthRadiusKm 6371.0
+
+// atualizar estes valores para
+// os valores em radianos
 
 #define MIN_LAT 41.174174
 #define MAX_LAT 41.1972

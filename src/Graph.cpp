@@ -8,10 +8,8 @@
 /*
  * CLASS VERTEX
  */
-Vertex::Vertex(long id, long lon, long lat, long x, long y): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
+Vertex::Vertex(long id, long lon, long lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
 	this->id = id;
-	this->x = x;
-	this->y = y;
 	path = NULL;
 }
 
@@ -34,12 +32,7 @@ long Vertex::getLatitude() const {
 	return latitude;
 }
 
-long Vertex::getX() const {
-	return x;
-}
-long Vertex::getY() const {
-	return y;
-}
+
 
 long Vertex::getDist() const {
 	return this->dist;
@@ -57,12 +50,7 @@ void Vertex::setID(long id) {
 	this->id = id;
 }
 
-void Vertex::setX(long x) {
-	this->x = x;
-}
-void Vertex::setY(long y) {
-	this->y = y;
-}
+
 int Vertex::getIndegree() const {
 	return this->indegree;
 }
