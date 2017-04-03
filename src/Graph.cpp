@@ -118,6 +118,7 @@ int Graph::getNumVertex() const {
 vector<Vertex * > Graph::getVertexSet() const {
 	return vertexSet;
 }
+
 bool Graph::addVertex(Vertex * v) {
 	typename vector<Vertex*>::iterator it= vertexSet.begin();
 	typename vector<Vertex*>::iterator ite= vertexSet.end();
@@ -127,6 +128,7 @@ bool Graph::addVertex(Vertex * v) {
 	vertexSet.push_back(v);
 	return true;
 }
+
 bool Graph::addEdge(int sourcID, int destID, double w, Road * road) {
 	typename vector<Vertex*>::iterator it= vertexSet.begin();
 	typename vector<Vertex*>::iterator ite= vertexSet.end();

@@ -34,7 +34,7 @@ const int INT_INFINITY = INT_MAX;
 class Vertex {
 	long id;
 	long longitude, latitude;
-	long x, y;
+	long x, y;  // estes valores são desnecessários
 	vector<Edge *> adj;
 	bool visited;
 	bool processing;
