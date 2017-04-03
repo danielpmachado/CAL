@@ -11,7 +11,7 @@ Parking::Parking() {
 
 	readRoadsFile();
 	readNodesFile();
-	//readConnectionsFile();
+	readConnectionsFile();
 	//createGraphViewer();
 
 }
@@ -56,51 +56,45 @@ void Parking::readRoadsFile() {
 }
 
 void Parking::readConnectionsFile() {
+
 	ifstream file;
+	ull_int srcNodeID;
+	ull_int dstNodeID;
+	ull_int roadID;
+	string line;
+
 	file.open("connections.txt");
 
-	if (!file.is_open())
+	if (!file) {
+		cerr << "Unable to open file connections.txt";
 		return;
+	}
 
-	while (!file.eof()) {
+	while (getline(file, line)) {
+		stringstream linestream(line);
+		string data;
 
-		string buff;
-		buff.clear();
-		stringstream ss;
+		linestream >> roadID;
 
-		int roadID, srcNodeID, destNodeID;
+		std::getline(linestream, data, ';');
+		linestream >> srcNodeID;
 
-		if (getline(file, buff, ';')) {
-			ss << buff;
-			ss >> roadID;
-			ss.clear();
-		}
-
-		if (getline(file, buff, ';')) {
-			ss << buff;
-			ss >> srcNodeID;
-			ss.clear();
-		}
-
-		if (getline(file, buff)) {
-			ss << buff;
-			ss >> destNodeID;
-			ss.clear();
-		}
-
+		std::getline(linestream, data, ';');
+		linestream >> dstNodeID;
 
 		Vertex * srcNode = myGraph.getVertex(srcNodeID);
-		Vertex * destNode = myGraph.getVertex(destNodeID);
+		Vertex * dstNode = myGraph.getVertex(dstNodeID);
 
-		// cálculo da distância está errado
-		double dist = distanceBetweenVertex(srcNode, destNode);
+		double dist = distanceBetweenVertex(srcNode, dstNode);
 
-		myGraph.addEdge(srcNodeID, destNodeID, dist,
-				roads.find(roadID)->second);
+		myGraph.addEdge(srcNodeID, dstNodeID, dist, roads.find(roadID)->second);
 		if ((roads.find(roadID)->second)->isTwoWays()) {
-			myGraph.addEdge(destNodeID, srcNodeID, dist,
+			myGraph.addEdge(dstNodeID, srcNodeID, dist,
 					roads.find(roadID)->second);
 		}
+
+		cout << roadID << endl << srcNodeID << endl << dstNodeID << endl;
+
 	}
 
 	file.close();
@@ -109,51 +103,40 @@ void Parking::readConnectionsFile() {
 
 void Parking::readNodesFile() {
 	ifstream nodesFile;
-		ull_int node_id;
-		float long_degrees;
-		float lat_degrees;
-		float long_rad;
-		float lat_rad;
-		string line;
+	ull_int node_id;
+	float long_rad;
+	float lat_rad;
+	string line;
 
+	nodesFile.open("nodes.txt");
 
-		nodesFile.open("nodes.txt");
+	if (!nodesFile) {
+		cerr << "Unable to open file nodes.txt";
+		return;
+	}
 
-		if (!nodesFile) {
-			cerr << "Unable to open file nodes.txt";
-			return;
-		}
+	while (getline(nodesFile, line)) {
+		stringstream linestream(line);
+		string data;
 
-		while (getline(nodesFile, line)) {
-			stringstream linestream(line);
-			string data;
+		linestream >> node_id;
 
-			linestream >> node_id;
+		std::getline(linestream, data, ';');
+		std::getline(linestream, data, ';');
 
-			std::getline(linestream, data, ';');
-			linestream >> lat_degrees;
-			std::getline(linestream, data, ';');
-			linestream >> long_degrees;
+		// valores inuteis
+		// o melhor era ignorar
 
+		std::getline(linestream, data, ';');
+		linestream >> long_rad;
+		std::getline(linestream, data, ';');
+		linestream >> lat_rad;
 
-			// valores inuteis
-			// o melhor era ignorar
+		myGraph.addVertex(new Vertex(node_id, long_rad, lat_rad));
 
-			std::getline(linestream, data, ';');
-			linestream >> long_rad;
-			std::getline(linestream, data, ';');
-			linestream >> lat_rad;
+	}
 
-
-			myGraph.addVertex(new Vertex(node_id, long_degrees, lat_degrees, long_rad, lat_rad));
-
-
-		}
-
-		nodesFile.close();
-
-
-
+	nodesFile.close();
 
 }
 
@@ -189,11 +172,19 @@ void Parking::createGraphViewer() {
 
 }
 
-// o cálcula da distância está mal
-
 double distanceBetweenVertex(Vertex * v1, Vertex * v2) {
-	return sqrt(pow((v1->getLongitude() - v2->getLongitude()), 2)
-					+ pow((v1->getLatitude() - v2->getLatitude()), 2));
+
+	double lat1r = v1->getLatitude();
+	double lon1r = v1->getLongitude();
+	double lat2r = v1->getLatitude();
+	double lon2r = v1->getLongitude();
+
+	double u = sin((lat2r - lat1r) / 2);
+	double v = sin((lon2r - lon1r) / 2);
+
+	return 2.0 * earthRadiusKm
+			* asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
+
 }
 
 double convertLongitudeToX(long longitude) {

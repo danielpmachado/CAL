@@ -13,6 +13,7 @@
 #include <iostream>
 #include <sstream>
 #include <map>
+#include <cmath>
 
 #include "graphviewer.h"
 #include "Graph.h"
