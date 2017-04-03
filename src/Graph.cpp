@@ -86,11 +86,18 @@ Edge::Edge(Vertex *d, Road * road, double w): dest(d), weight(w){
 	edgesID++;
 	this->id = edgesID;
 	this->road = road;
+	inGraphViewer = false;
 }
 int Edge::getID() {
 	return id;
 }
 double Edge::getWeight() {return weight;}
+bool Edge::isInGraphViewer() {
+	return inGraphViewer;
+}
+void Edge::setInGraphViewer() {
+	inGraphViewer = inGraphViewer ? false : true;
+}
 
 /*
  * CLASS GRAPH
@@ -152,6 +159,14 @@ bool Graph::removeVertex(Vertex * v) {
 		}
 	}
 	return false;
+}
+Vertex * Graph::getVertex(int id) const {
+	for (int i = 0; i < vertexSet.size(); i++) {
+		if(vertexSet[i]->getID() == id) {
+			return vertexSet[i];
+		}
+	}
+	return NULL;
 }
 vector<Vertex*> Graph::dfs() const {
 	typename vector<Vertex*>::const_iterator it= vertexSet.begin();

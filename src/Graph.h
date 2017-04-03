@@ -76,10 +76,13 @@ private:
 	Vertex * dest;
 	double weight;
 	Road * road;
+	bool inGraphViewer; //true se ja foi inserido no GraphViewer
 public:
 	Edge(Vertex *d, Road * road, double w);
 	double getWeight();
 	int getID();
+	bool isInGraphViewer();
+	void setInGraphViewer();
 	friend class Graph;
 	friend class Vertex;
 };
@@ -103,6 +106,7 @@ public:
 	vector<Vertex*> dfs() const; //algoritmo que percorre grafo em perfundidade; retorna um vetor so com os vertices que sao alcançaveis
 	void dfs(Vertex *v,vector<Vertex*> &res) const;//auxiliar de dfs() que altera o atributo "visited" dos vertices quando estes sao atingidos
 	Vertex* getVertex(double lon, double lat) const;
+	Vertex * getVertex(int id) const;
 	void resetIndegrees();
 	vector<Vertex*> getSources() const;//retorna vetor com possiveis vertices origem usados como ponto de começo em algoritmos de ordenacao, ou seja, vertices com indegree 0
 	vector<Vertex*> getPath(Vertex* origin, Vertex* dest);

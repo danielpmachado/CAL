@@ -5,7 +5,13 @@
 #include <sstream>
 #include <map>
 #include "Graph.h"
-//#include "Road.h"
+
+#define MIN_LAT 41.174174
+#define MAX_LAT 41.1972
+#define MIN_LON -8.596924
+#define MAX_LON -8.570913
+#define IMAGE_X 2000//esqueci-me de guardar a imagem do mapa e de ver a largura e altura da mesma
+#define IMAGE_Y 2500
 
 void exercicio1();
 void exercicio2();
@@ -14,6 +20,18 @@ Graph myGraph = Graph();
 GraphViewer *myGV = new GraphViewer(600, 600, true);
 map<int, Road*>roads;
 static int edgeID = 0;
+
+double distanceBetweenVertex(Vertex * v1, Vertex * v2) {
+	return sqrt(pow((v1->getX() - v2->getX()), 2) + pow((v1->getY() - v2->getY()), 2));
+}
+
+double convertLongitudeToX(double longitude) {
+	return floor(((longitude - MIN_LON) * (IMAGE_Y)) / (MAX_LON - MIN_LON));
+}
+
+double convertLatitudeToY(double latitude) {
+	return floor(((latitude - MIN_LAT) * (IMAGE_X)) / (MAX_LAT - MIN_LAT));
+}
 
 void loadNodes() {
 	ifstream file;
@@ -105,7 +123,7 @@ void loadRoads() {
 
 void loadSubroads() {
 	ifstream file;
-	file.open("subroads.txt");
+	file.open("connections.txt");
 
 	if (!file.is_open())
 		return;
@@ -116,7 +134,7 @@ void loadSubroads() {
 		buff.clear();
 		stringstream ss;
 
-		unsigned long roadID, srcNodeID, destNodeID;
+		int roadID, srcNodeID, destNodeID;
 
 		if (getline(file, buff, ';')) {
 			ss << buff;
@@ -135,9 +153,12 @@ void loadSubroads() {
 			ss >> destNodeID;
 			ss.clear();
 		}
-		myGraph.addEdge(srcNodeID, destNodeID, 1, roads.find(roadID)->second);
+		Vertex * srcNode = myGraph.getVertex(srcNodeID);
+		Vertex * destNode = myGraph.getVertex(destNodeID);
+		double dist = distanceBetweenVertex(srcNode, destNode);
+		myGraph.addEdge(srcNodeID, destNodeID, dist, roads.find(roadID)->second);
 		if((roads.find(roadID)->second)->isTwoWays()) {
-			myGraph.addEdge(destNodeID, srcNodeID, 1, roads.find(roadID)->second);
+			myGraph.addEdge(destNodeID, srcNodeID, dist, roads.find(roadID)->second);
 		}
 	}
 }
