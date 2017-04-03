@@ -8,7 +8,7 @@
 /*
  * CLASS VERTEX
  */
-Vertex::Vertex(int id, double lon, double lat, double x, double y): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
+Vertex::Vertex(long id, long lon, long lat, long x, long y): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
 	this->id = id;
 	this->x = x;
 	this->y = y;
@@ -19,45 +19,48 @@ void Vertex::addEdge(Vertex *dest, Road * road, double w) {
 	Edge *edgeD = new Edge(dest, road, w);
 	adj.push_back(edgeD);
 }
-int Vertex::getID() const {
+vector<Edge *> Vertex::getAdj() const {
+	return adj;
+}
+long Vertex::getID() const {
 	return id;
 }
 
-double Vertex::getLongitude() const {
+long Vertex::getLongitude() const {
 	return longitude;
 }
 
-double Vertex::getLatitude() const {
+long Vertex::getLatitude() const {
 	return latitude;
 }
 
-double Vertex::getX() const {
+long Vertex::getX() const {
 	return x;
 }
-double Vertex::getY() const {
+long Vertex::getY() const {
 	return y;
 }
 
-int Vertex::getDist() const {
+long Vertex::getDist() const {
 	return this->dist;
 }
 
-void Vertex::setLongitude(double lon) {
+void Vertex::setLongitude(long lon) {
 	this->longitude = lon;
 }
 
-void Vertex::setLatitude(double lat) {
+void Vertex::setLatitude(long lat) {
 	this->latitude = lat;
 }
 
-void Vertex::setID(int id) {
+void Vertex::setID(long id) {
 	this->id = id;
 }
 
-void Vertex::setX(double x) {
+void Vertex::setX(long x) {
 	this->x = x;
 }
-void Vertex::setY(double y) {
+void Vertex::setY(long y) {
 	this->y = y;
 }
 int Vertex::getIndegree() const {
@@ -87,6 +90,12 @@ Edge::Edge(Vertex *d, Road * road, double w): dest(d), weight(w){
 	this->id = edgesID;
 	this->road = road;
 	inGraphViewer = false;
+}
+Road * Edge::getRoad () const {
+	return road;
+}
+Vertex * Edge::getDest() const {
+	return dest;
 }
 int Edge::getID() {
 	return id;
@@ -160,7 +169,7 @@ bool Graph::removeVertex(Vertex * v) {
 	}
 	return false;
 }
-Vertex * Graph::getVertex(int id) const {
+Vertex * Graph::getVertex(long id) const {
 	for (int i = 0; i < vertexSet.size(); i++) {
 		if(vertexSet[i]->getID() == id) {
 			return vertexSet[i];

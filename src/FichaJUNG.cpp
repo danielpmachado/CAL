@@ -17,19 +17,19 @@ void exercicio1();
 void exercicio2();
 void exercicio3();
 Graph myGraph = Graph();
-GraphViewer *myGV = new GraphViewer(600, 600, true);
-map<int, Road*>roads;
+GraphViewer *myGV = new GraphViewer(600, 600, false);
+map<long, Road*>roads;
 static int edgeID = 0;
 
 double distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 	return sqrt(pow((v1->getX() - v2->getX()), 2) + pow((v1->getY() - v2->getY()), 2));
 }
 
-double convertLongitudeToX(double longitude) {
+double convertLongitudeToX(long longitude) {
 	return floor(((longitude - MIN_LON) * (IMAGE_Y)) / (MAX_LON - MIN_LON));
 }
 
-double convertLatitudeToY(double latitude) {
+double convertLatitudeToY(long latitude) {
 	return floor(((latitude - MIN_LAT) * (IMAGE_X)) / (MAX_LAT - MIN_LAT));
 }
 
@@ -38,8 +38,8 @@ void loadNodes() {
 	stringstream ss;
 	file.open("nodes.txt");
 	if(file.is_open()) {
-		int id;
-		double longitude, latitude, x, y;
+		long id;
+		long longitude, latitude, x, y;
 		string file_buf;
 		file_buf.clear();
 
@@ -98,7 +98,7 @@ void loadRoads() {
 		buff.clear();
 		stringstream ss;
 
-		unsigned long id;
+		long id;
 		string name;
 		bool twoWays = false;
 
@@ -115,7 +115,7 @@ void loadRoads() {
 		}
 
 		Road *newRoad = new Road(id, name, twoWays);
-		roads.insert(pair<int,Road*>(id, newRoad));
+		roads.insert(pair<long,Road*>(id, newRoad));
 	}
 
 	file.close();
@@ -168,7 +168,24 @@ void graphViewerNodes() {
 	myGV->defineVertexColor("blue");
 	myGV->defineEdgeColor("black");
 	for(int i = 0; i < myGraph.getNumVertex(); i++) {
-		myGV->addNode(myGraph.getVertexSet()[i]->getID(),myGraph.getVertexSet()[i]->getX(),myGraph.getVertexSet()[i]->getY());
+		Vertex * v = myGraph.getVertexSet()[i];
+		myGV->addNode(v->getID(),convertLongitudeToX(v->getLongitude()),convertLatitudeToY(v->getLatitude()));
+	}
+}
+void graphViewerEdges() {
+	for(int i = 0; i < myGraph.getNumVertex(); i++) {
+		Vertex * v = myGraph.getVertexSet()[i];
+		for(int j = 0; j < v->getAdj().size(); j++) {
+			Edge * e = v->getAdj()[j];
+			if(!e->isInGraphViewer()) {
+				if(e->getRoad()->isTwoWays()) {
+					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::UNDIRECTED);
+				} else {
+					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::DIRECTED);
+				}
+				e->setInGraphViewer();
+			}
+		}
 	}
 }
 void exercicio1()
@@ -392,13 +409,19 @@ void exercicio3()
 	gv->rearrange();
 }
 
-/*
-int main() {
-	exercicio1();
 
+int main() {
+	//exercicio1();
 	//exercicio2();
 	//exercicio3();
-	getchar();
+	//getchar();
+
+	/*loadNodes();
+	loadRoads();
+	loadSubroads();
+	graphViewerNodes();
+	graphViewerEdges();
+	myGV->rearrange();*/
 	return 0;
 }
-*/
+

@@ -12,7 +12,7 @@
 
 using namespace std;
 
-int main(){
+/*int main(){
 
 	Parking p;
 
@@ -21,5 +21,5 @@ int main(){
 	return 0;
 
 
-}
+}*/
 
