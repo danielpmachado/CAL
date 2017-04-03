@@ -33,7 +33,7 @@ const int INT_INFINITY = INT_MAX;
  */
 class Vertex {
 	long id;
-	long longitude, latitude;
+	double longitude, latitude;
 	vector<Edge *> adj;
 	bool visited;
 	bool processing;
@@ -42,15 +42,15 @@ class Vertex {
 	bool inQueue;
 public:
 
-	Vertex(long id, long lon, long lat);
+	Vertex(long id, double lon, double lat);
 	friend class Graph;
 
 	void addEdge(Vertex *dest, Road * road, double w);
 	bool removeEdgeTo(Vertex *d);
 	vector<Edge *> getAdj() const;
 	long getID() const;
-	long getLongitude() const;
-	long getLatitude() const;
+	double getLongitude() const;
+	double getLatitude() const;
 	void setLongitude(long lon);
 	void setLatitude(long lat);
 	void setID(long id);

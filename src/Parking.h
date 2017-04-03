@@ -27,7 +27,12 @@ class Parking {
 private:
 	Graph myGraph = Graph();
 	map<long, Road*> roads;
-	GraphViewer *myGV= new GraphViewer(600, 600, false);
+	GraphViewer *myGV= new GraphViewer(800, 1000, false);
+
+	double maxLat = -10000;
+	double minLat= 100000;
+	double maxLng= -10000;
+	double minLng= 10000;
 
 public:
 	Parking();
@@ -36,13 +41,16 @@ public:
 	void readConnectionsFile();
 	void readNodesFile();
 	void createGraphViewer();
+
+
+	int convertLongitudeToX(double longitude);
+	int convertLatitudeToY(double latitude);
+	void updateCoordinates();
 };
 
 
 // auxiliary functions
-double distanceBetweenVertex(Vertex * v1, Vertex * v2);
-double convertLongitudeToX(long longitude);
-double convertLatitudeToY(long latitude);
 
+double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 
 #endif /* SRC_PARKING_H_ */

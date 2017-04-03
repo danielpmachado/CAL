@@ -8,7 +8,7 @@
 /*
  * CLASS VERTEX
  */
-Vertex::Vertex(long id, long lon, long lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
+Vertex::Vertex(long id, double lon, double lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
 	this->id = id;
 	path = NULL;
 }
@@ -24,11 +24,11 @@ long Vertex::getID() const {
 	return id;
 }
 
-long Vertex::getLongitude() const {
+double Vertex::getLongitude() const {
 	return longitude;
 }
 
-long Vertex::getLatitude() const {
+double Vertex::getLatitude() const {
 	return latitude;
 }
 

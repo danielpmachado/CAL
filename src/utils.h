@@ -12,18 +12,12 @@
 
 #define earthRadiusKm 6371.0
 
-// atualizar estes valores para
-// os valores em radianos
 
-#define MIN_LAT 41.174174
-#define MAX_LAT 41.1972
-#define MIN_LON -8.596924
-#define MAX_LON -8.570913
 
 // largura e altura temporárias
 // quando der atualizar
-#define IMAGE_X 2000
-#define IMAGE_Y 2500
+#define IMAGE_X 700
+#define IMAGE_Y 1000
 
 
 typedef unsigned long long int ull_int;

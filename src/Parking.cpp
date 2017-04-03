@@ -11,8 +11,11 @@ Parking::Parking() {
 
 	readRoadsFile();
 	readNodesFile();
-	readConnectionsFile();
-	//createGraphViewer();
+	//readConnectionsFile();
+	updateCoordinates();
+	createGraphViewer();
+
+	getchar();
 
 }
 
@@ -93,7 +96,7 @@ void Parking::readConnectionsFile() {
 					roads.find(roadID)->second);
 		}
 
-		cout << roadID << endl << srcNodeID << endl << dstNodeID << endl;
+
 
 	}
 
@@ -132,6 +135,7 @@ void Parking::readNodesFile() {
 		std::getline(linestream, data, ';');
 		linestream >> lat_rad;
 
+
 		myGraph.addVertex(new Vertex(node_id, long_rad, lat_rad));
 
 	}
@@ -142,16 +146,33 @@ void Parking::readNodesFile() {
 
 void Parking::createGraphViewer() {
 
-	myGV->createWindow(600, 600);
+	myGV->createWindow(800, 1000);
 	myGV->defineVertexColor("blue");
 	myGV->defineEdgeColor("black");
 
-	/*
-	 for (Vertex * v : myGraph.getVertexSet())
-	 myGV->addNode(v->getID(), convertLongitudeToX(v->getLongitude()),
-	 convertLatitudeToY(v->getLatitude()));
+
+	ull_int node_id;
+	int x;
+	int y;
 
 
+
+
+	 for (Vertex * v : myGraph.getVertexSet()){
+		 node_id = v->getID();
+		 x = convertLongitudeToX(v->getLongitude());
+		 y= convertLatitudeToY(v->getLatitude());
+
+
+
+
+		cout << node_id << endl << x << endl << y << endl;
+
+		 myGV->addNode(node_id,x,y);
+	 }
+
+
+/*
 	 for(int i = 0; i < myGraph.getNumVertex(); i++) {
 	 Vertex * v = myGraph.getVertexSet()[i];
 	 for(int j = 0; j < v->getAdj().size(); j++) {
@@ -187,11 +208,33 @@ double distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
 }
 
-double convertLongitudeToX(long longitude) {
-	return floor(((longitude - MIN_LON) * (IMAGE_Y)) / (MAX_LON - MIN_LON));
+void Parking::updateCoordinates(){
+	for( int i = 0; i < myGraph.getVertexSet().size(); i++){
+		double lat = myGraph.getVertexSet().at(i)->getLatitude();
+		double lng = myGraph.getVertexSet().at(i)->getLongitude();
+
+
+		if(maxLat < lat)
+			maxLat = lat;
+		if(minLat > lat)
+			minLat = lat;
+		if(maxLng < lng)
+			maxLng = lng;
+		if(minLng > lng)
+			minLng = lng;
+	}
 }
 
-double convertLatitudeToY(long latitude) {
-	return floor(((latitude - MIN_LAT) * (IMAGE_X)) / (MAX_LAT - MIN_LAT));
+
+
+
+int Parking::convertLongitudeToX(double longitude) {
+
+	return floor((longitude - minLng) * IMAGE_Y / (maxLng - minLng));
 }
+
+int Parking::convertLatitudeToY(double latitude) {
+	return IMAGE_X-floor((latitude - minLat) * IMAGE_X / (maxLat - minLat));
+}
+
 
