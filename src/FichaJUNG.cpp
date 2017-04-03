@@ -21,7 +21,7 @@ GraphViewer *myGV = new GraphViewer(600, 600, false);
 map<long, Road*>roads;
 static int edgeID = 0;
 
-double distanceBetweenVertex(Vertex * v1, Vertex * v2) {
+/*double distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 	return sqrt(pow((v1->getX() - v2->getX()), 2) + pow((v1->getY() - v2->getY()), 2));
 }
 
@@ -231,7 +231,7 @@ void exercicio1()
 	gv->rearrange();
 
 }
-
+*/
 void exercicio2()
 {
 	GraphViewer *gv = new GraphViewer(600, 600, false);
@@ -410,18 +410,18 @@ void exercicio3()
 }
 
 
-int main() {
+/*int main() {
 	//exercicio1();
 	//exercicio2();
 	//exercicio3();
 	//getchar();
 
-	/*loadNodes();
+	loadNodes();
 	loadRoads();
 	loadSubroads();
 	graphViewerNodes();
 	graphViewerEdges();
-	myGV->rearrange();*/
+	myGV->rearrange();
 	return 0;
-}
+}*/
 
