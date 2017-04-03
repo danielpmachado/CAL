@@ -11,6 +11,7 @@ void exercicio1();
 void exercicio2();
 void exercicio3();
 Graph myGraph = Graph();
+GraphViewer *myGV = new GraphViewer(600, 600, true);
 map<int, Road*>roads;
 static int edgeID = 0;
 
@@ -141,6 +142,14 @@ void loadSubroads() {
 	}
 }
 
+void graphViewerNodes() {
+	myGV->createWindow(600, 600);
+	myGV->defineVertexColor("blue");
+	myGV->defineEdgeColor("black");
+	for(int i = 0; i < myGraph.getNumVertex(); i++) {
+		myGV->addNode(myGraph.getVertexSet()[i]->getID(),myGraph.getVertexSet()[i]->getX(),myGraph.getVertexSet()[i]->getY());
+	}
+}
 void exercicio1()
 {
 	GraphViewer *gv = new GraphViewer(600, 600, true);
@@ -363,8 +372,9 @@ void exercicio3()
 }
 
 int main() {
-	//exercicio1();
-	exercicio2();
+	exercicio1();
+
+	//exercicio2();
 	//exercicio3();
 	getchar();
 	return 0;
