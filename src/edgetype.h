@@ -1,12 +1,12 @@
-#ifndef _EDGETYPE_
+ï»¿#ifndef _EDGETYPE_
 #define _EDGETYPE_
 
 /**
- * Classe que enumera os tipos de arestas. Usar EdgeType.UNDIRECTED para uma aresta sem direcção, ou
+ * Classe que enumera os tipos de arestas. Usar EdgeType.UNDIRECTED para uma aresta sem direcÃ§Ã£o, ou
  * EdgeType.DIRECTED para uma aresta dirigida.
  */
 class EdgeType {
- public:
+ public: 
   const static int UNDIRECTED = 0;
   const static int DIRECTED = 1;
 };

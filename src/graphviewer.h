@@ -1,11 +1,11 @@
-#ifndef _GRAPH_VIEWER_H_
+Ôªø#ifndef _GRAPH_VIEWER_H_
 #define _GRAPH_VIEWER_H_
 
 #ifdef linux
-	#include <unistd.h>
+#include <unistd.h>
 #else
-	#include <winsock2.h>
-	#include <Windows.h>
+#include <winsock2.h>
+#include <Windows.h>
 #endif
 
 #include <stdlib.h>
@@ -30,166 +30,300 @@
 #define MAGENTA "MAGENTA"
 
 /**
- * Classe que guarda o grafo e o representa. Todas as suas funÁıes retornam um booleano a indicar
- * se a sua execuÁ„o decorreu ou n„o com sucesso.
+ * Classe que guarda o grafo e o representa. Todas as suas fun√ß√µes retornam um booleano a indicar
+ * se a sua execu√ß√£o decorreu ou n√£o com sucesso.
  */
 class GraphViewer {
- public:
-  /**
-   * Vari·vel que guarda a prÛxima porta que o programa vai usar. O valor inicial È 7772.
-   */
-  static short port;
+public:
+	/**
+	 * Vari√°vel que guarda a pr√≥xima porta que o programa vai usar. O valor inicial √© 7772.
+	 */
+	static short port;
 
-  /**
-   * Construtor que cria um novo grafo e atribui automaticamente a porta.
-   * @param width Inteiro que representa a lagura da ·rea do grafo.
-   * @param height Inteiro que representa a altura da ·rea do grafo.
-   * @param dynamic Booleano que determina se a localizaÁ„o dos nÛs È automaticamente.
-   * determinado pelo programa (true) ou se deve ser determinado pelo utilizador (false).
-   */
-  GraphViewer(int width, int height, bool port_n);
+	/**
+	 * Construtor que cria um novo grafo e atribui automaticamente a porta.
+	 * Exemplo: GraphViewer *gv = new GraphViewer(600, 600, true); instancia um grafo
+	 * 600x600, onde a posi√ß√£o dos n√≥s √© determinada automaticamente.
+	 *
+	 * @param width Inteiro que representa a lagura da √°rea do grafo.
+	 * @param height Inteiro que representa a altura da √°rea do grafo.
+	 * @param dynamic Booleano que determina se a localiza√ß√£o dos n√≥s √© automaticamente.
+	 * determinado pelo programa (true) ou se deve ser determinado pelo utilizador (false).
+	 */
+	GraphViewer(int width, int height, bool dynamic);
 
-  /**
-   * Construtor que cria um novo grafo, utilizando uma porta especificada pelo utilizador para a ligaÁ„o.
-   * @param width Inteiro que representa a lagura da ·rea do grafo.
-   * @param height Inteiro que representa a altura da ·rea do grafo.
-   * @param dynamic Booleano que determina se a localizaÁ„o dos nÛs È automaticamente.
-   * determinado pelo programa (true) ou se deve ser determinado pelo utilizador (false).
-   * @param port_n Inteiro que determina a porta a utilizar. Deve-se ter cuidado para n„o utilizar uma porta
-   * j· usada por outro programa ou pelo sistema.
-   */
-  GraphViewer(int width, int height, bool dynamic, int port_n);
+	/**
+	 * Construtor que cria um novo grafo, utilizando uma porta especificada pelo utilizador para a liga√ß√£o.
+	 *
+	 * Exemplo: GraphViewer *gv = new GraphViewer(600, 600, false, 3000); instancia um grafo
+	 * 600x600, onde a posi√ß√£o dos n√≥s √© determinada pelo utilizador
+	 * (usando a vers√£o de addNode onde se pode especificar as coordenadas), sendo que a porta
+	 * a usar para a comunica√ß√£o √© a 3000.
+	 *
+	 * @param width Inteiro que representa a lagura da √°rea do grafo.
+	 * @param height Inteiro que representa a altura da √°rea do grafo.
+	 * @param dynamic Booleano que determina se a localiza√ß√£o dos n√≥s √© automaticamente.
+	 * determinado pelo programa (true) ou se deve ser determinado pelo utilizador (false).
+	 * @param port_n Inteiro que determina a porta a utilizar. Deve-se ter cuidado para n√£o utilizar uma porta
+	 * j√° usada por outro programa ou pelo sistema.
+	 */
+	GraphViewer(int width, int height, bool dynamic, int port_n);
 
-  /**
-   * FunÁ„o que cria a janela para visualizaÁ„o.
-   * @param width Largura da janela a criar.
-   * @param height Altura da janela a criar.
-   */
-  bool createWindow(int width, int height);
-  /**
-   * Fecha a janela a ser utilizada para visualizaÁ„o.
-   */
-  bool closeWindow();
+	/**
+	 * Fun√ß√£o que cria a janela para visualiza√ß√£o.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->createWindow(600, 600); abre uma janela 600x600 onde mostra o grafo.
+	 *
+	 *
+	 * @param width Largura da janela a criar.
+	 * @param height Altura da janela a criar.
+	 */
+	bool createWindow(int width, int height);
 
-  /**
-   * Acrescenta um nÛ ‡ representaÁ„o do grafo, numa posiÁ„o especÌfica, irrelevante se o grafo
-   * for din‚mico.
-   * @param id Identificador ˙nico do nÛ.
-   * @param x PosiÁ„o horizontal do nÛ.
-   * @param y PosiÁ„o vertical do nÛ.
-   */
-  bool addNode(int id, int x, int y);
-  /**
-   * Acrescenta um nÛ ‡ representaÁ„o do grafo, numa posiÁ„o ao critÈrio do programa.
-   * @param id Identificador ˙nico do nÛ.
-   */
-  bool addNode(int id);
-  /**
-   * Acrescenta uma aresta ‡ representaÁ„o do grafo.
-   * @param id Identificador ˙nico da aresta.
-   * @param v1 Identificador ˙nico do nÛ de origem da aresta.
-   * @param v2 Identificador ˙nico do nÛ de destino da aresta.
-   * @param edgeType EdgeType.DIRECTED caso a aresta seja unidirecional
-   * ou EdgeType.UNDIRECTED caso a aresta seja bidirecional.
-   */
-  bool addEdge(int id, int v1, int v2, int edgeType);
+	/**
+	 * Fecha a janela a ser utilizada para visualiza√ß√£o.
+	 */
+	bool closeWindow();
 
-  /**
-   * Remove um nÛ da representaÁ„o do grafo e todas as arestas ligadas a este.
-   * @param id Identificador ˙nico do nÛ a a remover.
-   */
-  bool removeNode(int id);
-  /**
-   * Remove uma aresta da representaÁ„o do grafo.
-   * @param id Identificador ˙nico da aresta a remover.
-   */
-  bool removeEdge(int id);
+	/**
+	 * Acrescenta um n√≥ √† representa√ß√£o do grafo, numa posi√ß√£o espec√≠fica, irrelevante se o grafo
+	 * for din√¢mico.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer com isDynamic = false:
+	 * gv->addNode(0, 1, 2); adiciona um n√≥ com ID 0 na posi√ß√£o (x, y) = (1, 2)
+	 *
+	 * @param id Identificador √∫nico do n√≥.
+	 * @param x Posi√ß√£o horizontal do n√≥.
+	 * @param y Posi√ß√£o vertical do n√≥.
+	 */
+	bool addNode(int id, int x, int y);
 
-  /**
-   * FunÁ„o que define o texto de um nÛ.
-   * @param id Identificador ˙nico do nÛ com o texto a alterar.
-   * @param label Novo texto do nÛ.
-   */
-  bool setVertexLabel(int id, string label);
+	/**
+	 * Acrescenta um n√≥ √† representa√ß√£o do grafo, numa posi√ß√£o ao crit√©rio do programa.
+	 * S√≥ pode ser usado se o grafo for din√¢mico, ou seja, se as posi√ß√µes de todos
+	 * os n√≥s forem atribu√≠das automaticamente. Caso contr√°rio, n√£o adiciona o n√≥.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer com isDynamic = true:
+	 * gv->addNode(0); adiciona um n√≥ com ID 0
+	 *
+	 * @param id Identificador √∫nico do n√≥.
+	 */
+	bool addNode(int id);
 
-  /**
-   * FunÁ„o que define o texto de uma aresta.
-   * @param id Identificador ˙nico da aresta com o texto a alterar.
-   * @param label Novo texto da aresta.
-   */
-  bool setEdgeLabel(int id, string label);
-  /**
-   * FunÁ„o que define a cor de uma aresta.
-   * @param id Identificador ˙nico da aresta com a cor a alterar.
-   * @param color Nova cor da aresta, utilizar as constantes definidas no graphviewer.h para conveniÍncia.
-   */
-  bool setEdgeColor(int id, string color);
+	/**
+	 * Acrescenta uma aresta √† representa√ß√£o do grafo.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->addEdge(0, 1, 2, EdgeType::UNDIRECTED); adiciona uma aresta n√£o-dirigida com ID 0
+	 * que liga os n√≥s com os IDs 1 e 2
+	 *
+	 * @param id Identificador √∫nico da aresta.
+	 * @param v1 Identificador √∫nico do n√≥ de origem da aresta.
+	 * @param v2 Identificador √∫nico do n√≥ de destino da aresta.
+	 * @param edgeType EdgeType.DIRECTED caso a aresta seja unidirecional
+	 * ou EdgeType.UNDIRECTED caso a aresta seja bidirecional.
+	 */
+	bool addEdge(int id, int v1, int v2, int edgeType);
 
-  /**
-   * FunÁ„o que define a cor de um nÛ.
-   * @param id Identificador ˙nico do nÛ com a cor a alterar.
-   * @param color Nova cor do nÛ, utilizar as constantes definidas no graphviewer.h para conveniÍncia.
-   */
-  bool setVertexColor(int id, string color);
+	/**
+	 * Remove um n√≥ da representa√ß√£o do grafo e todas as arestas ligadas a este.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->removeNode(0) remove o n√≥ com ID 0
+	 *
+	 * @param id Identificador √∫nico do n√≥ a a remover.
+	 */
+	bool removeNode(int id);
 
-  /**
-   * FunÁ„o que define a cor global das arestas.
-   * @param color Nova cor das arestas, utilizar as constantes definidas no graphviewer.h para conveniÍncia.
-   */
-  bool defineEdgeColor(string color);
-  /**
-   * FunÁ„o que define a cor global dos nÛs.
-   * @param color Nova cor dos nÛs, utilizar as constantes definidas no graphviewer.h para conveniÍncia.
-   */
-  bool defineVertexColor(string color);
-  /**
-   * FunÁ„o que define a espessura de uma aresta.
-   * @param id Identificador ˙nico da aresta com a espessura a alterar.
-   * @param thickness Nova espessura da aresta, sendo que por base, as
-   * arestas s„o criadas com a espessura de 1.
-   */
-  bool setEdgeThickness(int id, int thickness);
+	/**
+	 * Remove uma aresta da representa√ß√£o do grafo.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->removeEdge(0) remove a aresta com ID 0
+	 *
+	 * @param id Identificador √∫nico da aresta a remover.
+	 */
+	bool removeEdge(int id);
 
-  /**
-   * FunÁ„o que altera a imagem de fundo do grafo.
-   * @param path Caminho para o ficheiro com a imagem.
-   */
-  bool setBackground(string path);
+	/**
+	 * Fun√ß√£o que define o texto de um n√≥.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->setVertexLabel(0, "Isto √© um n√≥"); adiciona o texto "Isto √© um n√≥" ao n√≥ com ID 0
+	 *
+	 * @param id Identificador √∫nico do n√≥ com o texto a alterar.
+	 * @param label Novo texto do n√≥.
+	 */
+	bool setVertexLabel(int id, string label);
 
-  /**
-   * FunÁ„o que define o peso de uma aresta na representaÁ„o do grafo, a ser visualizado
-   * como w: valor_do_peso, seguido de qualquer outro texto associado ‡ aresta.
-   * @param id Identificador ˙nico da aresta a modificar.
-   * @param weight Peso associado ‡ aresta.
-   */
-  bool setEdgeWeight(int id, int weight);
-  /**
-   * FunÁ„o que define o fluxo de uma aresta na representaÁ„o do grafo, a ser visualizado
-   * como f: valor_do_fluxo, precedido pelo peso e seguido por texto definido pelo utilizador.
-   * @param id Identificador ˙nico da aresta a modificar.
-   * @param flow Fluxo associado ‡ aresta.
-   */
-  bool setEdgeFlow(int id, int flow);
+	/**
+	 * Fun√ß√£o que define o texto de uma aresta.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->setEdgeLabel(0, "Isto √© uma aresta"); adiciona o texto "Isto √© uma aresta" √† aresta com ID 0
+	 *
+	 * @param id Identificador √∫nico da aresta com o texto a alterar.
+	 * @param label Novo texto da aresta.
+	 */
+	bool setEdgeLabel(int id, string label);
 
-  /**
-   * FunÁ„o que actualiza a visualizaÁ„o do grafo.
-   */
-  bool rearrange();
+	/**
+	 * Fun√ß√£o que define a cor de uma aresta.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->setEdgeColor(0, BLUE); modifica a cor da aresta com ID 0 para azul
+	 *
+	 * @param id Identificador √∫nico da aresta com a cor a alterar.
+	 * @param color Nova cor da aresta, utilizar as constantes definidas no graphviewer.h para conveni√™ncia.
+	 */
+	bool setEdgeColor(int id, string color);
 
-  int getheight();
-  int getwidth();
+	/**
+	 * Fun√ß√£o que define se uma aresta √© desenhada, ou n√£o, a tracejado.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->setEdgeDashed(0, false); faz com que a aresta com ID 0 seja desenhada a tra√ßo cont√≠nuo
+	 *
+	 * @param id Identificador √∫nico da aresta com a cor a alterar.
+	 * @param dashed Nova cor da aresta, utilizar as constantes definidas no graphviewer.h para conveni√™ncia.
+	 */
+	bool setEdgeDashed(int id, bool dashed);
+
+	/**
+	 * Fun√ß√£o que define a cor de um n√≥.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->setVertexColor(0, GREEN); modifica a cor do n√≥ com ID 0 para verde
+	 *
+	 * @param id Identificador √∫nico do n√≥ com a cor a alterar.
+	 * @param color Nova cor do n√≥, utilizar as constantes definidas no graphviewer.h para conveni√™ncia.
+	 */
+	bool setVertexColor(int id, string color);
+
+	/**
+	 * Fun√ß√£o que define o tamanho de um n√≥.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->setVertexSize(0, 10); modifica o tamanho do n√≥ com ID 0 para 40
+	 *
+	 * @param id Identificador √∫nico do n√≥ com o tamanho a alterar.
+	 * @param size Novo tamanho do n√≥.
+	 */
+	bool setVertexSize(int id, int size);
+
+	/**
+	 * Fun√ß√£o que define um √≠cone para um n√≥.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->setVertexIcon(0, "icon.png"); faz com que o n√≥, quando desenhado, n√£o seja um c√≠rculo, mas sim a imagem icon.png
+	 *
+	 * @param id Identificador √∫nico do n√≥ com o √≠cone a alterar.
+	 * @param filepath Caminho do ficheiro a utilizar como novo √≠cone do n√≥.
+	 */
+	bool setVertexIcon(int id, string filepath);
+
+	/**
+	 * Fun√ß√£o que define a espessura de uma aresta.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->setEdgeThickness(0, 20); modifica a espessura da aresta com ID 0 para 20
+	 *
+	 * @param id Identificador √∫nico da aresta com a espessura a alterar.
+	 * @param thickness Nova espessura da aresta, sendo que por base, as
+	 * arestas s√£o criadas com a espessura de 1.
+	 */
+	bool setEdgeThickness(int id, int thickness);
+
+	/**
+	 * Fun√ß√£o que define o peso de uma aresta na representa√ß√£o do grafo, a ser visualizado
+	 * como w: valor_do_peso, seguido de qualquer outro texto associado √† aresta.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->setEdgeWeight(0, 20); modifica o peso da aresta com ID 0 para 20
+	 *
+	 * @param id Identificador √∫nico da aresta a modificar.
+	 * @param weight Peso associado √† aresta.
+	 */
+	bool setEdgeWeight(int id, int weight);
+
+	/**
+	 * Fun√ß√£o que define o fluxo de uma aresta na representa√ß√£o do grafo, a ser visualizado
+	 * como f: valor_do_fluxo, precedido pelo peso e seguido por texto definido pelo utilizador.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->setEdgeFlow(0, 20); modifica o fluxo da aresta com ID 0 para 20
+	 *
+	 * @param id Identificador √∫nico da aresta a modificar.
+	 * @param flow Fluxo associado √† aresta.
+	 */
+	bool setEdgeFlow(int id, int flow);
+
+	/**
+	 * Fun√ß√£o que define se as arestas do grafo ser√£o desenhadas como curvas ou retas.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->defineEdgeCurved(false); faz com que as arestas sejam desenhadas como retas
+	 *
+	 * @param curved Booleano que representa se as arestas ser√£o curvas (true) ou retas (false), sendo o valor por defeito √© true.
+	 */
+	bool defineEdgeCurved(bool curved);
+
+	/**
+	 * Fun√ß√£o que define a cor global das arestas.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->defineEdgeColor(GRAY); modifica a cor por defeito das arestas para cinzento
+	 *
+	 * @param color Nova cor das arestas, utilizar as constantes definidas no graphviewer.h para conveni√™ncia.
+	 */
+	bool defineEdgeColor(string color);
+
+	/**
+	 * Fun√ß√£o que define globalmente se as arestas s√£o desenhadas, ou n√£o, a tracejado.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->defineEdgeDashed(true); faz com que por defeito as arestas sejam desenhadas a tracejado
+	 *
+	 * @param dashed Booleano que representa se as arestas v√£o estar, ou n√£o, todas a tracejado (o valor por defeito √© false).
+	 */
+	bool defineEdgeDashed(bool dashed);
+
+	/**
+	 * Fun√ß√£o que define a cor global dos n√≥s.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->defineVertexColor(RED); modifica a cor por defeito dos n√≥s para vermelho
+	 *
+	 * @param color Nova cor dos n√≥s, utilizar as constantes definidas no graphviewer.h para conveni√™ncia.
+	 */
+	bool defineVertexColor(string color);
+
+	/**
+	 * Fun√ß√£o que define o tamanho global dos n√≥s.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->defineVertexSize(20); modifica o tamanho por defeito dos n√≥s para 20
+	 *
+	 * @param size Nova cor dos n√≥s, utilizar as constantes definidas no graphviewer.h para conveni√™ncia.
+	 */
+	bool defineVertexSize(int size);
+
+	/**
+	 * Fun√ß√£o que define um √≠cone para um n√≥.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->defineVertexIcon("icon.gif"); faz com que por defeito os n√≥s, quando desenhados,
+	 * n√£o sejam um c√≠rculo, mas sim a imagem icon.gif
+	 *
+	 * @param filepath Caminho do ficheiro a utilizar como novo √≠cone do n√≥.
+	 */
+	bool defineVertexIcon(string filepath);
+
+	/**
+	 * Fun√ß√£o que altera a imagem de fundo do grafo.
+	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
+	 * gv->setBackGround("fundo.png"); faz com que o fundo da janela seja a imagem fundo.png,
+	 * em vez de cinzento
+	 *
+	 * @param path Caminho para o ficheiro com a imagem.
+	 */
+	bool setBackground(string path);
+
+	/**
+	 * Fun√ß√£o que actualiza a visualiza√ß√£o do grafo.
+	 */
+	bool rearrange();
 
 #ifdef linux
-  static pid_t procId;
+	static pid_t procId;
 #endif
 
- private:
-  int width, height;
-  bool isDynamic;
+private:
+	int width, height;
+	bool isDynamic;
 
-  Connection *con;
+	Connection *con;
 
-  void initialize(int, int, bool, int);
+	void initialize(int, int, bool, int);
 };
 
 #endif

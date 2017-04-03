@@ -1,126 +1,115 @@
 /*
  * Graph.h
+ *
+ *  Created on: 01/04/2017
+ *      Author: bibib
  */
-#ifndef GRAPH_H_
-#define GRAPH_H_
+
+#ifndef SRC_GRAPH_H_
+#define SRC_GRAPH_H_
 
 #include <vector>
+#include <queue>
 #include <list>
-#include "Point.h"
-#include "Vertex.h"
-#include "Edge.h"
+#include <climits>
+#include <cmath>
+#include <cstdint>
+#include "Road.h"
+using namespace std;
 
 class Edge;
-class Vertex;
+class Graph;
 
-/**
- * @brief Class graph
- * Graph class that holds the nodes and edges
+#define NULL 0
+
+const int NOT_VISITED = 0;
+const int BEING_VISITED = 1;
+const int DONE_VISITED = 2;
+const int INT_INFINITY = INT_MAX;
+
+
+/*
+ * CLASS VERTEX
  */
-class Graph {
-	vector<Vertex> vertexSet; /** < Vector of all vertexes*/
-	Vertex* lastComputedSource; /** < Last computed source */
+class Vertex {
+	long id;
+	double longitude, latitude;
+	vector<Edge *> adj;
+	bool visited;
+	bool processing;
+	int indegree;
+	long dist;
+	bool inQueue;
 public:
-	/**
-	 * @brief Graph constructor
-	 */
-	Graph();
 
-	/**
-	 * @brief Gets number of vertexes in the graph
-	 *
-	 * @return Returns the vertex set size
-	 */
-	int getNumVertex() const;
+	Vertex(long id, double lon, double lat);
+	friend class Graph;
 
-	/**
-	 * @brief Gets the vertex set
-	 *
-	 * @return Returns the vertex set
-	 */
-	vector<Vertex> getVertexSet() const;
+	void addEdge(Vertex *dest, Road * road, double w);
+	bool removeEdgeTo(Vertex *d);
+	vector<Edge *> getAdj() const;
+	long getID() const;
+	double getLongitude() const;
+	double getLatitude() const;
+	void setLongitude(long lon);
+	void setLatitude(long lat);
+	void setID(long id);
 
-	/**
-	 * @brief Adds a vertex with info in
-	 *
-	 * @param in Vertex info
-	 *
-	 * @return Returns true on success.
-	 */
-	bool addVertex(const Point &in);
-
-	/**
-	 * @brief Adds a edge connected to sourc and dest, belonging to road.
-	 *
-	 * @param sourc Edge source
-	 * @param dest Edge destination
-	 * @param road Road the edge belongs to
-	 *
-	 * @return Returns true on success
-	 */
-	bool addEdge(const Point &sourc, const Point &dest, Road* road);
-
-	/**
-	 * @brief Gets the shortest path between source and goal.
-	 *
-	 * @param source Path beginning point
-	 * @param goal Path ending point
-	 *
-	 * @return Returns the path as a list of pointer to vertexes.
-	 */
-	list<Vertex*> getShortestPath(Vertex* source, Vertex *goal);
-
-	/**
-	 * @brief Gets vertex from ID
-	 *
-	 * @param pointID ID of the point represented by the vertex
-	 *
-	 * @return Returns a pointer to the vertex
-	 */
-	Vertex* getVertexFromID(unsigned int pointID);
-
-	/**
-	 * @brief Gets vertex from road name.
-	 *
-	 * @param roadName road name
-	 *
-	 * @return Returns a pointer to the vertex
-	 */
-	Vertex* getVertexFromRoadName(const string &roadName);
-
-	/**
-	 * @brief Gets the vertex set size
-	 *
-	 * @return Returns the vertex set size
-	 */
-	unsigned int getVertexSetSize() const;
-
-	/**
-	 * @brief Gets the vertex in the index of the vertex set
-	 *
-	 * @param index Index in the vertex set vector
-	 *
-	 * @return Returns a pointer to the vertex in the position index of vertex set.
-	 */
-	Vertex* getVertexFromIndex(unsigned int index);
-private:
-
-	/**
-	 * @brief Computes all paths from source
-	 *
-	 * @param source Source
-	 */
-	void computePaths(Vertex* source);
-
-	/**
-	 * @brief Resets pathfinding atributes
-	 */
-	void resetPathfinding();
-
-	/**
-	 * @brief
-	 */
-	Vertex* getApproximateVertex(const string &roadName);
+	long getDist() const;
+	int getIndegree() const;
+	bool isInQueue() const {return inQueue;}
+	Vertex* path;//vertice antecedente
 };
 
-#endif /* GRAPH_H_ */
+/*
+ * CLASS EDGE
+ */
+class Edge {
+private:
+	static int edgesID;
+	long id;
+	Vertex * dest;
+	double weight;
+	Road * road;
+	bool inGraphViewer; //true se ja foi inserido no GraphViewer
+public:
+	Edge(Vertex *d, Road * road, double w);
+	Road * getRoad () const;
+	Vertex * getDest() const;
+	double getWeight();
+	int getID();
+	bool isInGraphViewer();
+	void setInGraphViewer();
+	friend class Graph;
+	friend class Vertex;
+};
+/*
+ * CLASS GRAPH
+ */
+class Graph {
+private:
+	vector<Vertex *> vertexSet;
+	int numCycles;
+
+public:
+	Graph() {}
+	bool addVertex(Vertex * v);
+	bool addEdge(int sourcID, int destID, double w, Road * road);
+	bool removeVertex(Vertex * v);
+	bool removeEdge(Vertex * sourc, Vertex * dest);
+	vector<Vertex * > getVertexSet() const;
+	int getNumVertex() const;
+
+	vector<Vertex*> dfs() const; //algoritmo que percorre grafo em perfundidade; retorna um vetor so com os vertices que sao alcançaveis
+	void dfs(Vertex *v,vector<Vertex*> &res) const;//auxiliar de dfs() que altera o atributo "visited" dos vertices quando estes sao atingidos
+	Vertex* getVertex(long lon, long lat) const;
+	Vertex * getVertex(long id) const;
+	void resetIndegrees();
+	vector<Vertex*> getSources() const;//retorna vetor com possiveis vertices origem usados como ponto de começo em algoritmos de ordenacao, ou seja, vertices com indegree 0
+	vector<Vertex*> getPath(Vertex* origin, Vertex* dest);
+	void dijkstraShortestPath(Vertex * v);
+};
+
+
+
+#endif /* SRC_GRAPH_H_ */

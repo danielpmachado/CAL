@@ -1,14 +1,23 @@
+/*
+ * main.cpp
+ *
+ *  Created on: Apr 2, 2017
+ *      Author: Sofia
+ */
+
+
 #include <iostream>
+
+#include "Parking.h"
 
 using namespace std;
 
-
 int main(){
 
-	ParkingSystem  parkingSystem(100,100);
+	Parking p;
 
-	parkingSystem.start();
-
-	cin.ignore();
 	return 0;
+
+
 }
+
