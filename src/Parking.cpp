@@ -9,10 +9,11 @@
 
 Parking::Parking() {
 	readNodesFile();
-	readRoadsFile();
+  readRoadsFile();
 	readConnectionsFile();
-	updateCoordinates();
 	createGraphViewer();
+
+
 }
 
 Parking::~Parking() {
@@ -103,8 +104,8 @@ void Parking::readConnectionsFile() {
 void Parking::readNodesFile() {
 	ifstream nodesFile;
 	ull_int node_id;
-	float long_rad;
-	float lat_rad;
+	float lon;
+	float lat;
 	string line;
 
 	nodesFile.open("nodes.txt");
@@ -121,18 +122,20 @@ void Parking::readNodesFile() {
 		linestream >> node_id;
 
 		std::getline(linestream, data, ';');
+		linestream >> lat;
 		std::getline(linestream, data, ';');
+		linestream >> lon;
 
 		// valores inuteis
 		// o melhor era ignorar
 
 		std::getline(linestream, data, ';');
-		linestream >> long_rad;
+
 		std::getline(linestream, data, ';');
-		linestream >> lat_rad;
 
 
-		myGraph.addVertex(new Vertex(node_id, long_rad, lat_rad));
+
+		myGraph.addVertex(new Vertex(node_id, lon, lat));
 
 	}
 
@@ -140,37 +143,41 @@ void Parking::readNodesFile() {
 }
 
 void Parking::createGraphViewer() {
-
-	myGV->createWindow(800, 1000);
+	myGV->setBackground("map.png");
+	myGV->createWindow(1217, 825);
 	myGV->defineVertexColor("blue");
 	myGV->defineEdgeColor("black");
-
 
 	ull_int node_id;
 	int x;
 	int y;
-
 	for (Vertex * v : myGraph.getVertexSet()){
 		node_id = v->getID();
 		x = convertLongitudeToX(v->getLongitude());
 		y= convertLatitudeToY(v->getLatitude());
 
-		//cout << node_id << endl << x << endl << y << endl;
+		cout << node_id << endl << x << endl << y << endl;
 
 		myGV->addNode(node_id,x,y);
+		myGV->setVertexSize(node_id, 5);
+		myGV->setVertexLabel(node_id, ".");
 	}
+	myGV->defineEdgeCurved(false);
 	for (Vertex * v : myGraph.getVertexSet()){
 		for (Edge * e : v->getAdj()) {
 			if(!e->isInGraphViewer()) { //se ja estiver no myGV, nao voltamos a inseri-lo
 				if(e->getRoad()->isTwoWays()) {
 					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::UNDIRECTED);
+					myGV->setEdgeLabel(e->getID(), "");
 				} else {
 					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::DIRECTED);
+					myGV->setEdgeLabel(e->getID(), "");
 				}
 				e->setInGraphViewer();
 			}
 		}
 	}
+
 
 
 /*
@@ -210,33 +217,17 @@ double distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
 }
 
-void Parking::updateCoordinates(){
-	for( int i = 0; i < myGraph.getVertexSet().size(); i++){
-		double lat = myGraph.getVertexSet().at(i)->getLatitude();
-		double lng = myGraph.getVertexSet().at(i)->getLongitude();
-
-
-		if(maxLat < lat)
-			maxLat = lat;
-		if(minLat > lat)
-			minLat = lat;
-		if(maxLng < lng)
-			maxLng = lng;
-		if(minLng > lng)
-			minLng = lng;
-	}
-}
-
-
 
 
 int Parking::convertLongitudeToX(double longitude) {
+	cout << longitude << " " << minLng << " " << maxLng << " " << maxLng - minLng;
 
-	return floor((longitude - minLng) * IMAGE_Y / (maxLng - minLng));
+	return floor((longitude - minLng) * IMAGE_X / (maxLng - minLng));
 }
 
 int Parking::convertLatitudeToY(double latitude) {
-	return IMAGE_X-floor((latitude - minLat) * IMAGE_X / (maxLat - minLat));
+	return IMAGE_Y-floor((latitude - minLat) * IMAGE_Y / (maxLat - minLat))-20;
+
 }
 
 
