@@ -12,14 +12,9 @@
 
 using namespace std;
 
-/*int main(){
-
+int main(){
 	Parking p;
-
-	p.readRoadsFile();
-
+	getchar();
 	return 0;
-
-
-}*/
+}
 

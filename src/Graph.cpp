@@ -8,10 +8,8 @@
 /*
  * CLASS VERTEX
  */
-Vertex::Vertex(long id, long lon, long lat, long x, long y): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
+Vertex::Vertex(long id, double lon, double lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
 	this->id = id;
-	this->x = x;
-	this->y = y;
 	path = NULL;
 }
 
@@ -26,20 +24,15 @@ long Vertex::getID() const {
 	return id;
 }
 
-long Vertex::getLongitude() const {
+double Vertex::getLongitude() const {
 	return longitude;
 }
 
-long Vertex::getLatitude() const {
+double Vertex::getLatitude() const {
 	return latitude;
 }
 
-long Vertex::getX() const {
-	return x;
-}
-long Vertex::getY() const {
-	return y;
-}
+
 
 long Vertex::getDist() const {
 	return this->dist;
@@ -57,12 +50,7 @@ void Vertex::setID(long id) {
 	this->id = id;
 }
 
-void Vertex::setX(long x) {
-	this->x = x;
-}
-void Vertex::setY(long y) {
-	this->y = y;
-}
+
 int Vertex::getIndegree() const {
 	return this->indegree;
 }
@@ -118,6 +106,7 @@ int Graph::getNumVertex() const {
 vector<Vertex * > Graph::getVertexSet() const {
 	return vertexSet;
 }
+
 bool Graph::addVertex(Vertex * v) {
 	typename vector<Vertex*>::iterator it= vertexSet.begin();
 	typename vector<Vertex*>::iterator ite= vertexSet.end();
@@ -127,6 +116,7 @@ bool Graph::addVertex(Vertex * v) {
 	vertexSet.push_back(v);
 	return true;
 }
+
 bool Graph::addEdge(int sourcID, int destID, double w, Road * road) {
 	typename vector<Vertex*>::iterator it= vertexSet.begin();
 	typename vector<Vertex*>::iterator ite= vertexSet.end();
