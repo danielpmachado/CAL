@@ -423,7 +423,8 @@ int main() {
 	loadSubroads();
 	graphViewerNodes();
 	graphViewerEdges();
-	myGV->rearrange();
+  myGV->rearrange();*/
+
 	return 0;
 }*/
 
