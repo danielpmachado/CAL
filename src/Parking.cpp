@@ -137,7 +137,6 @@ void Parking::readNodesFile() {
 	}
 
 	nodesFile.close();
-
 }
 
 void Parking::createGraphViewer() {
@@ -194,6 +193,7 @@ void Parking::createGraphViewer() {
 	myGV->rearrange();
 
 }
+
 
 double distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
