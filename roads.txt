@@ -1,118 +1,123 @@
-13268420;Avenida de Fernão de Magalhães;False
-13799456;Avenida de Fernão de Magalhães;True
-13799462;Avenida de Fernão de Magalhães;False
-24812056;Rua Costa Cabral;True
-37141970;Rua do Doutor Eduardo Santos Silva;True
-37141981;Travessa da Areosa;True
-37142655;Rua Nova do Rio;True
-37221655;Travessa das Enxurreiras;False
-37856966;Rua Rodrigues Semide;False
-37856968;Travessa Diamantina;False
-37856969;Rua João Corregedor da Fonseca;False
-37856971;;False
-37857251;Rua da Feira;False
-37857252;Rua Dona Filipa de Lencastre;False
-37857253;Rua Heróis da Pátria;False
-37857254;;False
-37857255;Rua da Paz;False
-37914798;Rua dos Combatentes;False
-37914800;Praceta Vitorino Nemésio;False
-37914801;Travessa Eça de Queirós;False
-37916215;Rua Tenente Mário Grilo;False
-37916216;Travessa do Rio;True
-37916217;Estrada Interior da Circunvalação;False
-37916218;Estrada Exterior da Circunvalação;False
-37916219;Estrada Exterior da Circunvalação;False
-37916220;Viaduto da Areosa;True
-37916221;Estrada Interior da Circunvalação;False
-37937528;Estrada da Circunvalação;False
-64447160;Estrada Interior da Circunvalação;False
-125000464;Rua Eça de Queirós;False
-125000472;Rua das Enxurreiras;False
-125000475;Rua das Enxurreiras;True
-152618138;Rua da Feira;False
-161123874;Estrada Exterior da Circunvalação;False
-161124030;Travessa do Veloso;False
-161124092;Travessa do Veloso;False
-161124159;Rua de Costa Cabral;False
-161124264;Travessa Heróis da Pátria;False
-161124274;Travessa do Veloso;False
-161124276;Rua Diamantina;False
-161124287;Rua das Arroteias;False
-172889538;Rua da Areosa;True
-172932656;Travessa Particular da Alta Mira;True
-172933202;Praça de Afonso Pinto de Magalhães;True
-172933378;Rua Daniel Constant;True
-172933642;;True
-173014726;Rua Diamantina;True
-210673562;Rua Dom Afonso Henriques;True
-210674294;Rua Gonçalo Mendes da Maia;False
-211339122;Estrada Interior da Circunvalação;False
-211339125;Estrada Exterior da Circunvalação;False
-220234009;Estrada Interior da Circunvalação;False
-307165306;Rua Particular de Dom Afonso Henriques;True
-307166758;Rua Doutor Salgado Zenha;True
-308678920;Estrada Exterior da Circunvalação;False
-308678930;Estrada Interior da Circunvalação;False
-311272090;Rua 9 de Abril;False
-311272093;Travessa dos Combatentes;False
-311272094;Rua Artur Neves;False
-342836042;;False
-345574068;Rua António Feliciano de Castilho;True
-349599164;Rua das Arroteias;True
-349599165;Rua Dona Filipa de Lencastre;True
-349600377;;True
-351255845;Avenida de Fernão de Magalhães;False
-351255846;Avenida de Fernão de Magalhães;False
-351525651;Estrada Interior da Circunvalação;False
-351525652;Estrada Interior da Circunvalação;False
-351525654;Estrada Exterior da Circunvalação;False
-351525680;Praceta Vitorino Nemésio;False
-351525681;Praceta Vitorino Nemésio;False
-426458371;Rua Doutor Salgado Zenha;False
-434897741;Estrada da Circunvalação;False
-441677263;;False
-441677265;Praceta Bernarda Ferreira Lacerda;False
-441677266;;False
-441677268;;False
-443789659;Travessa Artur Neves;False
-443789660;Travessa Artur Neves;False
-443789661;Rua Bairro Vilela;False
-443789662;Rua Bairro Vilela;False
-448195886;;False
-449415296;;False
-449415297;;False
-449415303;;False
-449415304;;False
-449415306;Rua Eça de Queirós;False
-450913086;;False
-450913087;;False
-450913090;;False
-450913091;;False
-450913093;;False
-450913094;;False
-452752377;;False
-452752379;;False
-452752382;;False
-452801283;;False
-452801284;;False
-452801289;;False
-452801290;;False
-452805192;Travessa Eça de Queirós;False
-453393320;Rua das Oliveiras;False
-461925693;Rua Diamantina;False
-466687242;;False
-466687243;;False
-466687244;;False
-466687245;;False
-466687246;;False
-466687254;;False
-476944585;Largo 9 de Abril;False
-476944648;;False
-476944650;;False
-477791560;Rua de Costa Cabral;True
-482332561;Rua de Costa Cabral;True
-482332562;Rua Diamantina;False
-482332563;Rua de Costa Cabral;True
-483324181;Rua Doutor Américo Cardoso;True
-483324183;Rua Artur Neves;False
+5029221;Boerum Place;False
+5674618;Fulton Street;True
+5675443;Pearl Street;True
+5676917;;True
+5676999;Tech Place;False
+5677340;Montague Street;False
+5678195;Willoughby Street;False
+5678318;Court Street;True
+5678510;Red Hook Lane;False
+5678671;Fleet Place;False
+5679449;Gallatin Place;False
+5679842;Boerum Place;False
+5680429;Gold Street;False
+5680574;Schermerhorn Street;False
+5680631;Livingston Street;True
+5680669;Albee Square;True
+5680955;Hoyt Street;False
+5680993;Duffield Street;False
+5681796;Johnson Street;False
+25563947;Adams Street;False
+34452219;Willoughby Street;False
+34452220;Willoughby Street;False
+37394898;Myrtle Avenue;True
+40178575;;True
+41381890;Myrtle Avenue;False
+43314907;Bridge Street;False
+46121844;Cadman Plaza West;True
+46121855;Joralemon Street;False
+46121856;Myrtle Avenue;False
+46121857;Fulton Street;False
+46121859;Fulton Mall;False
+46121864;Joralemon Street;False
+46121867;Fulton Mall;True
+46788734;Tech Place;True
+46788735;Tech Place;False
+46788736;Tech Place;False
+46788737;;False
+46788738;Duffield Street;False
+46788740;Tech Place;False
+46788742;Gold Street;False
+46788746;Prince Street;False
+46788748;Fleet Place;False
+46788749;Fleet Street;False
+46788750;Duffield Street;False
+46788756;Albee Square;False
+46788758;Pearl Street;False
+46788761;Fulton Street;True
+46788762;Joralemon Street;False
+46818454;Cadman Plaza East;False
+46818841;;False
+46820140;Joralemon Street;False
+46820403;Adams Street / Brooklyn Bridge Boulevard;False
+68523754;Adams Street / Brooklyn Bridge Boulevard;False
+110155714;Gold Street;False
+110155730;Flatbush Avenue Extension;False
+110155731;Fleet Street;False
+110155732;;False
+110161764;;False
+221604537;Fulton Mall;True
+221604538;Boerum Place;False
+221605481;Livingston Street;True
+221605486;Livingston Street;True
+221605488;Boerum Place;False
+221694583;Adams Street / Brooklyn Bridge Boulevard;False
+221694584;Adams Street / Brooklyn Bridge Boulevard;False
+221696387;Jay Street;True
+221731897;Adams Street / Brooklyn Bridge Boulevard;False
+221731898;Livingston Street;True
+222246977;Lawrence Street;False
+222246978;Jay Street;True
+222246979;Lawrence Street;True
+222246980;Bridge Street;False
+222246981;Flatbush Avenue Extension;False
+222246983;Flatbush Avenue Extension;False
+222248833;Smith Street;True
+222300291;Schermerhorn Street;False
+227064512;Adams Street / Brooklyn Bridge Boulevard;False
+227074794;Schermerhorn Street;False
+275389181;Willoughby Street;True
+324751028;Willoughby Street;False
+349154278;Willoughby Street;True
+349154287;Flatbush Avenue Extension;False
+349155333;Prince Street;False
+349155334;Fair Street;False
+349156821;Tech Place;False
+386201385;Jay Street;True
+420571175;Adams Street / Brooklyn Bridge Boulevard;False
+420571176;Flatbush Avenue Extension;False
+420571177;Flatbush Avenue Extension;False
+420572573;Jay Street;True
+420572574;Smith Street;True
+421121604;Boerum Place;False
+421121605;Boerum Place;False
+421121606;Boerum Place;False
+421121609;Boerum Place;False
+421121610;Myrtle Avenue;False
+421121611;Myrtle Avenue;False
+421121612;Myrtle Avenue;False
+421121615;Myrtle Avenue;False
+421121616;Myrtle Avenue;False
+421754837;Flatbush Avenue Extension;False
+421754839;Myrtle Avenue;False
+421755066;Flatbush Avenue Extension;False
+421755067;Flatbush Avenue Extension;False
+440633365;Adams Street / Brooklyn Bridge Boulevard;False
+440633375;Boerum Place;False
+451956945;;False
+452285838;;False
+455211317;Adams Street / Brooklyn Bridge Boulevard;False
+455211323;Adams Street / Brooklyn Bridge Boulevard;False
+455211328;Adams Street / Brooklyn Bridge Boulevard;False
+455211333;;False
+456391447;;False
+456391963;Flatbush Avenue Extension;False
+458395552;Tech Place;False
+460126494;;False
+460126495;;False
+460126496;;False
+460126497;;False
+460126498;;False
+460126499;;False
+460576120;Jay Street;True
+460576121;Jay Street;True

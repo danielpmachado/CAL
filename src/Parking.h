@@ -27,12 +27,16 @@ class Parking {
 private:
 	Graph myGraph = Graph();
 	map<long, Road*> roads;
-	GraphViewer *myGV= new GraphViewer(800, 1000, false);
+	GraphViewer *myGV= new GraphViewer(1217, 825, false);
 
-	double maxLat = -10000;
+	/*double maxLat = -10000;
 	double minLat= 100000;
 	double maxLng= -10000;
-	double minLng= 10000;
+	double minLng= 10000;*/
+	double maxLat = 40.69559;
+	double minLat= 40.69026;
+	double maxLng= -73.98061;
+	double minLng= -73.99066;
 
 public:
 	Parking();

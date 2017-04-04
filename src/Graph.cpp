@@ -167,7 +167,7 @@ Vertex * Graph::getVertex(long id) const {
 	}
 	return NULL;
 }
-vector<Vertex*> Graph::dfs() const {
+/*vector<Vertex*> Graph::dfs(GraphViewer *myGV) const {
 	typename vector<Vertex*>::const_iterator it= vertexSet.begin();
 	typename vector<Vertex*>::const_iterator ite= vertexSet.end();
 	for (; it !=ite; it++)
@@ -176,20 +176,29 @@ vector<Vertex*> Graph::dfs() const {
 	it=vertexSet.begin();
 	for (; it !=ite; it++)
 	    if ( (*it)->visited==false )
-	    	dfs(*it,res);
+	    	dfs(*it,res, 0, myGV);
 	return res;
 }
 
-void Graph::dfs(Vertex *v,vector<Vertex*> &res) const {
+void Graph::dfs(Vertex *v,vector<Vertex*> &res, double count, GraphViewer *myGV) const {
+	double size = count;
 	v->visited = true;
+	if(size < 0.5 && size > 0) {
+		myGV->setVertexSize(v->getID(), 0);
+	}
 	res.push_back(v);
 	typename vector<Edge*>::iterator it= (v->adj).begin();
 	typename vector<Edge*>::iterator ite= (v->adj).end();
 	for (; it !=ite; it++)
 	    if ( (*it)->dest->visited == false ){
-	    	dfs((*it)->dest, res);
+	    	if(size < 0.5 && size > 0) {
+	    		size += (*it)->getWeight();
+	    	} else {
+	    		size = 0;
+	    	}
+	    	dfs((*it)->dest, res, size, myGV);
 	    }
-}
+}*/
 
 vector<Vertex*> Graph::getSources() const {
 	vector< Vertex* > buffer;
