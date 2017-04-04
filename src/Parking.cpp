@@ -226,7 +226,7 @@ int Parking::convertLongitudeToX(double longitude) {
 }
 
 int Parking::convertLatitudeToY(double latitude) {
-	return IMAGE_Y-floor((latitude - minLat) * IMAGE_Y / (maxLat - minLat))-20;
+	return IMAGE_Y-floor((latitude - minLat) * IMAGE_Y / (maxLat - minLat));
 
 }
 

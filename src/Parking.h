@@ -33,10 +33,10 @@ private:
 	double minLat= 100000;
 	double maxLng= -10000;
 	double minLng= 10000;*/
-	double maxLat = 40.69387;
-	double minLat= 40.69121;
-	double maxLng= -73.98231;
-	double minLng= -73.98733;
+	double maxLat = 40.69559;
+	double minLat= 40.69026;
+	double maxLng= -73.98061;
+	double minLng= -73.99066;
 
 public:
 	Parking();
