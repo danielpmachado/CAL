@@ -19,6 +19,7 @@
 #include "Graph.h"
 #include "Road.h";
 #include "utils.h"
+#include "ParkType.h"
 
 
 using namespace std;
@@ -28,7 +29,7 @@ private:
 	Graph myGraph = Graph();
 	map<long, Road*> roads;
 	GraphViewer *myGV= new GraphViewer(1217, 825, false);
-
+	vector<ParkType*>parkTypeSet;
 	/*double maxLat = -10000;
 	double minLat= 100000;
 	double maxLng= -10000;
@@ -44,6 +45,7 @@ public:
 	void readRoadsFile();
 	void readConnectionsFile();
 	void readNodesFile();
+	void readParks();
 	void createGraphViewer();
 	int convertLongitudeToX(double longitude);
 	int convertLatitudeToY(double latitude);
