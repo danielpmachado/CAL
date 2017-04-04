@@ -45,16 +45,13 @@ public:
 	void readConnectionsFile();
 	void readNodesFile();
 	void createGraphViewer();
-
-
 	int convertLongitudeToX(double longitude);
 	int convertLatitudeToY(double latitude);
-	void updateCoordinates();
+	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 };
 
 
 // auxiliary functions
 
-double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 
 #endif /* SRC_PARKING_H_ */
