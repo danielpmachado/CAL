@@ -9,10 +9,11 @@
 
 Parking::Parking() {
 	readNodesFile();
-  readRoadsFile();
+	readRoadsFile();
 	readConnectionsFile();
 	createGraphViewer();
-
+	readParks();
+	myGV->rearrange();
 
 }
 
@@ -142,6 +143,40 @@ void Parking::readNodesFile() {
 	nodesFile.close();
 }
 
+void Parking::readParks() {
+	ifstream parksFile;
+	string line;
+	ull_int node_id;
+	string type;
+	double price;
+	parksFile.open("parkingPlaces.txt");
+
+	if (!parksFile) {
+		cerr << "Unable to open file parkingPlaces.txt";
+		return;
+	}
+	while (getline(parksFile, line)) {
+		stringstream linestream(line);
+		string data;
+
+		linestream >> node_id;
+
+		getline(linestream, data, ';');
+		getline(linestream, data, ';');
+		type = data.substr(0, data.size());
+		linestream >> price;
+
+		ParkType * p = new ParkType (myGraph.getVertex(node_id), type, price);
+		parkTypeSet.push_back(p);
+		if(type == "meter") {
+			myGV->setVertexIcon(node_id, "meterIcon.png");
+		} else {
+			myGV->setVertexIcon(node_id, "garageIcon.png");
+		}
+	}
+
+	parksFile.close();
+}
 void Parking::createGraphViewer() {
 	myGV->setBackground("map.png");
 	myGV->createWindow(1217, 825);
@@ -179,7 +214,7 @@ void Parking::createGraphViewer() {
 
 
 
-/*
+	/*
 	 for(int i = 0; i < myGraph.getNumVertex(); i++) {
 	 Vertex * v = myGraph.getVertexSet()[i];
 	 for(int j = 0; j < v->getAdj().size(); j++) {
@@ -195,8 +230,6 @@ void Parking::createGraphViewer() {
 	 }
 	 }
 	 */
-
-	myGV->rearrange();
 
 }
 
