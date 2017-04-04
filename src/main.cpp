@@ -14,6 +14,7 @@ using namespace std;
 
 int main(){
 	Parking p;
+
 	getchar();
 	return 0;
 }
