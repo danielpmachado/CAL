@@ -15,6 +15,7 @@
 #include <cmath>
 #include <cstdint>
 #include "Road.h"
+#include "graphviewer.h"
 using namespace std;
 
 class Edge;
@@ -100,8 +101,8 @@ public:
 	vector<Vertex * > getVertexSet() const;
 	int getNumVertex() const;
 
-	vector<Vertex*> dfs() const; //algoritmo que percorre grafo em perfundidade; retorna um vetor so com os vertices que sao alcançaveis
-	void dfs(Vertex *v,vector<Vertex*> &res) const;//auxiliar de dfs() que altera o atributo "visited" dos vertices quando estes sao atingidos
+	vector<Vertex*> dfs(/*GraphViewer *myGV*/) const; //algoritmo que percorre grafo em profundidade; retorna um vetor so com os vertices que sao alcançaveis
+	void dfs(Vertex *v,vector<Vertex*> &res/*, double count, GraphViewer *myGV*/) const;//auxiliar de dfs() que altera o atributo "visited" dos vertices quando estes sao atingidos
 	Vertex* getVertex(long lon, long lat) const;
 	Vertex * getVertex(long id) const;
 	void resetIndegrees();
