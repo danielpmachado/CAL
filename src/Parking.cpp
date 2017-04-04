@@ -8,15 +8,11 @@
 #include "Parking.h"
 
 Parking::Parking() {
-
-	readRoadsFile();
 	readNodesFile();
-	//readConnectionsFile();
+	readRoadsFile();
+	readConnectionsFile();
 	updateCoordinates();
 	createGraphViewer();
-
-	getchar();
-
 }
 
 Parking::~Parking() {
@@ -141,7 +137,6 @@ void Parking::readNodesFile() {
 	}
 
 	nodesFile.close();
-
 }
 
 void Parking::createGraphViewer() {
@@ -155,21 +150,27 @@ void Parking::createGraphViewer() {
 	int x;
 	int y;
 
+	for (Vertex * v : myGraph.getVertexSet()){
+		node_id = v->getID();
+		x = convertLongitudeToX(v->getLongitude());
+		y= convertLatitudeToY(v->getLatitude());
 
+		//cout << node_id << endl << x << endl << y << endl;
 
-
-	 for (Vertex * v : myGraph.getVertexSet()){
-		 node_id = v->getID();
-		 x = convertLongitudeToX(v->getLongitude());
-		 y= convertLatitudeToY(v->getLatitude());
-
-
-
-
-		cout << node_id << endl << x << endl << y << endl;
-
-		 myGV->addNode(node_id,x,y);
-	 }
+		myGV->addNode(node_id,x,y);
+	}
+	for (Vertex * v : myGraph.getVertexSet()){
+		for (Edge * e : v->getAdj()) {
+			if(!e->isInGraphViewer()) { //se ja estiver no myGV, nao voltamos a inseri-lo
+				if(e->getRoad()->isTwoWays()) {
+					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::UNDIRECTED);
+				} else {
+					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::DIRECTED);
+				}
+				e->setInGraphViewer();
+			}
+		}
+	}
 
 
 /*
@@ -192,6 +193,7 @@ void Parking::createGraphViewer() {
 	myGV->rearrange();
 
 }
+
 
 double distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
