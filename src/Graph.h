@@ -47,7 +47,7 @@ public:
 	Vertex(long id, double lon, double lat);
 	friend class Graph;
 
-	void addEdge(Vertex *dest, Road * road, double w);
+	void addEdge(Vertex *dest, Road * road, double w, bool real);
 	bool removeEdgeTo(Vertex *d);
 	vector<Edge *> getAdj() const;
 	long getID() const;
@@ -75,8 +75,9 @@ private:
 	double weight;
 	Road * road;
 	bool inGraphViewer; //true se ja foi inserido no GraphViewer
+	bool real; //true se estiver no vetor adj de um vertice e fosse mesmo suposto estar lá. se estiver a false e uma aresta virtual pois a aresta e unidirecional, mas uma pessoa pode andar na rua no sentido que quiser
 public:
-	Edge(Vertex *d, Road * road, double w);
+	Edge(Vertex *d, Road * road, double w, bool real);
 	Road * getRoad () const;
 	Vertex * getDest() const;
 	double getWeight();
@@ -97,7 +98,7 @@ private:
 public:
 	Graph() {}
 	bool addVertex(Vertex * v);
-	bool addEdge(int sourcID, int destID, double w, Road * road);
+	bool addEdge(int sourcID, int destID, double w, Road * road, bool real);
 	bool removeVertex(Vertex * v);
 	bool removeEdge(Vertex * sourc, Vertex * dest);
 	vector<Vertex * > getVertexSet() const;
