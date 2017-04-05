@@ -21,6 +21,11 @@ Parking::~Parking() {
 	// TODO Auto-generated destructor stub
 }
 
+
+map<long, Road*> Parking::getRoads(){
+	return roads;
+}
+
 void Parking::readRoadsFile() {
 	ifstream file;
 	ull_int id;
@@ -87,7 +92,7 @@ void Parking::readConnectionsFile() {
 		Vertex * dstNode = myGraph.getVertex(dstNodeID);
 
 		double dist = distanceBetweenVertex(srcNode, dstNode);
-		cout << dist << endl;
+
 		myGraph.addEdge(srcNodeID, dstNodeID, dist, roads.find(roadID)->second);
 		if ((roads.find(roadID)->second)->isTwoWays()) {
 			myGraph.addEdge(dstNodeID, srcNodeID, dist,
@@ -213,32 +218,14 @@ void Parking::createGraphViewer() {
 	}
 
 
-
-	/*
-	 for(int i = 0; i < myGraph.getNumVertex(); i++) {
-	 Vertex * v = myGraph.getVertexSet()[i];
-	 for(int j = 0; j < v->getAdj().size(); j++) {
-	 Edge * e = v->getAdj()[j];
-	 if(!e->isInGraphViewer()) {
-	 if(e->getRoad()->isTwoWays()) {
-	 myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::UNDIRECTED);
-	 } else {
-	 myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::DIRECTED);
-	 }
-	 e->setInGraphViewer();
-	 }
-	 }
-	 }
-	 */
-
 }
 
 int Parking::convertLongitudeToX(double longitude) {
-	return floor((longitude - minLng) * IMAGE_X / (maxLng - minLng));
+	return floor((longitude - MIN_LNG) * IMAGE_X / (MAX_LNG - MIN_LNG));
 }
 
 int Parking::convertLatitudeToY(double latitude) {
-	return IMAGE_Y-floor((latitude - minLat) * IMAGE_Y / (maxLat - minLat))+3.5;
+	return IMAGE_Y-floor((latitude - MIN_LAT) * IMAGE_Y / (MAX_LAT - MIN_LAT))+3.5;
 
 }
 
@@ -248,12 +235,12 @@ double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 	int lon1r = convertLongitudeToX(v1->getLongitude());
 	int lat2r = convertLatitudeToY(v2->getLatitude());
 	int lon2r = convertLongitudeToX(v2->getLongitude());
-	return sqrt(pow(lon2r-lon1r,2)+pow(lat2r-lat1r,2));
-	/*double u = sin((lat2r - lat1r) / 2);
+//	return sqrt(pow(lon2r-lon1r,2)+pow(lat2r-lat1r,2));
+	double u = sin((lat2r - lat1r) / 2);
 	double v = sin((lon2r - lon1r) / 2);
 
 	return 2.0 * earthRadiusKm
-			* asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));*/
+			* asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
 
 }
 
