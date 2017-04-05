@@ -9,6 +9,8 @@
 #define SRC_USERINTERFACE_H_
 
 #include <iostream>
+#include <algorithm>
+
 #include "Parking.h"
 
 using namespace std;

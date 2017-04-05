@@ -35,15 +35,21 @@ private:
 public:
 	Parking();
 	virtual ~Parking();
+
+	map<long, Road*> getRoads();
+	GraphViewer * getGraphViewer();
+	Graph getGraph();
+
 	void readRoadsFile();
 	void readConnectionsFile();
 	void readNodesFile();
 	void readParks();
+
 	void createGraphViewer();
 	int convertLongitudeToX(double longitude);
 	int convertLatitudeToY(double latitude);
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
-	map<long, Road*> getRoads();
+	void toogleStreetNodes(string street);
 };
 
 

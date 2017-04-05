@@ -10,15 +10,16 @@
 
 #include "Parking.h"
 #include "UserInterface.h"
+#include <iostream>
 
 
 
 int main(){
 
-	//Parking p;
-	//UserInterface ui(&p);
+	Parking p;
+	UserInterface ui(&p);
 
-	//ui.start();
+	ui.start();
 
 	getchar();
 	return 0;
