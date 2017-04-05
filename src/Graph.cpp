@@ -240,7 +240,8 @@ vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest){
 
 	list<Vertex *> buffer;
 	Vertex * v = dest;
-	//cout << v->info << " ";
+
+
 	buffer.push_front(dest);
 	while ( v->path != NULL &&  v->path != origin) {
 		v = v->path;
