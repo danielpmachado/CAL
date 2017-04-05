@@ -20,6 +20,7 @@
 #include "Road.h";
 #include "utils.h"
 #include "ParkType.h"
+#include "DestPlace.h"
 
 
 using namespace std;
@@ -28,8 +29,9 @@ class Parking {
 private:
 	Graph myGraph = Graph();
 	map<long, Road*> roads;
-	GraphViewer *myGV= new GraphViewer(1217, 825, false);
+	GraphViewer *myGV= new GraphViewer(5000, 3496, false);
 	vector<ParkType*>parkTypeSet;
+	vector<DestPlace *>destPlacesSet;
 
 
 public:
@@ -44,8 +46,10 @@ public:
 	void readConnectionsFile();
 	void readNodesFile();
 	void readParks();
+  void readDestinations();
 
 	void createGraphViewer();
+	ParkType * getClosestPark(Vertex * dest);
 	int convertLongitudeToX(double longitude);
 	int convertLatitudeToY(double latitude);
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;

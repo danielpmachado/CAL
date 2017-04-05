@@ -68,6 +68,15 @@ bool Vertex::removeEdgeTo(Vertex *d) {
 	return false;
 }
 
+Edge * Vertex::getEdgeToVertex(Vertex * dest) {
+	for(Edge * e : adj) {
+		if(e->getDest() == dest) {
+			return e;
+		}
+	}
+	return NULL;
+}
+
 /*
  * CLASS EDGE
  */
@@ -220,7 +229,7 @@ vector<Vertex*> Graph::getSources() const {
 void Graph::dijkstraShortestPath(Vertex * v) {
 	for (unsigned int i = 0; i < vertexSet.size(); i++) {
 		vertexSet[i]->path = NULL;
-		vertexSet[i]->dist = INT_INFINITY;
+		vertexSet[i]->dist = LONG_MAX;
 	}
 
 	v->dist = 0;
@@ -234,9 +243,9 @@ void Graph::dijkstraShortestPath(Vertex * v) {
 		processingVertex->inQueue = false;
 		for (unsigned int i = 0; i < processingVertex->adj.size(); i++) {
 			Vertex* w = processingVertex->adj[i]->dest;
-			if (w->dist
-					> (processingVertex->dist + processingVertex->adj[i]->weight)) {
-				w->dist = (v->dist + v->adj[i]->weight);
+    if( w->dist > (processingVertex->dist+ processingVertex->adj[i]->weight) ) {
+				w->dist = (processingVertex->dist+ processingVertex->adj[i]->weight);
+
 				w->path = processingVertex;
 				if (!(w->inQueue)) {
 					q.push(w);
@@ -247,19 +256,21 @@ void Graph::dijkstraShortestPath(Vertex * v) {
 	}
 }
 
-vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest) {
+
+vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest, long &totalDist){
 
 	list<Vertex *> buffer;
 	Vertex * v = dest;
+	//cout << v->info << " ";
+	while ( v->path != NULL) {
+		totalDist += ((v->path)->getEdgeToVertex(v))->getWeight();
+		cout << "\n>>>totalDist = " << totalDist << "<<\n";
 
-	buffer.push_front(dest);
-	while (v->path != NULL && v->path != origin) {
-		v = v->path;
 		buffer.push_front(v);
+		v = v->path;
 	}
-	if (v->path != NULL)
-		buffer.push_front(v->path);
-	else
+
+	if( v->path == NULL )
 		buffer.push_front(v);
 
 	vector<Vertex *> res;

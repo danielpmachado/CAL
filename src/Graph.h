@@ -27,6 +27,7 @@ const int NOT_VISITED = 0;
 const int BEING_VISITED = 1;
 const int DONE_VISITED = 2;
 const int INT_INFINITY = INT_MAX;
+const long LONG_INFINITY = LONG_MAX;
 
 
 /*
@@ -59,6 +60,7 @@ public:
 	long getDist() const;
 	int getIndegree() const;
 	bool isInQueue() const {return inQueue;}
+	Edge * getEdgeToVertex(Vertex * dets);
 	Vertex* path;//vertice antecedente
 };
 
@@ -107,7 +109,7 @@ public:
 	Vertex * getVertex(long id) const;
 	void resetIndegrees();
 	vector<Vertex*> getSources() const;//retorna vetor com possiveis vertices origem usados como ponto de começo em algoritmos de ordenacao, ou seja, vertices com indegree 0
-	vector<Vertex*> getPath(Vertex* origin, Vertex* dest);
+	vector<Vertex*> getPath(Vertex* origin, Vertex* dest, long &totalDist);
 	void dijkstraShortestPath(Vertex * v);
 	vector<long> searchStreetNodes(string street);
 	void searchStreetNodes(Vertex * v, string street, vector<long>& streetVertex)const;
