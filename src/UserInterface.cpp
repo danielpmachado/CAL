@@ -45,7 +45,9 @@ void UserInterface::start(){
 	// Aqui escolher a rua certa
 	// Vou assumir que é Adams Street
 
-	street = "Pearl Street";
+	getchar();
+
+	street = "Pearl Street";  //MUDAR
 
 	p->toogleStreetNodes(street);
 

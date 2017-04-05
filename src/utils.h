@@ -12,11 +12,9 @@
 
 #define earthRadiusKm 6371.0
 
+#define IMAGE_X 5000
+#define IMAGE_Y 3496
 
-
-
-#define IMAGE_X 1217
-#define IMAGE_Y 825
 
 #define MAX_LAT 40.69559
 #define MIN_LAT 40.69026
