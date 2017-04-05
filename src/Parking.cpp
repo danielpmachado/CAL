@@ -307,9 +307,13 @@ void Parking::toogleStreetNodes(string street) {
 	vector<long> streetNodes;
 
 	streetNodes = myGraph.searchStreetNodes(street);
+	streetNodes.erase(unique(streetNodes.begin(), streetNodes.end()), streetNodes.end());
 
-	for (int i = 0; i < streetNodes.size(); i++)
-	myGV->setVertexColor(streetNodes.at(i),"yellow");
+	for (int i = 0; i < streetNodes.size(); i++){
+	myGV->setVertexColor(streetNodes.at(i),"green");
+	cout << i<< endl << streetNodes.at(i) << endl;
+	myGV->setVertexLabel(streetNodes.at(i), to_string(i+1));
+	}
 
 	myGV->rearrange();
 
