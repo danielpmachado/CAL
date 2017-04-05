@@ -9,10 +9,11 @@
 
 Parking::Parking() {
 	readNodesFile();
-  readRoadsFile();
+	readRoadsFile();
 	readConnectionsFile();
 	createGraphViewer();
-
+	readParks();
+	myGV->rearrange();
 
 }
 
@@ -86,7 +87,7 @@ void Parking::readConnectionsFile() {
 		Vertex * dstNode = myGraph.getVertex(dstNodeID);
 
 		double dist = distanceBetweenVertex(srcNode, dstNode);
-
+		cout << dist << endl;
 		myGraph.addEdge(srcNodeID, dstNodeID, dist, roads.find(roadID)->second);
 		if ((roads.find(roadID)->second)->isTwoWays()) {
 			myGraph.addEdge(dstNodeID, srcNodeID, dist,
@@ -142,6 +143,40 @@ void Parking::readNodesFile() {
 	nodesFile.close();
 }
 
+void Parking::readParks() {
+	ifstream parksFile;
+	string line;
+	ull_int node_id;
+	string type;
+	double price;
+	parksFile.open("parkingPlaces.txt");
+
+	if (!parksFile) {
+		cerr << "Unable to open file parkingPlaces.txt";
+		return;
+	}
+	while (getline(parksFile, line)) {
+		stringstream linestream(line);
+		string data;
+
+		linestream >> node_id;
+
+		getline(linestream, data, ';');
+		getline(linestream, data, ';');
+		type = data.substr(0, data.size());
+		linestream >> price;
+
+		ParkType * p = new ParkType (myGraph.getVertex(node_id), type, price);
+		parkTypeSet.push_back(p);
+		if(type == "meter") {
+			myGV->setVertexIcon(node_id, "meterIcon.png");
+		} else {
+			myGV->setVertexIcon(node_id, "garageIcon.png");
+		}
+	}
+
+	parksFile.close();
+}
 void Parking::createGraphViewer() {
 	myGV->setBackground("map.png");
 	myGV->createWindow(1217, 825);
@@ -156,7 +191,6 @@ void Parking::createGraphViewer() {
 		x = convertLongitudeToX(v->getLongitude());
 		y= convertLatitudeToY(v->getLatitude());
 
-		cout << node_id << endl << x << endl << y << endl;
 
 		myGV->addNode(node_id,x,y);
 		myGV->setVertexSize(node_id, 5);
@@ -180,7 +214,7 @@ void Parking::createGraphViewer() {
 
 
 
-/*
+	/*
 	 for(int i = 0; i < myGraph.getNumVertex(); i++) {
 	 Vertex * v = myGraph.getVertexSet()[i];
 	 for(int j = 0; j < v->getAdj().size(); j++) {
@@ -197,37 +231,29 @@ void Parking::createGraphViewer() {
 	 }
 	 */
 
-	myGV->rearrange();
-
 }
-
-
-double distanceBetweenVertex(Vertex * v1, Vertex * v2) {
-
-	double lat1r = v1->getLatitude();
-	double lon1r = v1->getLongitude();
-	double lat2r = v1->getLatitude();
-	double lon2r = v1->getLongitude();
-
-	double u = sin((lat2r - lat1r) / 2);
-	double v = sin((lon2r - lon1r) / 2);
-
-	return 2.0 * earthRadiusKm
-			* asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
-
-}
-
-
 
 int Parking::convertLongitudeToX(double longitude) {
-	cout << longitude << " " << minLng << " " << maxLng << " " << maxLng - minLng;
-
 	return floor((longitude - minLng) * IMAGE_X / (maxLng - minLng));
 }
 
 int Parking::convertLatitudeToY(double latitude) {
-	return IMAGE_Y-floor((latitude - minLat) * IMAGE_Y / (maxLat - minLat));
+	return IMAGE_Y-floor((latitude - minLat) * IMAGE_Y / (maxLat - minLat))+3.5;
 
 }
 
+double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
+
+	int lat1r = convertLatitudeToY(v1->getLatitude());
+	int lon1r = convertLongitudeToX(v1->getLongitude());
+	int lat2r = convertLatitudeToY(v2->getLatitude());
+	int lon2r = convertLongitudeToX(v2->getLongitude());
+	return sqrt(pow(lon2r-lon1r,2)+pow(lat2r-lat1r,2));
+	/*double u = sin((lat2r - lat1r) / 2);
+	double v = sin((lon2r - lon1r) / 2);
+
+	return 2.0 * earthRadiusKm
+			* asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));*/
+
+}
 
