@@ -13,8 +13,10 @@ Parking::Parking() {
 	readConnectionsFile();
 	createGraphViewer();
 	readParks();
-	myGV->rearrange();
-
+	readDestinations();
+	//myGV->rearrange();
+	ParkType* p = getClosestPark(myGraph.getVertex(42481889));
+	cout << p->getNode()->getID();
 }
 
 Parking::~Parking() {
@@ -87,7 +89,6 @@ void Parking::readConnectionsFile() {
 		Vertex * dstNode = myGraph.getVertex(dstNodeID);
 
 		double dist = distanceBetweenVertex(srcNode, dstNode);
-		cout << dist << endl;
 		myGraph.addEdge(srcNodeID, dstNodeID, dist, roads.find(roadID)->second);
 		if ((roads.find(roadID)->second)->isTwoWays()) {
 			myGraph.addEdge(dstNodeID, srcNodeID, dist,
@@ -165,7 +166,7 @@ void Parking::readParks() {
 		getline(linestream, data, ';');
 		type = data.substr(0, data.size());
 		linestream >> price;
-
+		cout << price << endl;
 		ParkType * p = new ParkType (myGraph.getVertex(node_id), type, price);
 		parkTypeSet.push_back(p);
 		if(type == "meter") {
@@ -177,9 +178,44 @@ void Parking::readParks() {
 
 	parksFile.close();
 }
+
+void Parking::readDestinations() {
+	ifstream destFile;
+	string line;
+	ull_int node_id;
+	string place;
+	destFile.open("destination.txt");
+
+	if (!destFile) {
+		cerr << "Unable to open file destination.txt";
+		return;
+	}
+	while (getline(destFile, line)) {
+		stringstream linestream(line);
+		string data;
+
+		linestream >> node_id;
+
+		getline(linestream, data, ';');
+		getline(linestream, data, ';');
+		place = data.substr(0, data.size());
+
+		DestPlace * d = new DestPlace (place, myGraph.getVertex(node_id));
+		destPlacesSet.push_back(d);
+		if(place == "school") {
+			myGV->setVertexIcon(node_id, "schoolIcon.png");
+		} else if (place == "cinema") {
+			myGV->setVertexIcon(node_id, "cinemaIcon.png");
+		} else if (place == "shopping") {
+			myGV->setVertexIcon(node_id, "shoppingIcon.png");
+		}
+	}
+
+	destFile.close();
+}
 void Parking::createGraphViewer() {
 	myGV->setBackground("map.png");
-	myGV->createWindow(1217, 825);
+	myGV->createWindow(5000, 3496);
 	myGV->defineVertexColor("blue");
 	myGV->defineEdgeColor("black");
 
@@ -193,8 +229,8 @@ void Parking::createGraphViewer() {
 
 
 		myGV->addNode(node_id,x,y);
-		myGV->setVertexSize(node_id, 5);
-		myGV->setVertexLabel(node_id, ".");
+		myGV->setVertexSize(node_id, 30);
+		myGV->setVertexLabel(node_id, to_string(node_id));
 	}
 	myGV->defineEdgeCurved(false);
 	for (Vertex * v : myGraph.getVertexSet()){
@@ -211,7 +247,6 @@ void Parking::createGraphViewer() {
 			}
 		}
 	}
-
 
 
 	/*
@@ -231,6 +266,24 @@ void Parking::createGraphViewer() {
 	 }
 	 */
 
+}
+
+ParkType * Parking::getClosestPark(Vertex * dest) {
+	long dist = LONG_MAX;
+	vector<Vertex *> shortPath;
+	ParkType * park;
+	for(ParkType * p : parkTypeSet) {
+		myGraph.dijkstraShortestPath(p->getNode());
+		long distAux = 0;
+		vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest, distAux);
+		cout << "id node " << p->getNode()->getID() << " ; " << distAux << endl;
+		if (distAux < dist) {
+			shortPath = shortPathAux;
+			dist = distAux;
+			park = p;
+		}
+	}
+	return park;
 }
 
 int Parking::convertLongitudeToX(double longitude) {

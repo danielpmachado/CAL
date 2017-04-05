@@ -16,8 +16,8 @@
 
 // largura e altura temporárias
 // quando der atualizar
-#define IMAGE_X 1217
-#define IMAGE_Y 825
+#define IMAGE_X 5000
+#define IMAGE_Y 3496
 
 
 typedef unsigned long long int ull_int;
