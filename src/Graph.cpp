@@ -272,3 +272,37 @@ vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest, long &totalDist)
 	return res;
 }
 
+vector<long> Graph::searchStreetNodes(string street) {
+    vector<long> streetVertex;
+    typename vector<Vertex*>::const_iterator it;
+    bool found = false;
+
+    for (it = vertexSet.begin(); it != vertexSet.end(); it++) {
+        (*it)->visited = false;
+    }
+
+    for (it = vertexSet.begin(); it != vertexSet.end(); it++) {
+        if (!(*it)->visited)
+            searchStreetNodes(*it, street, streetVertex);
+    }
+
+    return streetVertex;
+}
+
+void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVertex) const {
+    v->visited = true;
+
+
+    for (Edge * e : v->getAdj()) {
+        if(e->road->getName() == street){
+            streetVertex.push_back(v->getID());
+            streetVertex.push_back(e->dest->getID());
+        }
+
+        if (!e->dest->visited)
+            searchStreetNodes(e->dest,street, streetVertex);
+
+
+    }
+
+}
