@@ -272,6 +272,7 @@ vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest, long &totalDist)
 	return res;
 }
 
+
 vector<long> Graph::searchStreetNodes(string street) {
     vector<long> streetVertex;
     typename vector<Vertex*>::const_iterator it;
@@ -294,7 +295,9 @@ void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVert
 
 
     for (Edge * e : v->getAdj()) {
-        if(e->road->getName() == street){
+
+        if(e->road->getName() == street && !e->dest->visited){
+
             streetVertex.push_back(v->getID());
             streetVertex.push_back(e->dest->getID());
         }
@@ -306,3 +309,4 @@ void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVert
     }
 
 }
+

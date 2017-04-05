@@ -14,6 +14,7 @@
 #include <sstream>
 #include <map>
 #include <cmath>
+#include <algorithm>
 
 #include "graphviewer.h"
 #include "Graph.h"
