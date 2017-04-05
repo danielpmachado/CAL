@@ -14,9 +14,7 @@ Parking::Parking() {
 	createGraphViewer();
 	readParks();
 	readDestinations();
-	//myGV->rearrange();
-	ParkType* p = getClosestPark(myGraph.getVertex(42481889));
-	cout << p->getNode()->getID();
+	myGV->rearrange();
 }
 
 Parking::~Parking() {
@@ -102,12 +100,12 @@ void Parking::readConnectionsFile() {
 
 		double dist = distanceBetweenVertex(srcNode, dstNode);
 
-		myGraph.addEdge(srcNodeID, dstNodeID, dist, roads.find(roadID)->second);
+		myGraph.addEdge(srcNodeID, dstNodeID, dist, roads.find(roadID)->second, true);
 		if ((roads.find(roadID)->second)->isTwoWays()) {
-			myGraph.addEdge(dstNodeID, srcNodeID, dist,
-					roads.find(roadID)->second);
+			myGraph.addEdge(dstNodeID, srcNodeID, dist, roads.find(roadID)->second, true);
+		} else {
+			myGraph.addEdge(dstNodeID, srcNodeID, dist, roads.find(roadID)->second, false);
 		}
-
 	}
 
 	file.close();

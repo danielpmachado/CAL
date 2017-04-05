@@ -13,8 +13,8 @@ Vertex::Vertex(long id, double lon, double lat): longitude(lon),latitude(lat), v
 	path = NULL;
 }
 
-void Vertex::addEdge(Vertex *dest, Road * road, double w) {
-	Edge *edgeD = new Edge(dest, road, w);
+void Vertex::addEdge(Vertex *dest, Road * road, double w, bool real) {
+	Edge *edgeD = new Edge(dest, road, w, real);
 	adj.push_back(edgeD);
 }
 vector<Edge *> Vertex::getAdj() const {
@@ -82,10 +82,11 @@ Edge * Vertex::getEdgeToVertex(Vertex * dest) {
  * CLASS EDGE
  */
 int Edge::edgesID = 0;
-Edge::Edge(Vertex *d, Road * road, double w): dest(d), weight(w){
+Edge::Edge(Vertex *d, Road * road, double w, bool real): dest(d), weight(w){
 	edgesID++;
 	this->id = edgesID;
 	this->road = road;
+	this->real = real;
 	inGraphViewer = false;
 }
 Road * Edge::getRoad () const {
@@ -126,7 +127,7 @@ bool Graph::addVertex(Vertex * v) {
 	return true;
 }
 
-bool Graph::addEdge(int sourcID, int destID, double w, Road * road) {
+bool Graph::addEdge(int sourcID, int destID, double w, Road * road, bool real) {
 	typename vector<Vertex*>::iterator it= vertexSet.begin();
 	typename vector<Vertex*>::iterator ite= vertexSet.end();
 	int found=0;
@@ -140,7 +141,7 @@ bool Graph::addEdge(int sourcID, int destID, double w, Road * road) {
 	}
 	if (found!=2) return false;
 	vD->indegree++;
-	vS->addEdge(vD, road, w);
+	vS->addEdge(vD, road, w, real);
 
 	return true;
 }
