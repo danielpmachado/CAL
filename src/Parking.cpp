@@ -308,8 +308,11 @@ void Parking::toogleStreetNodes(string street) {
 
 	streetNodes = myGraph.searchStreetNodes(street);
 
-	for (int i = 0; i < streetNodes.size(); i++)
-	myGV->setVertexColor(streetNodes.at(i),"yellow");
+	for (int i = 0; i < streetNodes.size(); i++){
+	myGV->setVertexColor(streetNodes.at(i),"green");
+	myGV->setVertexSize(streetNodes.at(i), 10);
+	myGV->setVertexLabel(streetNodes.at(i), to_string(i+1));
+	}
 
 	myGV->rearrange();
 
