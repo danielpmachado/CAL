@@ -21,9 +21,16 @@ Parking::~Parking() {
 	// TODO Auto-generated destructor stub
 }
 
-
-map<long, Road*> Parking::getRoads(){
+map<long, Road*> Parking::getRoads() {
 	return roads;
+}
+
+GraphViewer * Parking::getGraphViewer() {
+	return myGV;
+}
+
+Graph Parking::getGraph() {
+	return myGraph;
 }
 
 void Parking::readRoadsFile() {
@@ -48,7 +55,7 @@ void Parking::readRoadsFile() {
 		getline(linestream, data, ';');
 		getline(linestream, data, ';');
 
-		name = data.substr(0, data.size() - 1);
+		name = data.substr(0, data.size());
 
 		linestream >> data;
 
@@ -99,8 +106,6 @@ void Parking::readConnectionsFile() {
 					roads.find(roadID)->second);
 		}
 
-
-
 	}
 
 	file.close();
@@ -139,8 +144,6 @@ void Parking::readNodesFile() {
 
 		std::getline(linestream, data, ';');
 
-
-
 		myGraph.addVertex(new Vertex(node_id, lon, lat));
 
 	}
@@ -171,9 +174,9 @@ void Parking::readParks() {
 		type = data.substr(0, data.size());
 		linestream >> price;
 
-		ParkType * p = new ParkType (myGraph.getVertex(node_id), type, price);
+		ParkType * p = new ParkType(myGraph.getVertex(node_id), type, price);
 		parkTypeSet.push_back(p);
-		if(type == "meter") {
+		if (type == "meter") {
 			myGV->setVertexIcon(node_id, "meterIcon.png");
 		} else {
 			myGV->setVertexIcon(node_id, "garageIcon.png");
@@ -191,32 +194,32 @@ void Parking::createGraphViewer() {
 	ull_int node_id;
 	int x;
 	int y;
-	for (Vertex * v : myGraph.getVertexSet()){
+	for (Vertex * v : myGraph.getVertexSet()) {
 		node_id = v->getID();
 		x = convertLongitudeToX(v->getLongitude());
-		y= convertLatitudeToY(v->getLatitude());
+		y = convertLatitudeToY(v->getLatitude());
 
-
-		myGV->addNode(node_id,x,y);
+		myGV->addNode(node_id, x, y);
 		myGV->setVertexSize(node_id, 5);
 		myGV->setVertexLabel(node_id, ".");
 	}
 	myGV->defineEdgeCurved(false);
-	for (Vertex * v : myGraph.getVertexSet()){
+	for (Vertex * v : myGraph.getVertexSet()) {
 		for (Edge * e : v->getAdj()) {
-			if(!e->isInGraphViewer()) { //se ja estiver no myGV, nao voltamos a inseri-lo
-				if(e->getRoad()->isTwoWays()) {
-					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::UNDIRECTED);
+			if (!e->isInGraphViewer()) { //se ja estiver no myGV, nao voltamos a inseri-lo
+				if (e->getRoad()->isTwoWays()) {
+					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(),
+							EdgeType::UNDIRECTED);
 					myGV->setEdgeLabel(e->getID(), "");
 				} else {
-					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(), EdgeType::DIRECTED);
+					myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(),
+							EdgeType::DIRECTED);
 					myGV->setEdgeLabel(e->getID(), "");
 				}
 				e->setInGraphViewer();
 			}
 		}
 	}
-
 
 }
 
@@ -225,7 +228,8 @@ int Parking::convertLongitudeToX(double longitude) {
 }
 
 int Parking::convertLatitudeToY(double latitude) {
-	return IMAGE_Y-floor((latitude - MIN_LAT) * IMAGE_Y / (MAX_LAT - MIN_LAT))+3.5;
+	return IMAGE_Y - floor((latitude - MIN_LAT) * IMAGE_Y / (MAX_LAT - MIN_LAT))
+			+ 3.5;
 
 }
 
@@ -241,6 +245,18 @@ double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
 	return 2.0 * earthRadiusKm
 			* asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
+
+}
+
+void Parking::toogleStreetNodes(string street) {
+	vector<long> streetNodes;
+
+	streetNodes = myGraph.searchStreetNodes(street);
+
+	for (int i = 0; i < streetNodes.size(); i++)
+	myGV->setVertexColor(streetNodes.at(i),"yellow");
+
+	myGV->rearrange();
 
 }
 
