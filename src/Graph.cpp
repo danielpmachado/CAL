@@ -238,7 +238,7 @@ void Graph::dijkstraShortestPath(Vertex * v) {
 	}
 }
 
-vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest, long &totalDist){
+vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest){
 
 	list<Vertex *> buffer;
 	Vertex * v = dest;
@@ -255,9 +255,6 @@ vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest, long &totalDist)
 	vector<Vertex *> res;
 	while( !buffer.empty() ) {
 		res.push_back( buffer.front() );
-		if(res.size() != 1) {
-			totalDist += res[0]->getEdgeToVertex(res[1])->getWeight();
-		}
 		buffer.pop_front();
 	}
 	return res;
