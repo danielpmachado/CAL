@@ -57,7 +57,7 @@ public:
 	void setLatitude(long lat);
 	void setID(long id);
 	bool isAccessible();
-	long getDist();
+	long getDist() const;
 	int getIndegree() const;
 	bool isInQueue() const {return inQueue;}
 	Edge * getEdgeToVertex(Vertex * dets);
@@ -117,6 +117,20 @@ public:
 	void searchStreetNodes(Vertex * v, string street, vector<long>& streetVertex)const;
 };
 
+struct vertex_greater_than {
+    bool operator()(Vertex * a, Vertex * b) const {
+        return a->getDist() > b->getDist();
+    }
+};
 
+class ptrVertex {
+private:
+	Vertex * v;
+public:
+	ptrVertex(Vertex * v);
+	Vertex * getNode() const;
+	void setNode(Vertex * v);
+	bool operator<(ptrVertex v2) const;
+};
 
 #endif /* SRC_GRAPH_H_ */

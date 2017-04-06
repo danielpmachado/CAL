@@ -34,7 +34,7 @@ double Vertex::getLatitude() const {
 
 
 
-long Vertex::getDist() {
+long Vertex::getDist() const {
 	return this->dist;
 }
 
@@ -215,12 +215,13 @@ void Graph::dijkstraShortestPath(Vertex * v) {
 	}
 
 	v->dist = 0;
-	priority_queue< Vertex* > q;
-	q.push(v);
+	ptrVertex node = ptrVertex(v);
+	priority_queue< ptrVertex > q;
+	q.push(node);
 	v->inQueue = true;
 
 	while( !q.empty() ) {
-		Vertex * processingVertex = q.top(); q.pop();
+		Vertex * processingVertex = q.top().getNode(); q.pop();
 		processingVertex->inQueue = false;
 		for(unsigned int i = 0; i < processingVertex->adj.size(); i++) {
 			Vertex* w = processingVertex->adj[i]->dest;
@@ -228,7 +229,8 @@ void Graph::dijkstraShortestPath(Vertex * v) {
 				w->dist = (processingVertex->dist+ processingVertex->adj[i]->weight);
 				w->path = processingVertex;
 				if(!(w->inQueue)) {
-					q.push(w);
+					ptrVertex ptrW = ptrVertex(w);
+					q.push(ptrW);
 					w->inQueue = true;
 				}
 			}
@@ -302,3 +304,15 @@ void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVert
 
 }
 
+ptrVertex::ptrVertex(Vertex * v) {
+	this->v = v;
+}
+Vertex * ptrVertex::getNode() const {
+	return v;
+}
+void ptrVertex::setNode(Vertex * v) {
+	this->v = v;
+}
+bool ptrVertex::operator<(ptrVertex v2) const {
+	return v->getDist() < v2.getNode()->getDist();
+}
