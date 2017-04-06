@@ -15,8 +15,8 @@ Parking::Parking() {
 	readParks();
 	readDestinations();
 	myGV->rearrange();
-	ParkType * p = getClosestPark(myGraph.getVertex(231598396), myGraph.getVertex(42481892));
-	cout << p->getNode()->getID();
+	ParkType * p = getClosestPark(myGraph.getVertex(42481892), myGraph.getVertex(42481889));
+	if(p == NULL){cout << "distancia atingida\n";}else cout << "\nresultado final: "<< p->getNode()->getID();
 }
 
 Parking::~Parking() {
@@ -272,6 +272,7 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest) {
 			myGraph.dijkstraShortestPath(p->getNode());
 			long distAux = 0;
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest, distAux);
+			cout << "\n\n>>>id : " << p->getNode()->getID() << " ; dist : " << distAux << " <<<\n";
 			if (distAux < dist && distAux != 0) {
 				shortPath = shortPathAux;
 				dist = distAux;
@@ -281,7 +282,35 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest) {
 	}
 	return park;
 }
-
+ParkType * Parking::getCheaperPark(Vertex * src, Vertex * dest, double distMax) {
+	long dist;
+	double price = 1000;
+	vector<Vertex *> shortPath;
+	ParkType * park = NULL;
+	for(ParkType * p : parkTypeSet) {
+		myGraph.dfs(src);
+		if(p->getNode()->isAccessible()) {
+			cout << "\nparque de id " << p->getNode()->getID() << " e acessivel!";
+			myGraph.dijkstraShortestPath(p->getNode());
+			long distAux = 0;
+			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest, distAux);
+			cout << "\n\ndistAux = " << distAux << endl;
+			cout << "distMax = " << distMax << endl << endl;
+			if(distAux <= distMax) {
+				cout << "\nparque nao ultrapassa a distancia maxima";
+				if (p->getPrice() < price) {
+					cout << "\neste parque e mais barato!!!";
+					price = p->getPrice();
+					shortPath = shortPathAux;
+					dist = distAux;
+					park = p;
+					cout << "\n\n >>>VALORES ATUAIS<<<\n\n->dist: " << dist << "\n->price: " << price << "\n->park id: " << park->getNode()->getID();
+				}
+			}
+		}
+	}
+	return park;
+}
 int Parking::convertLongitudeToX(double longitude) {
 	return floor((longitude - MIN_LNG) * IMAGE_X / (MAX_LNG - MIN_LNG));
 }

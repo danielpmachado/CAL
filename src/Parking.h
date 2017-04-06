@@ -51,6 +51,7 @@ public:
 
 	void createGraphViewer();
 	ParkType * getClosestPark(Vertex* src, Vertex * dest);
+	ParkType * getCheaperPark(Vertex * src, Vertex * dest, double distMax);
 	int convertLongitudeToX(double longitude);
 	int convertLatitudeToY(double latitude);
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
