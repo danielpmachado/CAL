@@ -50,7 +50,7 @@ public:
   void readDestinations();
 
 	void createGraphViewer();
-	ParkType * getClosestPark(Vertex * dest);
+	ParkType * getClosestPark(Vertex* src, Vertex * dest);
 	int convertLongitudeToX(double longitude);
 	int convertLatitudeToY(double latitude);
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
