@@ -27,6 +27,7 @@ const int NOT_VISITED = 0;
 const int BEING_VISITED = 1;
 const int DONE_VISITED = 2;
 const int INT_INFINITY = INT_MAX;
+const long LONG_INFINITY = LONG_MAX;
 
 
 /*
@@ -46,7 +47,7 @@ public:
 	Vertex(long id, double lon, double lat);
 	friend class Graph;
 
-	void addEdge(Vertex *dest, Road * road, double w);
+	void addEdge(Vertex *dest, Road * road, double w, bool real);
 	bool removeEdgeTo(Vertex *d);
 	vector<Edge *> getAdj() const;
 	long getID() const;
@@ -59,6 +60,7 @@ public:
 	long getDist() const;
 	int getIndegree() const;
 	bool isInQueue() const {return inQueue;}
+	Edge * getEdgeToVertex(Vertex * dets);
 	Vertex* path;//vertice antecedente
 };
 
@@ -73,8 +75,9 @@ private:
 	double weight;
 	Road * road;
 	bool inGraphViewer; //true se ja foi inserido no GraphViewer
+	bool real; //true se estiver no vetor adj de um vertice e fosse mesmo suposto estar lá. se estiver a false e uma aresta virtual pois a aresta e unidirecional, mas uma pessoa pode andar na rua no sentido que quiser
 public:
-	Edge(Vertex *d, Road * road, double w);
+	Edge(Vertex *d, Road * road, double w, bool real);
 	Road * getRoad () const;
 	Vertex * getDest() const;
 	double getWeight();
@@ -95,7 +98,7 @@ private:
 public:
 	Graph() {}
 	bool addVertex(Vertex * v);
-	bool addEdge(int sourcID, int destID, double w, Road * road);
+	bool addEdge(int sourcID, int destID, double w, Road * road, bool real);
 	bool removeVertex(Vertex * v);
 	bool removeEdge(Vertex * sourc, Vertex * dest);
 	vector<Vertex * > getVertexSet() const;
@@ -107,8 +110,10 @@ public:
 	Vertex * getVertex(long id) const;
 	void resetIndegrees();
 	vector<Vertex*> getSources() const;//retorna vetor com possiveis vertices origem usados como ponto de começo em algoritmos de ordenacao, ou seja, vertices com indegree 0
-	vector<Vertex*> getPath(Vertex* origin, Vertex* dest);
+	vector<Vertex*> getPath(Vertex* origin, Vertex* dest, long &totalDist);
 	void dijkstraShortestPath(Vertex * v);
+	vector<long> searchStreetNodes(string street);
+	void searchStreetNodes(Vertex * v, string street, vector<long>& streetVertex)const;
 };
 
 

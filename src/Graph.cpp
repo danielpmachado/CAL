@@ -8,13 +8,13 @@
 /*
  * CLASS VERTEX
  */
-Vertex::Vertex(long id, double lon, double lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
+Vertex::Vertex(long id, double lon, double lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(LONG_MAX), inQueue(false) {
 	this->id = id;
 	path = NULL;
 }
 
-void Vertex::addEdge(Vertex *dest, Road * road, double w) {
-	Edge *edgeD = new Edge(dest, road, w);
+void Vertex::addEdge(Vertex *dest, Road * road, double w, bool real) {
+	Edge *edgeD = new Edge(dest, road, w, real);
 	adj.push_back(edgeD);
 }
 vector<Edge *> Vertex::getAdj() const {
@@ -69,14 +69,24 @@ bool Vertex::removeEdgeTo(Vertex *d) {
 	return false;
 }
 
+Edge * Vertex::getEdgeToVertex(Vertex * dest) {
+	for(Edge * e : adj) {
+		if(e->getDest() == dest) {
+			return e;
+		}
+	}
+	return NULL;
+}
+
 /*
  * CLASS EDGE
  */
 int Edge::edgesID = 0;
-Edge::Edge(Vertex *d, Road * road, double w): dest(d), weight(w){
+Edge::Edge(Vertex *d, Road * road, double w, bool real): dest(d), weight(w){
 	edgesID++;
 	this->id = edgesID;
 	this->road = road;
+	this->real = real;
 	inGraphViewer = false;
 }
 Road * Edge::getRoad () const {
@@ -117,7 +127,7 @@ bool Graph::addVertex(Vertex * v) {
 	return true;
 }
 
-bool Graph::addEdge(int sourcID, int destID, double w, Road * road) {
+bool Graph::addEdge(int sourcID, int destID, double w, Road * road, bool real) {
 	typename vector<Vertex*>::iterator it= vertexSet.begin();
 	typename vector<Vertex*>::iterator ite= vertexSet.end();
 	int found=0;
@@ -131,7 +141,7 @@ bool Graph::addEdge(int sourcID, int destID, double w, Road * road) {
 	}
 	if (found!=2) return false;
 	vD->indegree++;
-	vS->addEdge(vD, road, w);
+	vS->addEdge(vD, road, w, real);
 
 	return true;
 }
@@ -211,7 +221,7 @@ vector<Vertex*> Graph::getSources() const {
 void Graph::dijkstraShortestPath(Vertex * v) {
 	for(unsigned int i = 0; i < vertexSet.size(); i++) {
 		vertexSet[i]->path = NULL;
-		vertexSet[i]->dist = INT_INFINITY;
+		vertexSet[i]->dist = LONG_MAX;
 	}
 
 	v->dist = 0;
@@ -225,7 +235,7 @@ void Graph::dijkstraShortestPath(Vertex * v) {
 		for(unsigned int i = 0; i < processingVertex->adj.size(); i++) {
 			Vertex* w = processingVertex->adj[i]->dest;
 			if( w->dist > (processingVertex->dist+ processingVertex->adj[i]->weight) ) {
-				w->dist = (v->dist+ v->adj[i]->weight);
+				w->dist = (processingVertex->dist+ processingVertex->adj[i]->weight);
 				w->path = processingVertex;
 				if(!(w->inQueue)) {
 					q.push(w);
@@ -236,20 +246,23 @@ void Graph::dijkstraShortestPath(Vertex * v) {
 	}
 }
 
-vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest){
+vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest, long &totalDist){
 
 	list<Vertex *> buffer;
 	Vertex * v = dest;
 	//cout << v->info << " ";
-	buffer.push_front(dest);
-	while ( v->path != NULL &&  v->path != origin) {
+	while ( v->path != NULL) {
+		totalDist += ((v->path)->getEdgeToVertex(v))->getWeight();
+		cout << "\n>>>totalDist = " << totalDist << "<<\n";
+		buffer.push_front(v);
 		v = v->path;
+	}
+	if( v->path == NULL ) {
+		if(totalDist == 0) {//o vertice origem nao chega ate ao dest
+			totalDist = LONG_MAX;
+		}
 		buffer.push_front(v);
 	}
-	if( v->path != NULL )
-		buffer.push_front(v->path);
-	else
-		buffer.push_front(v);
 
 
 	vector<Vertex *> res;
@@ -258,5 +271,43 @@ vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest){
 		buffer.pop_front();
 	}
 	return res;
+}
+
+
+vector<long> Graph::searchStreetNodes(string street) {
+    vector<long> streetVertex;
+    typename vector<Vertex*>::const_iterator it;
+    bool found = false;
+
+    for (it = vertexSet.begin(); it != vertexSet.end(); it++) {
+        (*it)->visited = false;
+    }
+
+    for (it = vertexSet.begin(); it != vertexSet.end(); it++) {
+        if (!(*it)->visited)
+            searchStreetNodes(*it, street, streetVertex);
+    }
+
+    return streetVertex;
+}
+
+void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVertex) const {
+    v->visited = true;
+
+
+    for (Edge * e : v->getAdj()) {
+
+        if(e->road->getName() == street && !e->dest->visited){
+
+            streetVertex.push_back(v->getID());
+            streetVertex.push_back(e->dest->getID());
+        }
+
+        if (!e->dest->visited)
+            searchStreetNodes(e->dest,street, streetVertex);
+
+
+    }
+
 }
 

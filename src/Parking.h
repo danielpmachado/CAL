@@ -14,11 +14,14 @@
 #include <sstream>
 #include <map>
 #include <cmath>
+#include <algorithm>
 
 #include "graphviewer.h"
 #include "Graph.h"
 #include "Road.h";
 #include "utils.h"
+#include "ParkType.h"
+#include "DestPlace.h"
 
 
 using namespace std;
@@ -27,34 +30,35 @@ class Parking {
 private:
 	Graph myGraph = Graph();
 	map<long, Road*> roads;
-	GraphViewer *myGV= new GraphViewer(1217, 825, false);
+	GraphViewer *myGV= new GraphViewer(5000, 3496, false);
+	vector<ParkType*>parkTypeSet;
+	vector<DestPlace *>destPlacesSet;
 
-	/*double maxLat = -10000;
-	double minLat= 100000;
-	double maxLng= -10000;
-	double minLng= 10000;*/
-	double maxLat = 40.69559;
-	double minLat= 40.69026;
-	double maxLng= -73.98061;
-	double minLng= -73.99066;
 
 public:
 	Parking();
 	virtual ~Parking();
+
+	map<long, Road*> getRoads();
+	GraphViewer * getGraphViewer();
+	Graph getGraph();
+
 	void readRoadsFile();
 	void readConnectionsFile();
 	void readNodesFile();
+	void readParks();
+  void readDestinations();
+
 	void createGraphViewer();
-
-
+	ParkType * getClosestPark(Vertex * dest);
 	int convertLongitudeToX(double longitude);
 	int convertLatitudeToY(double latitude);
-	void updateCoordinates();
+	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
+	void toogleStreetNodes(string street);
 };
 
 
 // auxiliary functions
 
-double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 
 #endif /* SRC_PARKING_H_ */

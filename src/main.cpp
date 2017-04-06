@@ -6,14 +6,20 @@
  */
 
 
-#include <iostream>
+
 
 #include "Parking.h"
+#include "UserInterface.h"
+#include <iostream>
 
-using namespace std;
+
 
 int main(){
+
 	Parking p;
+	UserInterface ui(&p);
+
+	ui.start();
 
 	getchar();
 	return 0;
