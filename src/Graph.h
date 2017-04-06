@@ -49,15 +49,15 @@ public:
 
 	void addEdge(Vertex *dest, Road * road, double w, bool real);
 	bool removeEdgeTo(Vertex *d);
-	vector<Edge *> getAdj() const;
+	vector<Edge *> getAdj();
 	long getID() const;
 	double getLongitude() const;
 	double getLatitude() const;
 	void setLongitude(long lon);
 	void setLatitude(long lat);
 	void setID(long id);
-
-	long getDist() const;
+	bool isAccessible();
+	long getDist();
 	int getIndegree() const;
 	bool isInQueue() const {return inQueue;}
 	Edge * getEdgeToVertex(Vertex * dets);
@@ -79,11 +79,12 @@ private:
 public:
 	Edge(Vertex *d, Road * road, double w, bool real);
 	Road * getRoad () const;
-	Vertex * getDest() const;
+	Vertex * getDest();
 	double getWeight();
 	int getID();
 	bool isInGraphViewer();
 	void setInGraphViewer();
+	bool isReal();
 	friend class Graph;
 	friend class Vertex;
 };
@@ -101,15 +102,15 @@ public:
 	bool addEdge(int sourcID, int destID, double w, Road * road, bool real);
 	bool removeVertex(Vertex * v);
 	bool removeEdge(Vertex * sourc, Vertex * dest);
-	vector<Vertex * > getVertexSet() const;
+	vector<Vertex * > getVertexSet();
 	int getNumVertex() const;
 
-	vector<Vertex*> dfs(/*GraphViewer *myGV*/) const; //algoritmo que percorre grafo em profundidade; retorna um vetor so com os vertices que sao alcançaveis
-	void dfs(Vertex *v,vector<Vertex*> &res/*, double count, GraphViewer *myGV*/) const;//auxiliar de dfs() que altera o atributo "visited" dos vertices quando estes sao atingidos
+	void dfs(Vertex * origin); //algoritmo que percorre grafo em profundidade; retorna um vetor so com os vertices que sao alcançaveis
+	void dfsAux(Vertex *v);//auxiliar de dfs() que altera o atributo "visited" dos vertices quando estes sao atingidos
 	Vertex* getVertex(long lon, long lat) const;
-	Vertex * getVertex(long id) const;
+	Vertex * getVertex(long id);
 	void resetIndegrees();
-	vector<Vertex*> getSources() const;//retorna vetor com possiveis vertices origem usados como ponto de começo em algoritmos de ordenacao, ou seja, vertices com indegree 0
+	vector<Vertex*> getSources();//retorna vetor com possiveis vertices origem usados como ponto de começo em algoritmos de ordenacao, ou seja, vertices com indegree 0
 	vector<Vertex*> getPath(Vertex* origin, Vertex* dest, long &totalDist);
 	void dijkstraShortestPath(Vertex * v);
 	vector<long> searchStreetNodes(string street);
