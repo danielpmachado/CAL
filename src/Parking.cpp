@@ -15,8 +15,10 @@ Parking::Parking() {
 	readParks();
 	readDestinations();
 	myGV->rearrange();
-	ParkType * p = getClosestPark(myGraph.getVertex(42481892), myGraph.getVertex(42481889));
+	ParkType * p = getClosestPark(myGraph.getVertex(42481892), myGraph.getVertex(42494924));
 	if(p == NULL){cout << "distancia atingida\n";}else cout << "\nresultado final: "<< p->getNode()->getID();
+	//myGraph.dijkstraShortestPath(myGraph.getVertex(42464822));
+	//cout << "\ndist do destino : " << myGraph.getVertex(42481889)->getDist();
 }
 
 Parking::~Parking() {
@@ -270,12 +272,12 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest) {
 		myGraph.dfs(src);
 		if(p->getNode()->isAccessible()) {
 			myGraph.dijkstraShortestPath(p->getNode());
-			long distAux = 0;
-			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest, distAux);
-			cout << "\n\n>>>id : " << p->getNode()->getID() << " ; dist : " << distAux << " <<<\n";
-			if (distAux < dist && distAux != 0) {
+			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
+			cout << "\n\n>>>id : " << p->getNode()->getID() << " ; dist : " << dest->getDist() << " <<<\n";
+			cout << "DIST DEVE SER : " << dest->getDist() << endl << endl;
+			if (dest->getDist() < dist && dest->getDist() != 0) {
 				shortPath = shortPathAux;
-				dist = distAux;
+				dist = dest->getDist();
 				park = p;
 			}
 		}
@@ -292,17 +294,16 @@ ParkType * Parking::getCheaperPark(Vertex * src, Vertex * dest, double distMax) 
 		if(p->getNode()->isAccessible()) {
 			cout << "\nparque de id " << p->getNode()->getID() << " e acessivel!";
 			myGraph.dijkstraShortestPath(p->getNode());
-			long distAux = 0;
-			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest, distAux);
-			cout << "\n\ndistAux = " << distAux << endl;
+			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
+			cout << "\n\ndistAux = " << dest->getDist() << endl;
 			cout << "distMax = " << distMax << endl << endl;
-			if(distAux <= distMax) {
+			if(dest->getDist() <= distMax) {
 				cout << "\nparque nao ultrapassa a distancia maxima";
 				if (p->getPrice() < price) {
 					cout << "\neste parque e mais barato!!!";
 					price = p->getPrice();
 					shortPath = shortPathAux;
-					dist = distAux;
+					dist = dest->getDist();
 					park = p;
 					cout << "\n\n >>>VALORES ATUAIS<<<\n\n->dist: " << dist << "\n->price: " << price << "\n->park id: " << park->getNode()->getID();
 				}
