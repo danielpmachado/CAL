@@ -21,7 +21,7 @@ class UserInterface {
 public:
 	UserInterface(Parking * p);
 	virtual ~UserInterface();
-	void start();
+	void start()const;
 };
 
 #endif /* SRC_USERINTERFACE_H_ */
