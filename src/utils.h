@@ -27,7 +27,11 @@
 
 typedef unsigned long long int ull_int;
 
+int convertLongitudeToX(double longitude);
+int convertLatitudeToY(double latitude);
 
+void clearScreen();
+void pauseScreen();
 
 
 

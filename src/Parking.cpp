@@ -379,15 +379,8 @@ void Parking::planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist
 		cout << "Garage\n";
 	cout << "Price: " << p->getPrice() << " euros/h\n";
 }
-int Parking::convertLongitudeToX(double longitude) {
-	return floor((longitude - MIN_LNG) * IMAGE_X / (MAX_LNG - MIN_LNG));
-}
 
-int Parking::convertLatitudeToY(double latitude) {
-	return IMAGE_Y - floor((latitude - MIN_LAT) * IMAGE_Y / (MAX_LAT - MIN_LAT))
-			+ 3.5;
 
-}
 
 double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
@@ -395,12 +388,8 @@ double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 	int lon1r = convertLongitudeToX(v1->getLongitude());
 	int lat2r = convertLatitudeToY(v2->getLatitude());
 	int lon2r = convertLongitudeToX(v2->getLongitude());
-	return SCALE*sqrt(pow(lon2r-lon1r,2)+pow(lat2r-lat1r,2));//retorna em metros
-	/*double u = sin((lat2r - lat1r) / 2);
-	double v = sin((lon2r - lon1r) / 2);
+	return SCALE*sqrt(pow(lon2r-lon1r,2)+pow(lat2r-lat1r,2));
 
-	return 2.0 * earthRadiusKm
-			* asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));*/
 
 }
 
@@ -416,6 +405,24 @@ void Parking::toogleStreetNodes(string street) {
 	}
 
 	myGV->rearrange();
+
+}
+
+vector<string> Parking::getStreetNames(){
+
+	vector<string> streetNames;
+	map<long, Road*>::iterator it;
+
+	for(it = roads.begin(); it != roads.end(); it++){
+			if(it->second->getName()!= "")
+				streetNames.push_back(it->second->getName());
+		}
+
+		sort(streetNames.begin(), streetNames.end());
+		streetNames.erase(unique(streetNames.begin(), streetNames.end()), streetNames.end());
+
+
+		return streetNames;
 
 }
 
