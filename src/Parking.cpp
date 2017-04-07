@@ -8,7 +8,6 @@
 #include "Parking.h"
 
 Parking::Parking() {
-	colors.push("red");colors.push("pink");colors.push("white");colors.push("orange");colors.push("yellow");colors.push("cyan");colors.push("gray");colors.push("magenta");
 	readNodesFile();
 	readRoadsFile();
 	readConnectionsFile();
@@ -16,10 +15,9 @@ Parking::Parking() {
 	readParks();
 	readDestinations();
 	myGV->rearrange();
-	ParkType * p = getClosestPark(myGraph.getVertex(42494919), myGraph.getVertex(42464824));
+	ParkType * p = getCheaperPark(myGraph.getVertex(42494919), myGraph.getVertex(42464824), 200);
 	if(p == NULL){cout << "distancia atingida\n";}else cout << "\nresultado final: "<< p->getNode()->getID();
-	//myGraph.dijkstraShortestPath(myGraph.getVertex(42464822));
-	//cout << "\ndist do destino : " << myGraph.getVertex(42481889)->getDist();
+
 }
 
 Parking::~Parking() {
@@ -277,15 +275,15 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest) {
 		if(p->getNode()->isAccessible()) {
 			myGraph.dijkstraShortestPath(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
-			cout << "\n\n>>>id : " << p->getNode()->getID() << " ; dist : " << dest->getDist() << " <<<\n";
 			if (dest->getDist() < dist && dest->getDist() != 0) {
 				shortPath = shortPathAux;
 				dist = dest->getDist();
 				park = p;
 			}
-			drawPath(shortPathAux);
+			drawPath(shortPathAux, "pink");
 		}
 	}
+	drawPath(shortPath, "red");
 	return park;
 }
 ParkType * Parking::getCheaperPark(Vertex * src, Vertex * dest, double distMax) {
@@ -296,30 +294,24 @@ ParkType * Parking::getCheaperPark(Vertex * src, Vertex * dest, double distMax) 
 	for(ParkType * p : parkTypeSet) {
 		myGraph.dfs(src);
 		if(p->getNode()->isAccessible()) {
-			cout << "\nparque de id " << p->getNode()->getID() << " e acessivel!";
 			myGraph.dijkstraShortestPath(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
-			cout << "\n\ndistAux = " << dest->getDist() << endl;
-			cout << "distMax = " << distMax << endl << endl;
+			drawPath(shortPathAux, "pink");
 			if(dest->getDist() <= distMax) {
-				cout << "\nparque nao ultrapassa a distancia maxima";
 				if (p->getPrice() < price) {
-					cout << "\neste parque e mais barato!!!";
 					price = p->getPrice();
 					shortPath = shortPathAux;
 					dist = dest->getDist();
 					park = p;
-					cout << "\n\n >>>VALORES ATUAIS<<<\n\n->dist: " << dist << "\n->price: " << price << "\n->park id: " << park->getNode()->getID();
 				}
 			}
 		}
 	}
+	drawPath(shortPath, "red");
 	return park;
 }
 
-void Parking::drawPath(vector<Vertex*> path) {
-	string color = colors.front();
-	colors.pop(); colors.push(color);
+void Parking::drawPath(vector<Vertex*> path, string color) {
 	Vertex * aux = NULL;
 	for (Vertex * node : path) {
 		myGV->setVertexColor(node->getID(),color);
@@ -346,7 +338,7 @@ double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 	int lon1r = convertLongitudeToX(v1->getLongitude());
 	int lat2r = convertLatitudeToY(v2->getLatitude());
 	int lon2r = convertLongitudeToX(v2->getLongitude());
-	return 41.666*0.026458*sqrt(pow(lon2r-lon1r,2)+pow(lat2r-lat1r,2));//retorna em metros
+	return SCALE*sqrt(pow(lon2r-lon1r,2)+pow(lat2r-lat1r,2));//retorna em metros
 	/*double u = sin((lat2r - lat1r) / 2);
 	double v = sin((lon2r - lon1r) / 2);
 
