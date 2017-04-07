@@ -16,7 +16,7 @@ Parking::Parking() {
 	readDestinations();
 	readGasPumps();
 	myGV->rearrange();
-
+	planGasPumpShortPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824));
 
 }
 
@@ -290,8 +290,7 @@ void Parking::createGraphViewer() {
 	}
 }
 
-ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest,
-		double &finalDist) {
+ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest, double &finalDist) {
 	long dist = LONG_MAX;
 	vector<Vertex *> shortPath;
 	ParkType * park = NULL;
@@ -314,8 +313,7 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest,
 	finalDist = dist;
 	return park;
 }
-ParkType * Parking::getCheapestPark(Vertex * src, Vertex * dest, double distMax,
-		double &finalDist) {
+ParkType * Parking::getCheapestPark(Vertex * src, Vertex * dest, double distMax, double &finalDist) {
 	long dist;
 	double price = 1000;
 	vector<Vertex *> shortPath;
@@ -363,12 +361,12 @@ ParkType * Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
 	}
 
 	myGraph.dijkstraShortestPathByCar(src);
-	/*vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
-	drawPath(pathToPark, "red");*/
+	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
+	drawPath(pathToPark, "red");
 
 	dist += p->getNode()->getDist();
 
-	dest->setDist(dist);
+	//dest->setDist(dist);
 
 	return p;
 
@@ -384,17 +382,17 @@ ParkType * Parking::planDirectCheapestPath(Vertex * src, Vertex * dest,
 	}
 
 	myGraph.dijkstraShortestPathByCar(src);
+	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
+	drawPath(pathToPark, "red");
 
- 
-    dist += p->getNode()->getDist();
+	dist += p->getNode()->getDist();
 
-	dest->setDist(dist);
+	//dest->setDist(dist);
 	return p;
 }
 
 
-long Parking::calculateGasPumpShortPath(Vertex * src, Vertex * dest,
-		GasPump * &finalGasPump, ParkType * &finalParkType) {
+long Parking::calculateGasPumpShortPath(Vertex * src, Vertex * dest, GasPump * &finalGasPump, ParkType * &finalParkType) {
 	myGraph.dfs(src);
 	vector<GasPump *> accessibleGasPumps; //vetor com as bombas de gasolina acessiveis a partir da localizacao do utilizador
 	for (GasPump * gp : gasPumpSet) {
