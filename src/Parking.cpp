@@ -16,7 +16,7 @@ Parking::Parking() {
 	readDestinations();
 	readGasPumps();
 	myGV->rearrange();
-
+	//planGasPumpShortPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824));
 	}
 
 Parking::~Parking() {
@@ -356,8 +356,8 @@ ParkType * Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
 	}
 
 	myGraph.dijkstraShortestPathByCar(src);
-	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
-	drawPath(pathToPark, "red");
+	/*vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
+	drawPath(pathToPark, "red");*/
 
 	dist += p->getNode()->getDist();
 
@@ -378,10 +378,11 @@ ParkType * Parking::planDirectCheapestPath(Vertex * src, Vertex * dest, double m
 
 	myGraph.dijkstraShortestPathByCar(src);
  
-  dist += p->getNode()->getDist();
+    dist += p->getNode()->getDist();
 
 	dest->setDist(dist);
-	
+	return p;
+}
 
 ParkType * Parking::getParkType(Vertex * v) {
 	for(ParkType * p : parkTypeSet) {
@@ -473,17 +474,6 @@ void Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
 		cout << "Garage\n";
 	cout << "Price: " << park->getPrice() << " euros/h\n";
 }
-int Parking::convertLongitudeToX(double longitude) {
-	return floor((longitude - MIN_LNG) * IMAGE_X / (MAX_LNG - MIN_LNG));
-}
-int Parking::convertLatitudeToY(double latitude) {
-	return IMAGE_Y - floor((latitude - MIN_LAT) * IMAGE_Y / (MAX_LAT - MIN_LAT))
-			+ 3.5;
-
-
-	return p;
-}
-
 
 
 double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
