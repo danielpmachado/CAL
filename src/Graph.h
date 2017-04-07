@@ -40,7 +40,7 @@ class Vertex {
 	bool visited;
 	bool processing;
 	int indegree;
-	long dist;
+	long dist; //em centimetros
 	bool inQueue;
 public:
 

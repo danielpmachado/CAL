@@ -223,8 +223,27 @@ void Graph::dijkstraShortestPath(Vertex * v) {
 	while( !q.empty() ) {
 		Vertex * processingVertex = q.top().getNode(); q.pop();
 		processingVertex->inQueue = false;
+		if(v->getID() == 42464822) {
+			if(processingVertex->getID() == 42464822) {
+				cout << "\n>>1 - 42464822 (numero de arestas = " << processingVertex->getAdj().size() << " )\n";
+			}
+			if(processingVertex->getID() == 42464823) {
+				cout << "\n>>2 - 42464823\n";
+			}
+			if(processingVertex->getID() == 278630368) {
+				cout << "\n>>3 - 278630368\n";
+			}
+			if(processingVertex->getID() == 42464824) {
+				cout << "\n>>4 - 42464824 DESTINO\n";
+			}}
 		for(unsigned int i = 0; i < processingVertex->adj.size(); i++) {
 			Vertex* w = processingVertex->adj[i]->dest;
+			if(v->getID() == 42464822 && processingVertex->getID() == 42464822) {
+				cout << "i = " << i << endl;
+				cout << "w id: " <<  w->getID() << endl;
+				cout << "w dist: " <<  w->getDist() << endl;
+				cout << "peso atual possivel a substituir: " << processingVertex->dist+ processingVertex->adj[i]->weight << endl;
+			}
 			if( w->dist > (processingVertex->dist+ processingVertex->adj[i]->weight) ) {
 				w->dist = (processingVertex->dist+ processingVertex->adj[i]->weight);
 				w->path = processingVertex;

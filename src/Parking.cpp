@@ -8,6 +8,7 @@
 #include "Parking.h"
 
 Parking::Parking() {
+	colors.push("red");colors.push("pink");colors.push("white");colors.push("orange");colors.push("yellow");colors.push("cyan");colors.push("gray");colors.push("magenta");
 	readNodesFile();
 	readRoadsFile();
 	readConnectionsFile();
@@ -15,7 +16,7 @@ Parking::Parking() {
 	readParks();
 	readDestinations();
 	myGV->rearrange();
-	ParkType * p = getClosestPark(myGraph.getVertex(42481892), myGraph.getVertex(42494924));
+	ParkType * p = getClosestPark(myGraph.getVertex(42494919), myGraph.getVertex(42464824));
 	if(p == NULL){cout << "distancia atingida\n";}else cout << "\nresultado final: "<< p->getNode()->getID();
 	//myGraph.dijkstraShortestPath(myGraph.getVertex(42464822));
 	//cout << "\ndist do destino : " << myGraph.getVertex(42481889)->getDist();
@@ -259,6 +260,9 @@ void Parking::createGraphViewer() {
 					}
 					e->setInGraphViewer();
 				}
+			} else {
+				myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(),EdgeType::UNDIRECTED);
+				myGV->setEdgeLabel(e->getID(), "");
 			}
 		}
 	}
@@ -274,12 +278,12 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest) {
 			myGraph.dijkstraShortestPath(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
 			cout << "\n\n>>>id : " << p->getNode()->getID() << " ; dist : " << dest->getDist() << " <<<\n";
-			cout << "DIST DEVE SER : " << dest->getDist() << endl << endl;
 			if (dest->getDist() < dist && dest->getDist() != 0) {
 				shortPath = shortPathAux;
 				dist = dest->getDist();
 				park = p;
 			}
+			drawPath(shortPathAux);
 		}
 	}
 	return park;
@@ -312,6 +316,20 @@ ParkType * Parking::getCheaperPark(Vertex * src, Vertex * dest, double distMax) 
 	}
 	return park;
 }
+
+void Parking::drawPath(vector<Vertex*> path) {
+	string color = colors.front();
+	colors.pop(); colors.push(color);
+	Vertex * aux = NULL;
+	for (Vertex * node : path) {
+		myGV->setVertexColor(node->getID(),color);
+		if(aux != NULL) {
+			myGV->setEdgeThickness(aux->getEdgeToVertex(node)->getID(), 20);
+			myGV->setEdgeColor(aux->getEdgeToVertex(node)->getID(), color);
+		}
+		aux = node;
+	}
+}
 int Parking::convertLongitudeToX(double longitude) {
 	return floor((longitude - MIN_LNG) * IMAGE_X / (MAX_LNG - MIN_LNG));
 }
@@ -328,12 +346,12 @@ double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 	int lon1r = convertLongitudeToX(v1->getLongitude());
 	int lat2r = convertLatitudeToY(v2->getLatitude());
 	int lon2r = convertLongitudeToX(v2->getLongitude());
-	//	return sqrt(pow(lon2r-lon1r,2)+pow(lat2r-lat1r,2));
-	double u = sin((lat2r - lat1r) / 2);
+	return 41.666*0.026458*sqrt(pow(lon2r-lon1r,2)+pow(lat2r-lat1r,2));//retorna em metros
+	/*double u = sin((lat2r - lat1r) / 2);
 	double v = sin((lon2r - lon1r) / 2);
 
 	return 2.0 * earthRadiusKm
-			* asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
+			* asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));*/
 
 }
 
