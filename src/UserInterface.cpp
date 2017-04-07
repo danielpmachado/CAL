@@ -154,39 +154,26 @@ void writeStreetName(int i, vector<string> streetNames){
 }
 
 
-void chooseStreetName(vector<string> streetNames){
+string chooseStreetName(vector<string> streetNames){
 
-    int menu_item = 0, x =7;
+    int menu_item = 0, x = 7;
     bool running = true;
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    //cout << setw(20) <<  " " ;
+
     SetConsoleTextAttribute(console, 240);
     gotoXY(25, 7); writeStreetName(0,streetNames);
 
     SetConsoleTextAttribute(console, 15);
-
     for(int i = 1; i < streetNames.size(); i++){
-
         gotoXY(25, i+7);  writeStreetName(i,streetNames);
-    }
-
-    //system("pause>nul");
-
-    if(GetAsyncKeyState(VK_RETURN)){
-        // verificar funcionalidade
     }
 
     while(running){
 
-        //system("pause>nul");
-        /// start develop
+        system("pause>nul");
 
-        //gotoXY(30, 15);
-
-        system("pause>nul"); // the >nul bit causes it the print no message
-
-        if (GetAsyncKeyState(VK_DOWN) && x < streetNames.size()+7) //down button pressed
+        if (GetAsyncKeyState(VK_DOWN) && x < streetNames.size()+6) //down button pressed
         {
             gotoXY(25, x);SetConsoleTextAttribute(console, 15);
             writeStreetName(x-7,streetNames);
@@ -215,45 +202,11 @@ void chooseStreetName(vector<string> streetNames){
             continue;
         }
 
-
         if (GetAsyncKeyState(VK_RETURN))  // Enter key pressed
         {
-
-            //gotoXY(43, 15); cout << "enter first time";
-
-            switch (menu_item) {
-            case 0:
-                gotoXY(43, 16);
-                cout << "Opcao 1";
-                break;
-            case 1:
-                gotoXY(43, 16);
-                cout << "Opcao 2";
-                break;
-            case 2:
-                gotoXY(43, 16);
-                cout << "Opcao 3";
-                break;
-            case 3:
-                gotoXY(43, 16);
-                cout << "Opcao 4";
-                break;
-            case 4:
-                gotoXY(43, 16);
-                cout << "Opcao 5";
-                break;
-            case 5:
-                gotoXY(43, 16);
-                cout << "Opcao 6";
-                break;
-            }
+        	return streetNames[x-7];
         }
     }
-    gotoXY(30, 21);
-
-
-
-
 }
 
 
@@ -273,23 +226,25 @@ void UserInterface::start(){
 
 
     vector<string> streetNames = p->getStreetNames();
-    string street;
 
-/*
-    for(string name : streetNames)
-        cout << TAB << "-> "<< name << endl;
-*/
-
-    chooseStreetName(streetNames);
+    string street  = chooseStreetName(streetNames);
 
 
     // Aqui escolher a rua certa
     // Vou assumir que é Adams Street
 
-    /*
+    p->toogleStreetNodes(street);
+    vector<long> streetNodes = p->getStreetNodes(street);
+
+    cout <<  TAB << "From the green nodes choose the closest to your position" << endl;
+
+
     pauseScreen();
     clearScreen();
 
+    cout << street;
+
+/*
     street = "Pearl Street";  //MUDAR
 
     p->toogleStreetNodes(street);
