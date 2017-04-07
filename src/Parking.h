@@ -49,9 +49,10 @@ public:
 	void readDestinations();
 
 	void createGraphViewer();
-	ParkType * getClosestPark(Vertex* src, Vertex * dest);
+	ParkType * getClosestPark(Vertex* src, Vertex * dest, double &finalDist);
 	ParkType * getCheaperPark(Vertex * src, Vertex * dest, double distMax);
 	void drawPath(vector<Vertex*> path, string color);
+	void planDirectShortPath(Vertex * src, Vertex * dest);
 	int convertLongitudeToX(double longitude);
 	int convertLatitudeToY(double latitude);
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;

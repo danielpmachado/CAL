@@ -15,10 +15,8 @@ Parking::Parking() {
 	readParks();
 	readDestinations();
 	myGV->rearrange();
-	ParkType * p = getCheaperPark(myGraph.getVertex(42494919), myGraph.getVertex(42464824), 200);
-	if(p == NULL){cout << "distancia atingida\n";}else cout << "\nresultado final: "<< p->getNode()->getID();
-
-}
+	planDirectShortPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824));
+	}
 
 Parking::~Parking() {
 	// TODO Auto-generated destructor stub
@@ -266,7 +264,7 @@ void Parking::createGraphViewer() {
 	}
 }
 
-ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest) {
+ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest, double &finalDist) {
 	long dist = LONG_MAX;
 	vector<Vertex *> shortPath;
 	ParkType * park = NULL;
@@ -284,6 +282,7 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest) {
 		}
 	}
 	drawPath(shortPath, "red");
+	finalDist = dist;
 	return park;
 }
 ParkType * Parking::getCheaperPark(Vertex * src, Vertex * dest, double distMax) {
@@ -321,6 +320,19 @@ void Parking::drawPath(vector<Vertex*> path, string color) {
 		}
 		aux = node;
 	}
+}
+void Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
+	double dist = 0;
+	ParkType * p = getClosestPark(src, dest, dist);
+	if(p == NULL) {
+		cout << "There is not a possible path. Try again.\n";
+		return;
+	}
+	myGraph.dijkstraShortestPath(src);
+	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
+	drawPath(pathToPark, "red");
+	dist += p->getNode()->getDist();
+	cout << "Total distance: " << dist << endl;
 }
 int Parking::convertLongitudeToX(double longitude) {
 	return floor((longitude - MIN_LNG) * IMAGE_X / (MAX_LNG - MIN_LNG));
