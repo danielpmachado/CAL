@@ -234,7 +234,7 @@ void UserInterface::start(){
     // Vou assumir que é Adams Street
 
     p->toogleStreetNodes(street);
-    vector<long> streetNodes = p->getStreetNodes(street);
+    vector<Vertex *> streetNodes = p->getStreetNodes(street);
 
     cout <<  TAB << "From the green nodes choose the closest to your position" << endl;
 
