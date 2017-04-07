@@ -112,7 +112,8 @@ public:
 	void resetIndegrees();
 	vector<Vertex*> getSources();//retorna vetor com possiveis vertices origem usados como ponto de começo em algoritmos de ordenacao, ou seja, vertices com indegree 0
 	vector<Vertex*> getPath(Vertex* origin, Vertex* dest);
-	void dijkstraShortestPath(Vertex * v);
+	void dijkstraShortestPathToDest(Vertex * v);
+	void dijkstraShortestPathToPark(Vertex * v);
 	vector<long> searchStreetNodes(string street);
 	void searchStreetNodes(Vertex * v, string street, vector<long>& streetVertex)const;
 };

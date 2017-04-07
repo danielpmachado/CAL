@@ -271,7 +271,7 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest, double &finalDist
 	for(ParkType * p : parkTypeSet) {
 		myGraph.dfs(src);
 		if(p->getNode()->isAccessible()) {
-			myGraph.dijkstraShortestPath(p->getNode());
+			myGraph.dijkstraShortestPathToDest(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
 			if (dest->getDist() < dist && dest->getDist() != 0) {
 				shortPath = shortPathAux;
@@ -293,7 +293,7 @@ ParkType * Parking::getCheaperPark(Vertex * src, Vertex * dest, double distMax) 
 	for(ParkType * p : parkTypeSet) {
 		myGraph.dfs(src);
 		if(p->getNode()->isAccessible()) {
-			myGraph.dijkstraShortestPath(p->getNode());
+			myGraph.dijkstraShortestPathToDest(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
 			drawPath(shortPathAux, "pink");
 			if(dest->getDist() <= distMax) {
@@ -328,7 +328,7 @@ void Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
 		cout << "There is not a possible path. Try again.\n";
 		return;
 	}
-	myGraph.dijkstraShortestPath(src);
+	myGraph.dijkstraShortestPathToPark(src);
 	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
 	drawPath(pathToPark, "red");
 	dist += p->getNode()->getDist();
