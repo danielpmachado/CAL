@@ -8,7 +8,7 @@
 /*
  * CLASS VERTEX
  */
-Vertex::Vertex(long id, double lon, double lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(LONG_MAX), inQueue(false) {
+Vertex::Vertex(long id, double lon, double lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
 	this->id = id;
 	path = NULL;
 }
@@ -17,7 +17,7 @@ void Vertex::addEdge(Vertex *dest, Road * road, double w, bool real) {
 	Edge *edgeD = new Edge(dest, road, w, real);
 	adj.push_back(edgeD);
 }
-vector<Edge *> Vertex::getAdj() const {
+vector<Edge *> Vertex::getAdj() {
 	return adj;
 }
 long Vertex::getID() const {
@@ -77,7 +77,9 @@ Edge * Vertex::getEdgeToVertex(Vertex * dest) {
 	}
 	return NULL;
 }
-
+bool Vertex::isAccessible() {
+	return visited;
+}
 /*
  * CLASS EDGE
  */
@@ -92,7 +94,7 @@ Edge::Edge(Vertex *d, Road * road, double w, bool real): dest(d), weight(w){
 Road * Edge::getRoad () const {
 	return road;
 }
-Vertex * Edge::getDest() const {
+Vertex * Edge::getDest() {
 	return dest;
 }
 int Edge::getID() {
@@ -105,6 +107,9 @@ bool Edge::isInGraphViewer() {
 void Edge::setInGraphViewer() {
 	inGraphViewer = inGraphViewer ? false : true;
 }
+bool Edge::isReal() {
+	return real;
+}
 
 /*
  * CLASS GRAPH
@@ -113,7 +118,7 @@ int Graph::getNumVertex() const {
 	return vertexSet.size();
 }
 
-vector<Vertex * > Graph::getVertexSet() const {
+vector<Vertex * > Graph::getVertexSet() {
 	return vertexSet;
 }
 
@@ -169,7 +174,7 @@ bool Graph::removeVertex(Vertex * v) {
 	}
 	return false;
 }
-Vertex * Graph::getVertex(long id) const {
+Vertex * Graph::getVertex(long id) {
 	for (int i = 0; i < vertexSet.size(); i++) {
 		if(vertexSet[i]->getID() == id) {
 			return vertexSet[i];
@@ -177,40 +182,25 @@ Vertex * Graph::getVertex(long id) const {
 	}
 	return NULL;
 }
-/*vector<Vertex*> Graph::dfs(GraphViewer *myGV) const {
-	typename vector<Vertex*>::const_iterator it= vertexSet.begin();
-	typename vector<Vertex*>::const_iterator ite= vertexSet.end();
+void Graph::dfs(Vertex * origin) {
+	typename vector<Vertex*>::iterator it= vertexSet.begin();
+	typename vector<Vertex*>::iterator ite= vertexSet.end();
 	for (; it !=ite; it++)
 		(*it)->visited=false;
-	vector<Vertex*> res;
-	it=vertexSet.begin();
-	for (; it !=ite; it++)
-	    if ( (*it)->visited==false )
-	    	dfs(*it,res, 0, myGV);
-	return res;
+	dfsAux(origin);
 }
 
-void Graph::dfs(Vertex *v,vector<Vertex*> &res, double count, GraphViewer *myGV) const {
-	double size = count;
+void Graph::dfsAux(Vertex *v) {
 	v->visited = true;
-	if(size < 0.5 && size > 0) {
-		myGV->setVertexSize(v->getID(), 0);
-	}
-	res.push_back(v);
 	typename vector<Edge*>::iterator it= (v->adj).begin();
 	typename vector<Edge*>::iterator ite= (v->adj).end();
 	for (; it !=ite; it++)
-	    if ( (*it)->dest->visited == false ){
-	    	if(size < 0.5 && size > 0) {
-	    		size += (*it)->getWeight();
-	    	} else {
-	    		size = 0;
-	    	}
-	    	dfs((*it)->dest, res, size, myGV);
+	    if ( ((*it)->dest->visited == false) && (*it)->isReal() ){
+	    	dfsAux((*it)->dest);
 	    }
-}*/
+}
 
-vector<Vertex*> Graph::getSources() const {
+vector<Vertex*> Graph::getSources() {
 	vector< Vertex* > buffer;
 	for(unsigned int i = 0; i < vertexSet.size(); i++) {
 		if( vertexSet[i]->indegree == 0 ) buffer.push_back( vertexSet[i] );
@@ -218,19 +208,20 @@ vector<Vertex*> Graph::getSources() const {
 	return buffer;
 }
 
-void Graph::dijkstraShortestPath(Vertex * v) {
+void Graph::dijkstraShortestPathToDest(Vertex * v) {
 	for(unsigned int i = 0; i < vertexSet.size(); i++) {
 		vertexSet[i]->path = NULL;
 		vertexSet[i]->dist = LONG_MAX;
 	}
 
 	v->dist = 0;
-	priority_queue< Vertex* > q;
-	q.push(v);
+	ptrVertex node = ptrVertex(v);
+	priority_queue< ptrVertex > q;
+	q.push(node);
 	v->inQueue = true;
 
 	while( !q.empty() ) {
-		Vertex * processingVertex = q.top(); q.pop();
+		Vertex * processingVertex = q.top().getNode(); q.pop();
 		processingVertex->inQueue = false;
 		for(unsigned int i = 0; i < processingVertex->adj.size(); i++) {
 			Vertex* w = processingVertex->adj[i]->dest;
@@ -238,7 +229,8 @@ void Graph::dijkstraShortestPath(Vertex * v) {
 				w->dist = (processingVertex->dist+ processingVertex->adj[i]->weight);
 				w->path = processingVertex;
 				if(!(w->inQueue)) {
-					q.push(w);
+					ptrVertex ptrW = ptrVertex(w);
+					q.push(ptrW);
 					w->inQueue = true;
 				}
 			}
@@ -246,23 +238,50 @@ void Graph::dijkstraShortestPath(Vertex * v) {
 	}
 }
 
-vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest, long &totalDist){
+void Graph::dijkstraShortestPathToPark(Vertex * v) {
+	for(unsigned int i = 0; i < vertexSet.size(); i++) {
+		vertexSet[i]->path = NULL;
+		vertexSet[i]->dist = LONG_MAX;
+	}
+
+	v->dist = 0;
+	ptrVertex node = ptrVertex(v);
+	priority_queue< ptrVertex > q;
+	q.push(node);
+	v->inQueue = true;
+
+	while( !q.empty() ) {
+		Vertex * processingVertex = q.top().getNode(); q.pop();
+		processingVertex->inQueue = false;
+		for(unsigned int i = 0; i < processingVertex->adj.size(); i++) {
+			if(processingVertex->adj[i]->isReal()) {
+				Vertex* w = processingVertex->adj[i]->dest;
+				if( w->dist > (processingVertex->dist+ processingVertex->adj[i]->weight) ) {
+					w->dist = (processingVertex->dist+ processingVertex->adj[i]->weight);
+					w->path = processingVertex;
+					if(!(w->inQueue)) {
+						ptrVertex ptrW = ptrVertex(w);
+						q.push(ptrW);
+						w->inQueue = true;
+					}
+				}
+			}
+		}
+	}
+}
+
+vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest){
 
 	list<Vertex *> buffer;
 	Vertex * v = dest;
 	//cout << v->info << " ";
-	while ( v->path != NULL) {
-		totalDist += ((v->path)->getEdgeToVertex(v))->getWeight();
-		cout << "\n>>>totalDist = " << totalDist << "<<\n";
-		buffer.push_front(v);
+	buffer.push_front(v);
+	while ( v->path != NULL &&  v->path != origin) {
 		v = v->path;
-	}
-	if( v->path == NULL ) {
-		if(totalDist == 0) {//o vertice origem nao chega ate ao dest
-			totalDist = LONG_MAX;
-		}
 		buffer.push_front(v);
 	}
+	if( v->path != NULL )
+		buffer.push_front(v->path);
 
 
 	vector<Vertex *> res;
@@ -275,8 +294,11 @@ vector<Vertex *> Graph::getPath(Vertex * origin, Vertex * dest, long &totalDist)
 
 
 vector<long> Graph::searchStreetNodes(string street) {
-    vector<long> streetVertex;
-    typename vector<Vertex*>::const_iterator it;
+    for (Vertex* v : vertexSet) {
+    	v->visited = false;
+    }
+	vector<long> streetVertex;
+    typename vector<Vertex*>::iterator it;
     bool found = false;
 
     for (it = vertexSet.begin(); it != vertexSet.end(); it++) {
@@ -311,3 +333,15 @@ void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVert
 
 }
 
+ptrVertex::ptrVertex(Vertex * v) {
+	this->v = v;
+}
+Vertex * ptrVertex::getNode() const {
+	return v;
+}
+void ptrVertex::setNode(Vertex * v) {
+	this->v = v;
+}
+bool ptrVertex::operator<(ptrVertex v2) const {
+	return v->getDist() < v2.getNode()->getDist();
+}

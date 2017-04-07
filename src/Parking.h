@@ -22,6 +22,7 @@
 #include "utils.h"
 #include "ParkType.h"
 #include "DestPlace.h"
+#include "GasPump.h"
 
 
 using namespace std;
@@ -33,7 +34,7 @@ private:
 	GraphViewer *myGV= new GraphViewer(5000, 3496, false);
 	vector<ParkType*>parkTypeSet;
 	vector<DestPlace *>destPlacesSet;
-
+	vector<GasPump *>gasPumpSet;
 
 public:
 	Parking();
@@ -47,10 +48,18 @@ public:
 	void readConnectionsFile();
 	void readNodesFile();
 	void readParks();
-  void readDestinations();
+	void readDestinations();
+	void readGasPumps();
 
 	void createGraphViewer();
-	ParkType * getClosestPark(Vertex * dest);
+	ParkType * getClosestPark(Vertex* src, Vertex * dest, double &finalDist);
+	ParkType * getCheapestPark(Vertex * src, Vertex * dest, double distMax, double &finalDist);
+	void drawPath(vector<Vertex*> path, string color);
+	/**
+	 * Planeia o caminho mais curto de um parque ao destino sem passar por bomba de gasolina
+	 */
+	void planDirectShortPath(Vertex * src, Vertex * dest);
+	void planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist);
 	int convertLongitudeToX(double longitude);
 	int convertLatitudeToY(double latitude);
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;

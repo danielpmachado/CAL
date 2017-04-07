@@ -14,6 +14,7 @@
 
 #define IMAGE_X 5000
 #define IMAGE_Y 3496
+#define SCALE 0.14581997
 
 
 #define MAX_LAT 40.69559
