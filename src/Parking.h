@@ -58,8 +58,15 @@ public:
 	/**
 	 * Planeia o caminho mais curto de um parque ao destino sem passar por bomba de gasolina
 	 */
+
+	void planGasPumpShortPath(Vertex * src, Vertex * dest);
+	long calculateGasPumpShortPath(Vertex * src, Vertex * dest, GasPump * &finalGasPump,  ParkType * &finalParkType);
+	ParkType * getParkType(Vertex * v);
+
+
 	ParkType * planDirectShortPath(Vertex * src, Vertex * dest);
 	ParkType * planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist);
+
 
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 	void toogleStreetNodes(string street);
