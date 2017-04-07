@@ -60,6 +60,9 @@ public:
 	 */
 	void planDirectShortPath(Vertex * src, Vertex * dest);
 	void planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist);
+	void planGasPumpShortPath(Vertex * src, Vertex * dest);
+	long calculateGasPumpShortPath(Vertex * src, Vertex * dest, GasPump * &finalGasPump,  ParkType * &finalParkType);
+	ParkType * getParkType(Vertex * v);
 	int convertLongitudeToX(double longitude);
 	int convertLatitudeToY(double latitude);
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;

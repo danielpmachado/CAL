@@ -208,7 +208,7 @@ vector<Vertex*> Graph::getSources() {
 	return buffer;
 }
 
-void Graph::dijkstraShortestPathToDest(Vertex * v) {
+void Graph::dijkstraShortestPathByFoot(Vertex * v) {
 	for(unsigned int i = 0; i < vertexSet.size(); i++) {
 		vertexSet[i]->path = NULL;
 		vertexSet[i]->dist = LONG_MAX;
@@ -238,7 +238,7 @@ void Graph::dijkstraShortestPathToDest(Vertex * v) {
 	}
 }
 
-void Graph::dijkstraShortestPathToPark(Vertex * v) {
+void Graph::dijkstraShortestPathByCar(Vertex * v) {
 	for(unsigned int i = 0; i < vertexSet.size(); i++) {
 		vertexSet[i]->path = NULL;
 		vertexSet[i]->dist = LONG_MAX;
@@ -333,6 +333,9 @@ void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVert
 
 }
 
+/*
+ * CLASS PTRVERTEX
+ */
 ptrVertex::ptrVertex(Vertex * v) {
 	this->v = v;
 }
@@ -342,6 +345,29 @@ Vertex * ptrVertex::getNode() const {
 void ptrVertex::setNode(Vertex * v) {
 	this->v = v;
 }
-bool ptrVertex::operator<(ptrVertex v2) const {
-	return v->getDist() < v2.getNode()->getDist();
+bool ptrVertex::operator<(const ptrVertex &v2) const {
+	return v->getDist() > v2.getNode()->getDist();
+}
+
+/*
+ * CLASS CLOSESTVERTEX
+ */
+closestVertex::closestVertex(Vertex * v, double dist) {
+	this->v = v;
+	this->dist = dist;
+}
+Vertex * closestVertex::getNode() const {
+	return v;
+}
+void closestVertex::setNode(Vertex * v) {
+	this->v = v;
+}
+double closestVertex::getDist() const {
+	return dist;
+}
+void closestVertex::setDist(double dist) {
+	this->dist = dist;
+}
+bool closestVertex::operator<(const closestVertex &v2) const {
+	return dist > v2.getDist();
 }

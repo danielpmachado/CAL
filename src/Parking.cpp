@@ -14,8 +14,9 @@ Parking::Parking() {
 	createGraphViewer();
 	readParks();
 	readDestinations();
+	readGasPumps();
 	myGV->rearrange();
-	planDirectCheapestPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824), 100);
+	planGasPumpShortPath(myGraph.getVertex(42494919), myGraph.getVertex(42464827));
 	}
 
 Parking::~Parking() {
@@ -201,6 +202,7 @@ void Parking::readGasPumps() {
 
 			GasPump * gp = new GasPump(myGraph.getVertex(node_id));
 			gasPumpSet.push_back(gp);
+			myGV->setVertexIcon(node_id, "gasPumpIcon.png");
 		}
 
 		gasPumpFile.close();
@@ -290,7 +292,7 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest, double &finalDist
 	for(ParkType * p : parkTypeSet) {
 		myGraph.dfs(src);
 		if(p->getNode()->isAccessible()) {
-			myGraph.dijkstraShortestPathToDest(p->getNode());
+			myGraph.dijkstraShortestPathByFoot(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
 			if (dest->getDist() < dist && dest->getDist() != 0) {
 				shortPath = shortPathAux;
@@ -312,7 +314,7 @@ ParkType * Parking::getCheapestPark(Vertex * src, Vertex * dest, double distMax,
 	for(ParkType * p : parkTypeSet) {
 		myGraph.dfs(src);
 		if(p->getNode()->isAccessible()) {
-			myGraph.dijkstraShortestPathToDest(p->getNode());
+			myGraph.dijkstraShortestPathByFoot(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
 			drawPath(shortPathAux, "pink");
 			if(dest->getDist() <= distMax) {
@@ -348,7 +350,7 @@ void Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
 		cout << "There is not a possible path. Try again.\n";
 		return;
 	}
-	myGraph.dijkstraShortestPathToPark(src);
+	myGraph.dijkstraShortestPathByCar(src);
 	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
 	drawPath(pathToPark, "red");
 	dist += p->getNode()->getDist();
@@ -367,7 +369,7 @@ void Parking::planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist
 		cout << "There is not a possible path. Try again.\n";
 		return;
 	}
-	myGraph.dijkstraShortestPathToPark(src);
+	myGraph.dijkstraShortestPathByCar(src);
 	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
 	drawPath(pathToPark, "red");
 	dist += p->getNode()->getDist();
@@ -379,10 +381,98 @@ void Parking::planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist
 		cout << "Garage\n";
 	cout << "Price: " << p->getPrice() << " euros/h\n";
 }
+ParkType * Parking::getParkType(Vertex * v) {
+	for(ParkType * p : parkTypeSet) {
+		if(p->getNode() == v) {
+			return p;
+		}
+	}
+	return NULL;
+}
+long Parking::calculateGasPumpShortPath(Vertex * src, Vertex * dest, GasPump * &finalGasPump,  ParkType * &finalParkType) {
+	myGraph.dfs(src);
+	vector<GasPump *>accessibleGasPumps;//vetor com as bombas de gasolina acessiveis a partir da localizacao do utilizador
+	for(GasPump * gp : gasPumpSet) {
+		if(gp->getNode()->isAccessible()) {
+			accessibleGasPumps.push_back(gp);
+		}
+	}
+	priority_queue<closestVertex>accessibleParks;//fila com closestVertex (= parque de estacionamento + distancia dele ate ao destino); no inicio da fila estao os parque mais perto do destino
+	myGraph.dfs(src);
+	for(ParkType * p : parkTypeSet) {
+		if(p->getNode()->isAccessible()) {
+			myGraph.dijkstraShortestPathByFoot(p->getNode());
+			closestVertex node = closestVertex(p->getNode(), dest->getDist());
+			accessibleParks.push(node);
+		}
+	}
+	long dist = LONG_MAX;
+	while(!accessibleParks.empty()) {
+		Vertex * v = accessibleParks.top().getNode();
+		ParkType * parkAux = getParkType(v);//parque que esta a ser analisado
+		double distFromSrcToPark = 0;
+		for(GasPump * gp : accessibleGasPumps) {
+			myGraph.dfs(gp->getNode());
+			if(parkAux->getNode()->isAccessible()) {
+				myGraph.dijkstraShortestPathByCar(src);
+				distFromSrcToPark += gp->getNode()->getDist();//distancia da origem a bomba de gasolina
+				myGraph.dijkstraShortestPathByCar(gp->getNode());
+				distFromSrcToPark += parkAux->getNode()->getDist();//distancia da bomba de gasolina ao parque
+				if(distFromSrcToPark < dist) {
+					dist = distFromSrcToPark;
+					finalGasPump = gp;
+					finalParkType = parkAux;
+				}
+			}
+		}
+		if(finalParkType != NULL) {//foi encontrado um precurso possivel
+			return dist;
+		} else {
+			accessibleParks.pop();
+		}
+	}
+	return dist;
+}
+
+void Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
+	GasPump * pump = NULL;
+	ParkType * park = NULL;
+	long distFromSrcToPark = calculateGasPumpShortPath(src, dest, pump, park);
+	if(distFromSrcToPark == LONG_MAX) {
+		cout << "There is not a possible path. Try again.\n";
+		return;
+	}
+	/*
+	 * Draw path from origin to GasPump
+	 */
+	myGraph.dijkstraShortestPathByCar(src);
+	vector<Vertex *> pathToGasPump = myGraph.getPath(src, pump->getNode());
+	drawPath(pathToGasPump, "red");
+	/*
+	 * Draw path from GasPump to Park
+	 */
+	myGraph.dijkstraShortestPathByCar(pump->getNode());
+	vector<Vertex *> pathToPark = myGraph.getPath(pump->getNode(), park->getNode());
+	drawPath(pathToPark, "red");
+	/*
+	 * Draw path from Park to dest
+	 */
+	myGraph.dijkstraShortestPathByFoot(park->getNode());
+	vector<Vertex *> pathToDest = myGraph.getPath(park->getNode(), dest);
+	drawPath(pathToDest, "red");
+
+	long totalDist = distFromSrcToPark  + dest->getDist();
+	cout << "Total distance: " << totalDist << " m   ( "<< distFromSrcToPark << " by car and " << dest->getDist() << " by foot )" << endl;
+	cout << "Type of Park: ";
+	if(park->getType() == "meter") {
+		cout << "Parking meter\n";
+	} else
+		cout << "Garage\n";
+	cout << "Price: " << park->getPrice() << " euros/h\n";
+}
 int Parking::convertLongitudeToX(double longitude) {
 	return floor((longitude - MIN_LNG) * IMAGE_X / (MAX_LNG - MIN_LNG));
 }
-
 int Parking::convertLatitudeToY(double latitude) {
 	return IMAGE_Y - floor((latitude - MIN_LAT) * IMAGE_Y / (MAX_LAT - MIN_LAT))
 			+ 3.5;
