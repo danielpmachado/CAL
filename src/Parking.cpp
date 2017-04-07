@@ -16,7 +16,7 @@ Parking::Parking() {
 	readDestinations();
 	readGasPumps();
 	myGV->rearrange();
-	planGasPumpShortPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824));
+	//planGasPumpShortPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824));
 
 }
 
