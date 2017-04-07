@@ -38,7 +38,7 @@ void UserInterface::start()const{
 		cout << TAB << "-> "<< name << endl;
 
 	// Aqui escolher a rua certa
-	// Vou assumir que é Pearl Street
+	// Vou assumir que Ã© Pearl Street
 
 	pauseScreen();
 	clearScreen();
@@ -57,8 +57,8 @@ void UserInterface::start()const{
 
 
 
-	// Escolher nó certo
-	// vou assumir que é o 1
+	// Escolher nÃ³ certo
+	// vou assumir que Ã© o 1
 
 
 	Vertex * src = p->getVertex(streetNodes.at(0));
@@ -82,7 +82,7 @@ void UserInterface::start()const{
 
 
 	// Escolher destino certo
-	// vou assumir que é o school
+	// vou assumir que Ã© o school
 
 	Vertex * dst = destinations.at(0)->getNode();
 
@@ -106,7 +106,7 @@ void UserInterface::start()const{
 	// ---------------------------------------------------------
 
 
-	// SE ESCOLHER O PARQUE MAIS BARATO CHAMAR ESTE CÓDIGO
+	// SE ESCOLHER O PARQUE MAIS BARATO CHAMAR ESTE CÃ“DIGO
 
 	// ----------------------------------------------
 
@@ -298,7 +298,15 @@ void UserInterface::start(){
 
     clearScreen();
 
+
   /* vector<Vertex> streetNodes = p->getStreetNodes(street);
+
+    // Aqui escolher a rua certa
+    // Vou assumir que Ã© Adams Street
+
+    p->toogleStreetNodes(street);
+    vector<Vertex *> streetNodes = p->getStreetNodes(street);
+
 
     cout <<  TAB << "From the green nodes choose the closest to your position" << endl;
 
@@ -306,8 +314,8 @@ void UserInterface::start(){
     		cout << TAB << "-> "<<  node << endl;
 
 
-    	// Escolher nó certo
-    	// vou assumir que é o 1
+    	// Escolher nÃ³ certo
+    	// vou assumir que Ã© o 1
 
     	Vertex * src = p->getVertex(streetNodes.at(0));
  */

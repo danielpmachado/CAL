@@ -16,6 +16,7 @@
 #include <cstdint>
 #include "Road.h"
 #include "graphviewer.h"
+
 using namespace std;
 
 class Edge;
@@ -113,8 +114,8 @@ public:
 	void resetIndegrees();
 	vector<Vertex*> getSources();//retorna vetor com possiveis vertices origem usados como ponto de começo em algoritmos de ordenacao, ou seja, vertices com indegree 0
 	vector<Vertex*> getPath(Vertex* origin, Vertex* dest);
-	void dijkstraShortestPathToDest(Vertex * v);
-	void dijkstraShortestPathToPark(Vertex * v);
+	void dijkstraShortestPathByFoot(Vertex * v);
+	void dijkstraShortestPathByCar(Vertex * v);
 	vector<long> searchStreetNodes(string street);
 	void searchStreetNodes(Vertex * v, string street, vector<long>& streetVertex)const;
 };
@@ -132,7 +133,20 @@ public:
 	ptrVertex(Vertex * v);
 	Vertex * getNode() const;
 	void setNode(Vertex * v);
-	bool operator<(ptrVertex v2) const;
+	bool operator<(const ptrVertex &v2) const;
+};
+
+class closestVertex {
+private:
+	Vertex * v;
+	double dist;
+public:
+	closestVertex(Vertex * v, double dist);
+	Vertex * getNode() const;
+	void setNode(Vertex * v);
+	double getDist() const;
+	void setDist(double dist);
+	bool operator<(const closestVertex &v2) const;
 };
 
 #endif /* SRC_GRAPH_H_ */
