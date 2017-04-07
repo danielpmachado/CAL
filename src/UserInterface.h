@@ -22,6 +22,7 @@ public:
 	UserInterface(Parking * p);
 	virtual ~UserInterface();
 	void start()const;
+	void displayRouteInformation(Vertex * src, Vertex * dst, ParkType * park)const;
 };
 
 #endif /* SRC_USERINTERFACE_H_ */

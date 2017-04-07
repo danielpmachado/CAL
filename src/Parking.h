@@ -58,18 +58,19 @@ public:
 	/**
 	 * Planeia o caminho mais curto de um parque ao destino sem passar por bomba de gasolina
 	 */
-	void planDirectShortPath(Vertex * src, Vertex * dest);
-	void planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist);
+	ParkType * planDirectShortPath(Vertex * src, Vertex * dest);
+	ParkType * planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist);
 
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 	void toogleStreetNodes(string street);
 
 	vector<string> getStreetNames()const;
-	vector<string> getDestinationNames()const;
+	vector<DestPlace *> getDestinations()const;
 	vector<long> getStreetNodes(string street);
 
 
 	Vertex * getVertex(long id);
+
 };
 
 

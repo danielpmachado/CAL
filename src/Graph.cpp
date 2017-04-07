@@ -50,6 +50,10 @@ void Vertex::setID(long id) {
 	this->id = id;
 }
 
+void Vertex::setDist(long dist){
+	this->dist= dist;
+}
+
 
 int Vertex::getIndegree() const {
 	return this->indegree;
