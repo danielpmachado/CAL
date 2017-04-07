@@ -38,7 +38,7 @@ void UserInterface::start()const{
 		cout << TAB << "-> "<< name << endl;
 
 	// Aqui escolher a rua certa
-	// Vou assumir que é Pearl Street
+	// Vou assumir que Ã© Pearl Street
 
 	pauseScreen();
 	clearScreen();
@@ -57,8 +57,8 @@ void UserInterface::start()const{
 
 
 
-	// Escolher nó certo
-	// vou assumir que é o 1
+	// Escolher nÃ³ certo
+	// vou assumir que Ã© o 1
 
 
 	Vertex * src = p->getVertex(streetNodes.at(0));
@@ -82,7 +82,7 @@ void UserInterface::start()const{
 
 
 	// Escolher destino certo
-	// vou assumir que é o school
+	// vou assumir que Ã© o school
 
 	Vertex * dst = destinations.at(0)->getNode();
 
@@ -106,7 +106,7 @@ void UserInterface::start()const{
 	// ---------------------------------------------------------
 
 
-	// SE ESCOLHER O PARQUE MAIS BARATO CHAMAR ESTE CÓDIGO
+	// SE ESCOLHER O PARQUE MAIS BARATO CHAMAR ESTE CÃ“DIGO
 
 	// ----------------------------------------------
 
@@ -154,39 +154,27 @@ void writeStreetName(int i, vector<string> streetNames){
 }
 
 
-void chooseStreetName(vector<string> streetNames){
+string chooseStreetName(vector<string> streetNames){
 
-    int menu_item = 0, x =7;
+    int menu_item = 0, x = 7;
     bool running = true;
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    //cout << setw(20) <<  " " ;
+
     SetConsoleTextAttribute(console, 240);
     gotoXY(25, 7); writeStreetName(0,streetNames);
 
     SetConsoleTextAttribute(console, 15);
-
     for(int i = 1; i < streetNames.size(); i++){
-
         gotoXY(25, i+7);  writeStreetName(i,streetNames);
     }
-
-    //system("pause>nul");
-
-    if(GetAsyncKeyState(VK_RETURN)){
-        // verificar funcionalidade
-    }
+    gotoXY(1,1);
 
     while(running){
 
-        //system("pause>nul");
-        /// start develop
+        system("pause>nul");
 
-        //gotoXY(30, 15);
-
-        system("pause>nul"); // the >nul bit causes it the print no message
-
-        if (GetAsyncKeyState(VK_DOWN) && x < streetNames.size()+7) //down button pressed
+        if (GetAsyncKeyState(VK_DOWN) && x < streetNames.size()+6) //down button pressed
         {
             gotoXY(25, x);SetConsoleTextAttribute(console, 15);
             writeStreetName(x-7,streetNames);
@@ -215,45 +203,76 @@ void chooseStreetName(vector<string> streetNames){
             continue;
         }
 
+        if (GetAsyncKeyState(VK_RETURN))  // Enter key pressed
+        {
+        	return streetNames[x-7];
+        }
+    }
+}
+
+void writeNodes(int i, vector<Vertex> streetNodes){
+
+    if(i == 1)
+        cout << setw(15) << " " << left << setw(30)<< streetNodes[i].getID() << setw(10) <<  " " << endl;
+    else
+        cout << setw(15) << " " << left << setw(30)<< streetNodes[i].getID() << setw(20) <<  " " << endl;
+}
+
+
+Vertex chooseVertex( vector<Vertex> streetNodes){
+
+    int menu_item = 0, x = 7;
+    bool running = true;
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+
+
+    SetConsoleTextAttribute(console, 240);
+    gotoXY(25, 7); writeNodes(0,streetNodes);
+
+    SetConsoleTextAttribute(console, 15);
+    for(int i = 1; i < streetNodes.size(); i++){
+        gotoXY(25, i+7);  writeNodes(i,streetNodes);
+    }
+    gotoXY(1,1);
+
+    while(running){
+
+        system("pause>nul");
+
+        if (GetAsyncKeyState(VK_DOWN) && x < streetNodes.size()+6) //down button pressed
+        {
+            gotoXY(25, x);SetConsoleTextAttribute(console, 15);
+            writeNodes(x-7,streetNodes);
+            x++;
+
+            gotoXY(25, x); SetConsoleTextAttribute(console, 240);
+            writeNodes(x-7,streetNodes);
+
+            SetConsoleTextAttribute(console, 15);
+            menu_item++;
+            continue;
+
+        }
+
+        if (GetAsyncKeyState(VK_UP) && x > 7) //up button pressed
+        {
+            gotoXY(25, x); SetConsoleTextAttribute(console, 15);
+            writeNodes(x-7,streetNodes);
+            x--;
+
+            gotoXY(25, x); SetConsoleTextAttribute(console, 240);
+            writeNodes(x-7,streetNodes);
+
+            SetConsoleTextAttribute(console, 15);
+            menu_item--;
+            continue;
+        }
 
         if (GetAsyncKeyState(VK_RETURN))  // Enter key pressed
         {
-
-            //gotoXY(43, 15); cout << "enter first time";
-
-            switch (menu_item) {
-            case 0:
-                gotoXY(43, 16);
-                cout << "Opcao 1";
-                break;
-            case 1:
-                gotoXY(43, 16);
-                cout << "Opcao 2";
-                break;
-            case 2:
-                gotoXY(43, 16);
-                cout << "Opcao 3";
-                break;
-            case 3:
-                gotoXY(43, 16);
-                cout << "Opcao 4";
-                break;
-            case 4:
-                gotoXY(43, 16);
-                cout << "Opcao 5";
-                break;
-            case 5:
-                gotoXY(43, 16);
-                cout << "Opcao 6";
-                break;
-            }
+        	return streetNodes[x-7];
         }
     }
-    gotoXY(30, 21);
-
-
-
-
 }
 
 
@@ -264,36 +283,42 @@ void UserInterface::start(){
     clearScreen();
     SetConsoleTextAttribute(console, 15);
 
-    cout << TAB << "PRESS ENTER TO CALCULATE ROUTE" << endl;
+    gotoXY(45,6); cout << " || PARKING SA || ";
+    gotoXY(40,10); cout << "PRESS ENTER TO CALCULATE ROUTE" << endl;
 
     pauseScreen();
     clearScreen();
 
-    gotoXY(37,3); cout << "|| Please chose the street your in ||" << endl;
-
+    gotoXY(37,4); cout << "|| Please chose the street your in ||" << endl;
 
     vector<string> streetNames = p->getStreetNames();
-    string street;
 
-/*
-    for(string name : streetNames)
-        cout << TAB << "-> "<< name << endl;
-*/
+    string street  = chooseStreetName(streetNames);
+    p->toogleStreetNodes(street);
 
-    chooseStreetName(streetNames);
-
-
-    // Aqui escolher a rua certa
-    // Vou assumir que é Adams Street
-
-    /*
-    pauseScreen();
     clearScreen();
 
-    street = "Pearl Street";  //MUDAR
+
+  /* vector<Vertex> streetNodes = p->getStreetNodes(street);
+
+    // Aqui escolher a rua certa
+    // Vou assumir que Ã© Adams Street
 
     p->toogleStreetNodes(street);
-*/
+    vector<Vertex *> streetNodes = p->getStreetNodes(street);
+
+
+    cout <<  TAB << "From the green nodes choose the closest to your position" << endl;
+
+    	for(long node: streetNodes)
+    		cout << TAB << "-> "<<  node << endl;
+
+
+    	// Escolher nÃ³ certo
+    	// vou assumir que Ã© o 1
+
+    	Vertex * src = p->getVertex(streetNodes.at(0));
+ */
 }
 
 

@@ -15,10 +15,11 @@
 #include <map>
 #include <cmath>
 #include <algorithm>
+#include <climits>
 
 #include "graphviewer.h"
 #include "Graph.h"
-#include "Road.h";
+#include "Road.h"
 #include "utils.h"
 #include "ParkType.h"
 #include "DestPlace.h"
@@ -58,15 +59,21 @@ public:
 	/**
 	 * Planeia o caminho mais curto de um parque ao destino sem passar por bomba de gasolina
 	 */
+	void planGasPumpShortPath(Vertex * src, Vertex * dest);
+	long calculateGasPumpShortPath(Vertex * src, Vertex * dest, GasPump * &finalGasPump,  ParkType * &finalParkType);
+	ParkType * getParkType(Vertex * v);
+
+
 	ParkType * planDirectShortPath(Vertex * src, Vertex * dest);
 	ParkType * planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist);
+
 
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 	void toogleStreetNodes(string street);
 
 	vector<string> getStreetNames()const;
 	vector<DestPlace *> getDestinations()const;
-	vector<long> getStreetNodes(string street);
+	vector<Vertex*> getStreetNodes(string street);
 
 
 	Vertex * getVertex(long id);
