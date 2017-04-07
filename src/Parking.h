@@ -73,7 +73,7 @@ public:
 
 	vector<string> getStreetNames()const;
 	vector<DestPlace *> getDestinations()const;
-	vector<long> getStreetNodes(string street);
+	vector<Vertex*> getStreetNodes(string street);
 
 
 	Vertex * getVertex(long id);

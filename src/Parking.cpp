@@ -17,7 +17,7 @@ Parking::Parking() {
 	readGasPumps();
 	myGV->rearrange();
 
-	}
+}
 
 Parking::~Parking() {
 	// TODO Auto-generated destructor stub
@@ -102,11 +102,14 @@ void Parking::readConnectionsFile() {
 
 		double dist = distanceBetweenVertex(srcNode, dstNode);
 
-		myGraph.addEdge(srcNodeID, dstNodeID, dist, roads.find(roadID)->second, true);
+		myGraph.addEdge(srcNodeID, dstNodeID, dist, roads.find(roadID)->second,
+				true);
 		if ((roads.find(roadID)->second)->isTwoWays()) {
-			myGraph.addEdge(dstNodeID, srcNodeID, dist, roads.find(roadID)->second, true);
+			myGraph.addEdge(dstNodeID, srcNodeID, dist,
+					roads.find(roadID)->second, true);
 		} else {
-			myGraph.addEdge(dstNodeID, srcNodeID, dist, roads.find(roadID)->second, false);
+			myGraph.addEdge(dstNodeID, srcNodeID, dist,
+					roads.find(roadID)->second, false);
 		}
 	}
 
@@ -188,24 +191,24 @@ void Parking::readParks() {
 }
 void Parking::readGasPumps() {
 	ifstream gasPumpFile;
-		string line;
-		ull_int node_id;
-		gasPumpFile.open("gaspump.txt");
+	string line;
+	ull_int node_id;
+	gasPumpFile.open("gaspump.txt");
 
-		if (!gasPumpFile) {
-			cerr << "Unable to open file gaspump.txt";
-			return;
-		}
-		while (getline(gasPumpFile, line)) {
-			stringstream linestream(line);
-			linestream >> node_id;
+	if (!gasPumpFile) {
+		cerr << "Unable to open file gaspump.txt";
+		return;
+	}
+	while (getline(gasPumpFile, line)) {
+		stringstream linestream(line);
+		linestream >> node_id;
 
-			GasPump * gp = new GasPump(myGraph.getVertex(node_id));
-			gasPumpSet.push_back(gp);
-			myGV->setVertexIcon(node_id, "gasPumpIcon.png");
-		}
+		GasPump * gp = new GasPump(myGraph.getVertex(node_id));
+		gasPumpSet.push_back(gp);
+		myGV->setVertexIcon(node_id, "gasPumpIcon.png");
+	}
 
-		gasPumpFile.close();
+	gasPumpFile.close();
 }
 void Parking::readDestinations() {
 	ifstream destFile;
@@ -228,9 +231,9 @@ void Parking::readDestinations() {
 		getline(linestream, data, ';');
 		place = data.substr(0, data.size());
 
-		DestPlace * d = new DestPlace (place, myGraph.getVertex(node_id));
+		DestPlace * d = new DestPlace(place, myGraph.getVertex(node_id));
 		destPlacesSet.push_back(d);
-		if(place == "school") {
+		if (place == "school") {
 			myGV->setVertexIcon(node_id, "schoolIcon.png");
 		} else if (place == "cinema") {
 			myGV->setVertexIcon(node_id, "cinemaIcon.png");
@@ -255,8 +258,7 @@ void Parking::createGraphViewer() {
 		x = convertLongitudeToX(v->getLongitude());
 		y = convertLatitudeToY(v->getLatitude());
 
-
-		myGV->addNode(node_id,x,y);
+		myGV->addNode(node_id, x, y);
 		myGV->setVertexSize(node_id, 30);
 		myGV->setVertexLabel(node_id, to_string(node_id));
 
@@ -264,35 +266,37 @@ void Parking::createGraphViewer() {
 	myGV->defineEdgeCurved(false);
 	for (Vertex * v : myGraph.getVertexSet()) {
 		for (Edge * e : v->getAdj()) {
-			if(e->isReal()) {
+			if (e->isReal()) {
 				if (!e->isInGraphViewer()) { //se ja estiver no myGV, nao voltamos a inseri-lo
 					if (e->getRoad()->isTwoWays()) {
-						myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(),
-								EdgeType::UNDIRECTED);
+						myGV->addEdge(e->getID(), v->getID(),
+								e->getDest()->getID(), EdgeType::UNDIRECTED);
 						myGV->setEdgeLabel(e->getID(), "");
 					} else {
-						myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(),
-								EdgeType::DIRECTED);
+						myGV->addEdge(e->getID(), v->getID(),
+								e->getDest()->getID(), EdgeType::DIRECTED);
 						myGV->setEdgeLabel(e->getID(), "");
 					}
 					e->setInGraphViewer();
 				}
 			} else {
-				myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(),EdgeType::UNDIRECTED);
+				myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(),
+						EdgeType::UNDIRECTED);
 				myGV->setEdgeLabel(e->getID(), "");
 			}
 		}
 	}
 }
 
-ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest, double &finalDist) {
+ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest,
+		double &finalDist) {
 	long dist = LONG_MAX;
 	vector<Vertex *> shortPath;
 	ParkType * park = NULL;
 
-	for(ParkType * p : parkTypeSet) {
+	for (ParkType * p : parkTypeSet) {
 		myGraph.dfs(src);
-		if(p->getNode()->isAccessible()) {
+		if (p->getNode()->isAccessible()) {
 			myGraph.dijkstraShortestPathByFoot(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
 			if (dest->getDist() < dist && dest->getDist() != 0) {
@@ -308,18 +312,19 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest, double &finalDist
 	finalDist = dist;
 	return park;
 }
-ParkType * Parking::getCheapestPark(Vertex * src, Vertex * dest, double distMax, double &finalDist) {
+ParkType * Parking::getCheapestPark(Vertex * src, Vertex * dest, double distMax,
+		double &finalDist) {
 	long dist;
 	double price = 1000;
 	vector<Vertex *> shortPath;
 	ParkType * park = NULL;
-	for(ParkType * p : parkTypeSet) {
+	for (ParkType * p : parkTypeSet) {
 		myGraph.dfs(src);
-		if(p->getNode()->isAccessible()) {
+		if (p->getNode()->isAccessible()) {
 			myGraph.dijkstraShortestPathByFoot(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
 			drawPath(shortPathAux, "pink");
-			if(dest->getDist() <= distMax) {
+			if (dest->getDist() <= distMax) {
 				if (p->getPrice() < price) {
 					price = p->getPrice();
 					shortPath = shortPathAux;
@@ -337,8 +342,8 @@ ParkType * Parking::getCheapestPark(Vertex * src, Vertex * dest, double distMax,
 void Parking::drawPath(vector<Vertex*> path, string color) {
 	Vertex * aux = NULL;
 	for (Vertex * node : path) {
-		myGV->setVertexColor(node->getID(),color);
-		if(aux != NULL) {
+		myGV->setVertexColor(node->getID(), color);
+		if (aux != NULL) {
 			myGV->setEdgeThickness(aux->getEdgeToVertex(node)->getID(), 20);
 			myGV->setEdgeColor(aux->getEdgeToVertex(node)->getID(), color);
 		}
@@ -350,7 +355,7 @@ ParkType * Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
 	double dist = 0;
 	ParkType * p = getClosestPark(src, dest, dist);
 
-	if(p == NULL) {
+	if (p == NULL) {
 		cout << "There is not a possible path. Try again.\n";
 		return p;
 	}
@@ -367,68 +372,63 @@ ParkType * Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
 
 }
 
-
-ParkType * Parking::planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist) {
+ParkType * Parking::planDirectCheapestPath(Vertex * src, Vertex * dest,
+		double maxDist) {
 	double dist = 0;
 	ParkType * p = getCheapestPark(src, dest, maxDist, dist);
-	if(p == NULL) {
+	if (p == NULL) {
 		cout << "There is not a possible path. Try again.\n";
 		return p;
 	}
 
 	myGraph.dijkstraShortestPathByCar(src);
- 
-  dist += p->getNode()->getDist();
+
+	dist += p->getNode()->getDist();
 
 	dest->setDist(dist);
-	
 
-ParkType * Parking::getParkType(Vertex * v) {
-	for(ParkType * p : parkTypeSet) {
-		if(p->getNode() == v) {
-			return p;
-		}
-	}
-	return NULL;
- 
+	return p;
+
 }
-long Parking::calculateGasPumpShortPath(Vertex * src, Vertex * dest, GasPump * &finalGasPump,  ParkType * &finalParkType) {
+
+long Parking::calculateGasPumpShortPath(Vertex * src, Vertex * dest,
+		GasPump * &finalGasPump, ParkType * &finalParkType) {
 	myGraph.dfs(src);
-	vector<GasPump *>accessibleGasPumps;//vetor com as bombas de gasolina acessiveis a partir da localizacao do utilizador
-	for(GasPump * gp : gasPumpSet) {
-		if(gp->getNode()->isAccessible()) {
+	vector<GasPump *> accessibleGasPumps; //vetor com as bombas de gasolina acessiveis a partir da localizacao do utilizador
+	for (GasPump * gp : gasPumpSet) {
+		if (gp->getNode()->isAccessible()) {
 			accessibleGasPumps.push_back(gp);
 		}
 	}
-	priority_queue<closestVertex>accessibleParks;//fila com closestVertex (= parque de estacionamento + distancia dele ate ao destino); no inicio da fila estao os parque mais perto do destino
+	priority_queue<closestVertex> accessibleParks; //fila com closestVertex (= parque de estacionamento + distancia dele ate ao destino); no inicio da fila estao os parque mais perto do destino
 	myGraph.dfs(src);
-	for(ParkType * p : parkTypeSet) {
-		if(p->getNode()->isAccessible()) {
+	for (ParkType * p : parkTypeSet) {
+		if (p->getNode()->isAccessible()) {
 			myGraph.dijkstraShortestPathByFoot(p->getNode());
 			closestVertex node = closestVertex(p->getNode(), dest->getDist());
 			accessibleParks.push(node);
 		}
 	}
 	long dist = LONG_MAX;
-	while(!accessibleParks.empty()) {
+	while (!accessibleParks.empty()) {
 		Vertex * v = accessibleParks.top().getNode();
-		ParkType * parkAux = getParkType(v);//parque que esta a ser analisado
+		ParkType * parkAux = getParkType(v); //parque que esta a ser analisado
 		double distFromSrcToPark = 0;
-		for(GasPump * gp : accessibleGasPumps) {
+		for (GasPump * gp : accessibleGasPumps) {
 			myGraph.dfs(gp->getNode());
-			if(parkAux->getNode()->isAccessible()) {
+			if (parkAux->getNode()->isAccessible()) {
 				myGraph.dijkstraShortestPathByCar(src);
-				distFromSrcToPark += gp->getNode()->getDist();//distancia da origem a bomba de gasolina
+				distFromSrcToPark += gp->getNode()->getDist(); //distancia da origem a bomba de gasolina
 				myGraph.dijkstraShortestPathByCar(gp->getNode());
-				distFromSrcToPark += parkAux->getNode()->getDist();//distancia da bomba de gasolina ao parque
-				if(distFromSrcToPark < dist) {
+				distFromSrcToPark += parkAux->getNode()->getDist(); //distancia da bomba de gasolina ao parque
+				if (distFromSrcToPark < dist) {
 					dist = distFromSrcToPark;
 					finalGasPump = gp;
 					finalParkType = parkAux;
 				}
 			}
 		}
-		if(finalParkType != NULL) {//foi encontrado um precurso possivel
+		if (finalParkType != NULL) { //foi encontrado um precurso possivel
 			return dist;
 		} else {
 			accessibleParks.pop();
@@ -441,7 +441,7 @@ void Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
 	GasPump * pump = NULL;
 	ParkType * park = NULL;
 	long distFromSrcToPark = calculateGasPumpShortPath(src, dest, pump, park);
-	if(distFromSrcToPark == LONG_MAX) {
+	if (distFromSrcToPark == LONG_MAX) {
 		cout << "There is not a possible path. Try again.\n";
 		return;
 	}
@@ -455,7 +455,8 @@ void Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
 	 * Draw path from GasPump to Park
 	 */
 	myGraph.dijkstraShortestPathByCar(pump->getNode());
-	vector<Vertex *> pathToPark = myGraph.getPath(pump->getNode(), park->getNode());
+	vector<Vertex *> pathToPark = myGraph.getPath(pump->getNode(),
+			park->getNode());
 	drawPath(pathToPark, "red");
 	/*
 	 * Draw path from Park to dest
@@ -464,27 +465,16 @@ void Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
 	vector<Vertex *> pathToDest = myGraph.getPath(park->getNode(), dest);
 	drawPath(pathToDest, "red");
 
-	long totalDist = distFromSrcToPark  + dest->getDist();
-	cout << "Total distance: " << totalDist << " m   ( "<< distFromSrcToPark << " by car and " << dest->getDist() << " by foot )" << endl;
+	long totalDist = distFromSrcToPark + dest->getDist();
+	cout << "Total distance: " << totalDist << " m   ( " << distFromSrcToPark
+			<< " by car and " << dest->getDist() << " by foot )" << endl;
 	cout << "Type of Park: ";
-	if(park->getType() == "meter") {
+	if (park->getType() == "meter") {
 		cout << "Parking meter\n";
 	} else
 		cout << "Garage\n";
 	cout << "Price: " << park->getPrice() << " euros/h\n";
 }
-int Parking::convertLongitudeToX(double longitude) {
-	return floor((longitude - MIN_LNG) * IMAGE_X / (MAX_LNG - MIN_LNG));
-}
-int Parking::convertLatitudeToY(double latitude) {
-	return IMAGE_Y - floor((latitude - MIN_LAT) * IMAGE_Y / (MAX_LAT - MIN_LAT))
-			+ 3.5;
-
-
-	return p;
-}
-
-
 
 double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
@@ -492,69 +482,79 @@ double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 	int lon1r = convertLongitudeToX(v1->getLongitude());
 	int lat2r = convertLatitudeToY(v2->getLatitude());
 	int lon2r = convertLongitudeToX(v2->getLongitude());
-	return SCALE*sqrt(pow(lon2r-lon1r,2)+pow(lat2r-lat1r,2));
-
+	return SCALE * sqrt(pow(lon2r - lon1r, 2) + pow(lat2r - lat1r, 2));
 
 }
 
 void Parking::toogleStreetNodes(string street) {
-	vector<long> streetNodes = getStreetNodes(street);
+	vector<Vertex*> streetNodes = getStreetNodes(street);
 
-	for (int i = 0; i < streetNodes.size(); i++){
-		myGV->setVertexColor(streetNodes.at(i),"green");
-		myGV->setVertexLabel(streetNodes.at(i), to_string(streetNodes.at(i)));
+	for (int i = 0; i < streetNodes.size(); i++) {
+		myGV->setVertexColor(streetNodes.at(i)->getID(), "green");
+		myGV->setVertexLabel(streetNodes.at(i)->getID(), to_string(i+1));
 	}
 
 	myGV->rearrange();
 
-
 }
 
-vector<string> Parking::getStreetNames()const{
+vector<string> Parking::getStreetNames() const {
 
 	vector<string> streetNames;
 	map<long, Road*>::const_iterator it;
 
-	for(it = roads.begin(); it != roads.end(); it++){
-			if(it->second->getName()!= "")
-				streetNames.push_back(it->second->getName());
-		}
+	for (it = roads.begin(); it != roads.end(); it++) {
+		if (it->second->getName() != "")
+			streetNames.push_back(it->second->getName());
+	}
 
-		sort(streetNames.begin(), streetNames.end());
-		streetNames.erase(unique(streetNames.begin(), streetNames.end()), streetNames.end());
+	sort(streetNames.begin(), streetNames.end());
+	streetNames.erase(unique(streetNames.begin(), streetNames.end()),
+			streetNames.end());
 
-
-		return streetNames;
+	return streetNames;
 
 }
 
-vector<DestPlace *> Parking::getDestinations()const{
+vector<DestPlace *> Parking::getDestinations() const {
 
 	return destPlacesSet;
 
-
 }
 
-vector<long> Parking::getStreetNodes(string street){
-	vector<long> streetNodes;
+vector<Vertex*> Parking::getStreetNodes(string street) {
+	vector<Vertex *> streetNodes;
+	vector<long> streetNodesIds;
 
-	streetNodes = myGraph.searchStreetNodes(street);
-	sort(streetNodes.begin(), streetNodes.end());
-	streetNodes.erase(unique(streetNodes.begin(), streetNodes.end()), streetNodes.end());
+	streetNodesIds = myGraph.searchStreetNodes(street);
+	sort(streetNodesIds.begin(), streetNodesIds.end());
+	streetNodesIds.erase(unique(streetNodesIds.begin(), streetNodesIds.end()),
+			streetNodesIds.end());
 
+	for(int i =0; i < streetNodesIds.size(); i++)
+		streetNodes.push_back(getVertex(streetNodesIds.at(i)));
 
 	return streetNodes;
 }
 
-Vertex * Parking::getVertex(long id){
+Vertex * Parking::getVertex(long id) {
 
 	vector<Vertex*> vertexSet = myGraph.getVertexSet();
 
-	for(Vertex * v: vertexSet)
-		if(v->getID() == id) return v;
-
+	for (Vertex * v : vertexSet)
+		if (v->getID() == id)
+			return v;
 
 	return NULL;
 }
 
+ParkType * Parking::getParkType(Vertex * v) {
+	for (ParkType * p : parkTypeSet) {
+		if (p->getNode() == v) {
+			return p;
+		}
+		return NULL;
+	}
+
+}
 
