@@ -22,6 +22,7 @@ public:
 	UserInterface(Parking * p);
 	virtual ~UserInterface();
 	void start();
+
 };
 
 #endif /* SRC_USERINTERFACE_H_ */

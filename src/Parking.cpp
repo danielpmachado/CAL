@@ -15,7 +15,7 @@ Parking::Parking() {
 	readParks();
 	readDestinations();
 	myGV->rearrange();
-	planDirectCheapestPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824), 100);
+	//planDirectCheapestPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824), 100);
 	}
 
 Parking::~Parking() {
