@@ -287,6 +287,7 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest, double &finalDist
 	long dist = LONG_MAX;
 	vector<Vertex *> shortPath;
 	ParkType * park = NULL;
+
 	for(ParkType * p : parkTypeSet) {
 		myGraph.dfs(src);
 		if(p->getNode()->isAccessible()) {
@@ -297,9 +298,10 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest, double &finalDist
 				dist = dest->getDist();
 				park = p;
 			}
-			drawPath(shortPathAux, "pink");
+
 		}
 	}
+
 	drawPath(shortPath, "red");
 	finalDist = dist;
 	return park;
@@ -341,43 +343,41 @@ void Parking::drawPath(vector<Vertex*> path, string color) {
 		aux = node;
 	}
 }
-void Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
+
+ParkType * Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
 	double dist = 0;
 	ParkType * p = getClosestPark(src, dest, dist);
+
 	if(p == NULL) {
 		cout << "There is not a possible path. Try again.\n";
-		return;
+		return p;
 	}
+
 	myGraph.dijkstraShortestPathToPark(src);
-	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
-	drawPath(pathToPark, "red");
+
 	dist += p->getNode()->getDist();
-	cout << "Total distance: " << dist << " m   ( "<< p->getNode()->getDist() << " by car and " << dist - p->getNode()->getDist() << " by foot )" << endl;
-	cout << "Type of Park: ";
-	if(p->getType() == "meter") {
-		cout << "Parking meter\n";
-	} else
-		cout << "Garage\n";
-	cout << "Price: " << p->getPrice() << " euros/h\n";
+
+	dest->setDist(dist);
+
+	return p;
+
 }
-void Parking::planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist) {
+
+
+ParkType * Parking::planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist) {
 	double dist = 0;
 	ParkType * p = getCheapestPark(src, dest, maxDist, dist);
 	if(p == NULL) {
 		cout << "There is not a possible path. Try again.\n";
-		return;
+		return p;
 	}
 	myGraph.dijkstraShortestPathToPark(src);
-	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
-	drawPath(pathToPark, "red");
+
 	dist += p->getNode()->getDist();
-	cout << "Total distance: " << dist << " m   ( "<< p->getNode()->getDist() << " by car and " << dist - p->getNode()->getDist() << " by foot )" << endl;
-	cout << "Type of Park: ";
-	if(p->getType() == "meter") {
-		cout << "Parking meter\n";
-	} else
-		cout << "Garage\n";
-	cout << "Price: " << p->getPrice() << " euros/h\n";
+
+	dest->setDist(dist);
+
+	return p;
 }
 
 
@@ -424,17 +424,9 @@ vector<string> Parking::getStreetNames()const{
 
 }
 
-vector<string> Parking::getDestinationNames()const{
+vector<DestPlace *> Parking::getDestinations()const{
 
-	vector<DestPlace *>::const_iterator it;
-
-	vector<string> destinationNames;
-
-
-	for(it = destPlacesSet.begin(); it!= destPlacesSet.end(); it++)
-		destinationNames.push_back((*it)->getPlace());
-
-	return destinationNames;
+	return destPlacesSet;
 
 
 }
@@ -460,4 +452,5 @@ Vertex * Parking::getVertex(long id){
 
 	return NULL;
 }
+
 

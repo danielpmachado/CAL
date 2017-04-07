@@ -58,19 +58,22 @@ void UserInterface::start()const{
 	// Escolher nó certo
 	// vou assumir que é o 1
 
-	int initial_position = 1;
+
+	Vertex * src = p->getVertex(streetNodes.at(0));
 
 	pauseScreen();
 	clearScreen();
 
-	vector<string> destinationNames = p->getDestinationNames();
+	vector<DestPlace *> destinations= p->getDestinations();
 
 
 	cout << TAB << "Where do you want to go?" << endl;
 
-	for(string name : destinationNames){
-		cout << TAB << "->" <<  name << endl;
+	for(DestPlace * dst : destinations){
+		cout << TAB << "->" <<  dst->getPlace() << endl;
 	}
+
+
 
 	pauseScreen();
 	clearScreen();
@@ -79,7 +82,9 @@ void UserInterface::start()const{
 	// Escolher destino certo
 	// vou assumir que é o school
 
-	string destination = "school";
+	Vertex * dst = destinations.at(0)->getNode();
+
+
 
 	cout << TAB << "Park Option" << endl;
 
@@ -89,19 +94,63 @@ void UserInterface::start()const{
 	pauseScreen();
 	clearScreen();
 
-	bool nearest = true;
-	bool cheapest;
+	// SE ESCOLHER O PARQUE MAIS PERTO CHAMAR ESTE CODIGO
 
-	Vertex * src = p->getVertex(initial_position);
-	Vertex * dst = p->getDestination(destination);
-//
-//	if(nearest)
-//		planDirectShortPath(src, dest);
+	// -------------------------------------------------------
+	//ParkType * car_park = p->planDirectShortPath(src, dst);
 
+	//if(car_park != NULL) displayRouteInformation(src,dst,car_park);
 
+	// ---------------------------------------------------------
 
 
+	// SE ESCOLHER O PARQUE MAIS BARATO CHAMAR ESTE CÓDIGO
+
+	// ----------------------------------------------
+
+	cout << TAB << "Max distance between the Car Park and your Destination" << endl;
+	cout << TAB << "-> 50 m" << endl;
+	cout << TAB << "-> 100 m" << endl;
+	cout << TAB << "-> 200 m" << endl;
+	cout << TAB << "-> 300 m" << endl;
+	cout << TAB << "-> 400 m" << endl;
+
+	// faz a tua cena Daniel
+
+	pauseScreen();
+	clearScreen();
+
+
+	long max_distance = 200;
+
+	ParkType * car_park = p->planDirectCheapestPath(src,dst, max_distance);
+
+	if(car_park != NULL) displayRouteInformation(src,dst,car_park);
+
+	// -----------------------------------------------------------
 
 
 }
 
+
+void UserInterface::displayRouteInformation(Vertex * src, Vertex * dst, ParkType * park)const {
+
+	vector<Vertex *> pathToPark = p->getGraph().getPath(src, park->getNode());
+
+	p->drawPath(pathToPark, "red");
+
+	cout	<< "Total distance: "
+			<< dst->getDist() << " m   ( "<< park->getNode()->getDist()
+			<< " by car and " << dst->getDist() - park->getNode()->getDist()
+			<< " by foot )" << endl;
+
+
+	cout << "Type of Park: ";
+	if(park->getType() == "meter") {
+		cout << "Parking meter\n";
+	} else
+		cout << "Garage\n";
+
+	cout << "Price: " << park->getPrice() << " euros/h\n";
+
+}

@@ -58,6 +58,7 @@ public:
 	void setID(long id);
 	bool isAccessible();
 	long getDist() const;
+	void setDist(long dist);
 	int getIndegree() const;
 	bool isInQueue() const {return inQueue;}
 	Edge * getEdgeToVertex(Vertex * dets);
