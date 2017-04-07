@@ -15,7 +15,7 @@ Parking::Parking() {
 	readParks();
 	readDestinations();
 	myGV->rearrange();
-	planDirectCheapestPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824), 100);
+	//planDirectCheapestPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824), 100);
 	}
 
 Parking::~Parking() {
@@ -394,24 +394,22 @@ double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 }
 
 void Parking::toogleStreetNodes(string street) {
-	vector<long> streetNodes;
-
-	streetNodes = myGraph.searchStreetNodes(street);
-	streetNodes.erase(unique(streetNodes.begin(), streetNodes.end()), streetNodes.end());
+	vector<long> streetNodes = getStreetNodes(street);
 
 	for (int i = 0; i < streetNodes.size(); i++){
 		myGV->setVertexColor(streetNodes.at(i),"green");
-		myGV->setVertexLabel(streetNodes.at(i), to_string(i+1));
+		myGV->setVertexLabel(streetNodes.at(i), to_string(streetNodes.at(i)));
 	}
 
 	myGV->rearrange();
 
+
 }
 
-vector<string> Parking::getStreetNames(){
+vector<string> Parking::getStreetNames()const{
 
 	vector<string> streetNames;
-	map<long, Road*>::iterator it;
+	map<long, Road*>::const_iterator it;
 
 	for(it = roads.begin(); it != roads.end(); it++){
 			if(it->second->getName()!= "")
@@ -424,5 +422,42 @@ vector<string> Parking::getStreetNames(){
 
 		return streetNames;
 
+}
+
+vector<string> Parking::getDestinationNames()const{
+
+	vector<DestPlace *>::const_iterator it;
+
+	vector<string> destinationNames;
+
+
+	for(it = destPlacesSet.begin(); it!= destPlacesSet.end(); it++)
+		destinationNames.push_back((*it)->getPlace());
+
+	return destinationNames;
+
+
+}
+
+vector<long> Parking::getStreetNodes(string street){
+	vector<long> streetNodes;
+
+	streetNodes = myGraph.searchStreetNodes(street);
+	sort(streetNodes.begin(), streetNodes.end());
+	streetNodes.erase(unique(streetNodes.begin(), streetNodes.end()), streetNodes.end());
+
+
+	return streetNodes;
+}
+
+Vertex * Parking::getVertex(long id){
+
+	vector<Vertex*> vertexSet = myGraph.getVertexSet();
+
+	for(Vertex * v: vertexSet)
+		if(v->getID() == id) return v;
+
+
+	return NULL;
 }
 

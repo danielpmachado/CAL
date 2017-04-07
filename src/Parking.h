@@ -63,7 +63,13 @@ public:
 
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 	void toogleStreetNodes(string street);
-	vector<string> getStreetNames();
+
+	vector<string> getStreetNames()const;
+	vector<string> getDestinationNames()const;
+	vector<long> getStreetNodes(string street);
+
+
+	Vertex * getVertex(long id);
 };
 
 
