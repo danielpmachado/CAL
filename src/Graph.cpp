@@ -208,7 +208,7 @@ vector<Vertex*> Graph::getSources() {
 	return buffer;
 }
 
-void Graph::dijkstraShortestPath(Vertex * v) {
+void Graph::dijkstraShortestPathToDest(Vertex * v) {
 	for(unsigned int i = 0; i < vertexSet.size(); i++) {
 		vertexSet[i]->path = NULL;
 		vertexSet[i]->dist = LONG_MAX;
@@ -232,6 +232,38 @@ void Graph::dijkstraShortestPath(Vertex * v) {
 					ptrVertex ptrW = ptrVertex(w);
 					q.push(ptrW);
 					w->inQueue = true;
+				}
+			}
+		}
+	}
+}
+
+void Graph::dijkstraShortestPathToPark(Vertex * v) {
+	for(unsigned int i = 0; i < vertexSet.size(); i++) {
+		vertexSet[i]->path = NULL;
+		vertexSet[i]->dist = LONG_MAX;
+	}
+
+	v->dist = 0;
+	ptrVertex node = ptrVertex(v);
+	priority_queue< ptrVertex > q;
+	q.push(node);
+	v->inQueue = true;
+
+	while( !q.empty() ) {
+		Vertex * processingVertex = q.top().getNode(); q.pop();
+		processingVertex->inQueue = false;
+		for(unsigned int i = 0; i < processingVertex->adj.size(); i++) {
+			if(processingVertex->adj[i]->isReal()) {
+				Vertex* w = processingVertex->adj[i]->dest;
+				if( w->dist > (processingVertex->dist+ processingVertex->adj[i]->weight) ) {
+					w->dist = (processingVertex->dist+ processingVertex->adj[i]->weight);
+					w->path = processingVertex;
+					if(!(w->inQueue)) {
+						ptrVertex ptrW = ptrVertex(w);
+						q.push(ptrW);
+						w->inQueue = true;
+					}
 				}
 			}
 		}
