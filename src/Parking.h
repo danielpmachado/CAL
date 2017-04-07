@@ -60,10 +60,10 @@ public:
 	 */
 	void planDirectShortPath(Vertex * src, Vertex * dest);
 	void planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist);
-	int convertLongitudeToX(double longitude);
-	int convertLatitudeToY(double latitude);
+
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 	void toogleStreetNodes(string street);
+	vector<string> getStreetNames();
 };
 
 

@@ -7,6 +7,7 @@
 
 #include "UserInterface.h"
 
+
 UserInterface::UserInterface(Parking * p) {
 	this->p = p;
 
@@ -18,26 +19,19 @@ UserInterface::~UserInterface() {
 
 void UserInterface::start(){
 
+	clearScreen();
+
 	cout << TAB << "PRESS ENTER TO CALCULATE ROUTE" << endl;
 
-	getchar();
-
+	pauseScreen();
+	clearScreen();
 
 	cout << TAB << "Please chose the street your in..." << endl;
 
-	map<long, Road*> roads = p->getRoads();
-	map<long, Road*>::iterator it;
-	vector<string> streetNames;
-	vector<long> streetNodes;
+
+	vector<string> streetNames = p->getStreetNames();
 	string street;
 
-	for(it = roads.begin(); it != roads.end(); it++){
-		if(it->second->getName()!= "")
-			streetNames.push_back(it->second->getName());
-	}
-
-	sort(streetNames.begin(), streetNames.end());
-	streetNames.erase(unique(streetNames.begin(), streetNames.end()), streetNames.end());
 
 	for(string name : streetNames)
 		cout << TAB << "-> "<< name << endl;
@@ -45,7 +39,8 @@ void UserInterface::start(){
 	// Aqui escolher a rua certa
 	// Vou assumir que é Adams Street
 
-	getchar();
+	pauseScreen();
+	clearScreen();
 
 	street = "Pearl Street";  //MUDAR
 
