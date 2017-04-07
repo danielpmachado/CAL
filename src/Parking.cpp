@@ -16,13 +16,10 @@ Parking::Parking() {
 	readDestinations();
 	readGasPumps();
 	myGV->rearrange();
-<<<<<<< HEAD
+
 
 }
-=======
-	//planGasPumpShortPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824));
-	}
->>>>>>> origin/master
+
 
 Parking::~Parking() {
 	// TODO Auto-generated destructor stub
@@ -387,23 +384,14 @@ ParkType * Parking::planDirectCheapestPath(Vertex * src, Vertex * dest,
 	}
 
 	myGraph.dijkstraShortestPathByCar(src);
-<<<<<<< HEAD
 
-	dist += p->getNode()->getDist();
-
-	dest->setDist(dist);
-=======
  
     dist += p->getNode()->getDist();
 
 	dest->setDist(dist);
 	return p;
 }
->>>>>>> origin/master
 
-	return p;
-
-}
 
 long Parking::calculateGasPumpShortPath(Vertex * src, Vertex * dest,
 		GasPump * &finalGasPump, ParkType * &finalParkType) {
@@ -489,10 +477,6 @@ void Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
 		cout << "Garage\n";
 	cout << "Price: " << park->getPrice() << " euros/h\n";
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 
 double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
