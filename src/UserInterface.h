@@ -21,7 +21,7 @@ class UserInterface {
 public:
 	UserInterface(Parking * p);
 	virtual ~UserInterface();
-	void start()const;
+	void start();
 	void displayRouteInformation(Vertex * src, Vertex * dst, ParkType * park)const;
 };
 
