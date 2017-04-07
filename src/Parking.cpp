@@ -15,7 +15,7 @@ Parking::Parking() {
 	readParks();
 	readDestinations();
 	myGV->rearrange();
-	planDirectShortPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824));
+	planDirectCheapestPath(myGraph.getVertex(42494919), myGraph.getVertex(42464824), 100);
 	}
 
 Parking::~Parking() {
@@ -185,7 +185,26 @@ void Parking::readParks() {
 
 	parksFile.close();
 }
+void Parking::readGasPumps() {
+	ifstream gasPumpFile;
+		string line;
+		ull_int node_id;
+		gasPumpFile.open("gaspump.txt");
 
+		if (!gasPumpFile) {
+			cerr << "Unable to open file gaspump.txt";
+			return;
+		}
+		while (getline(gasPumpFile, line)) {
+			stringstream linestream(line);
+			linestream >> node_id;
+
+			GasPump * gp = new GasPump(myGraph.getVertex(node_id));
+			gasPumpSet.push_back(gp);
+		}
+
+		gasPumpFile.close();
+}
 void Parking::readDestinations() {
 	ifstream destFile;
 	string line;
@@ -285,7 +304,7 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest, double &finalDist
 	finalDist = dist;
 	return park;
 }
-ParkType * Parking::getCheaperPark(Vertex * src, Vertex * dest, double distMax) {
+ParkType * Parking::getCheapestPark(Vertex * src, Vertex * dest, double distMax, double &finalDist) {
 	long dist;
 	double price = 1000;
 	vector<Vertex *> shortPath;
@@ -307,6 +326,7 @@ ParkType * Parking::getCheaperPark(Vertex * src, Vertex * dest, double distMax) 
 		}
 	}
 	drawPath(shortPath, "red");
+	finalDist = dist;
 	return park;
 }
 
@@ -332,7 +352,32 @@ void Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
 	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
 	drawPath(pathToPark, "red");
 	dist += p->getNode()->getDist();
-	cout << "Total distance: " << dist << endl;
+	cout << "Total distance: " << dist << " m   ( "<< p->getNode()->getDist() << " by car and " << dist - p->getNode()->getDist() << " by foot )" << endl;
+	cout << "Type of Park: ";
+	if(p->getType() == "meter") {
+		cout << "Parking meter\n";
+	} else
+		cout << "Garage\n";
+	cout << "Price: " << p->getPrice() << " euros/h\n";
+}
+void Parking::planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist) {
+	double dist = 0;
+	ParkType * p = getCheapestPark(src, dest, maxDist, dist);
+	if(p == NULL) {
+		cout << "There is not a possible path. Try again.\n";
+		return;
+	}
+	myGraph.dijkstraShortestPathToPark(src);
+	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
+	drawPath(pathToPark, "red");
+	dist += p->getNode()->getDist();
+	cout << "Total distance: " << dist << " m   ( "<< p->getNode()->getDist() << " by car and " << dist - p->getNode()->getDist() << " by foot )" << endl;
+	cout << "Type of Park: ";
+	if(p->getType() == "meter") {
+		cout << "Parking meter\n";
+	} else
+		cout << "Garage\n";
+	cout << "Price: " << p->getPrice() << " euros/h\n";
 }
 int Parking::convertLongitudeToX(double longitude) {
 	return floor((longitude - MIN_LNG) * IMAGE_X / (MAX_LNG - MIN_LNG));
