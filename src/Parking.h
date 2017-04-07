@@ -14,11 +14,15 @@
 #include <sstream>
 #include <map>
 #include <cmath>
+#include <algorithm>
 
 #include "graphviewer.h"
 #include "Graph.h"
 #include "Road.h";
 #include "utils.h"
+#include "ParkType.h"
+#include "DestPlace.h"
+#include "GasPump.h"
 
 
 using namespace std;
@@ -27,30 +31,43 @@ class Parking {
 private:
 	Graph myGraph = Graph();
 	map<long, Road*> roads;
-	GraphViewer *myGV= new GraphViewer(800, 1000, false);
-
-	double maxLat = -10000;
-	double minLat= 100000;
-	double maxLng= -10000;
-	double minLng= 10000;
+	GraphViewer *myGV= new GraphViewer(5000, 3496, false);
+	vector<ParkType*>parkTypeSet;
+	vector<DestPlace *>destPlacesSet;
+	vector<GasPump *>gasPumpSet;
 
 public:
 	Parking();
 	virtual ~Parking();
+
+	map<long, Road*> getRoads();
+	GraphViewer * getGraphViewer();
+	Graph getGraph();
+
 	void readRoadsFile();
 	void readConnectionsFile();
 	void readNodesFile();
+	void readParks();
+	void readDestinations();
+	void readGasPumps();
+
 	void createGraphViewer();
+	ParkType * getClosestPark(Vertex* src, Vertex * dest, double &finalDist);
+	ParkType * getCheapestPark(Vertex * src, Vertex * dest, double distMax, double &finalDist);
+	void drawPath(vector<Vertex*> path, string color);
+	/**
+	 * Planeia o caminho mais curto de um parque ao destino sem passar por bomba de gasolina
+	 */
+	void planDirectShortPath(Vertex * src, Vertex * dest);
+	void planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist);
 
-
-	int convertLongitudeToX(double longitude);
-	int convertLatitudeToY(double latitude);
-	void updateCoordinates();
+	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
+	void toogleStreetNodes(string street);
+	vector<string> getStreetNames();
 };
 
 
 // auxiliary functions
 
-double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 
 #endif /* SRC_PARKING_H_ */
