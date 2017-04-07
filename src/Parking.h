@@ -33,8 +33,6 @@ private:
 	GraphViewer *myGV= new GraphViewer(5000, 3496, false);
 	vector<ParkType*>parkTypeSet;
 	vector<DestPlace *>destPlacesSet;
-	queue<string> colors;
-
 
 public:
 	Parking();
@@ -48,12 +46,12 @@ public:
 	void readConnectionsFile();
 	void readNodesFile();
 	void readParks();
-  void readDestinations();
+	void readDestinations();
 
 	void createGraphViewer();
 	ParkType * getClosestPark(Vertex* src, Vertex * dest);
 	ParkType * getCheaperPark(Vertex * src, Vertex * dest, double distMax);
-	void drawPath(vector<Vertex*> path);
+	void drawPath(vector<Vertex*> path, string color);
 	int convertLongitudeToX(double longitude);
 	int convertLatitudeToY(double latitude);
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
