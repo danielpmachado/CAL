@@ -12,6 +12,7 @@
 #include <algorithm>
 
 #include "Parking.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ public:
 	UserInterface(Parking * p);
 	virtual ~UserInterface();
 	void start();
+	void displayRouteInformation(Vertex * src, Vertex * dst, ParkType * park)const;
 };
 
 #endif /* SRC_USERINTERFACE_H_ */
