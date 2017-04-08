@@ -149,4 +149,17 @@ public:
 	bool operator<(const closestVertex &v2) const;
 };
 
+class cheapestVertex {
+private:
+	Vertex * v;
+	double price;
+public:
+	cheapestVertex(Vertex * v, double price);
+	Vertex * getNode() const;
+	void setNode(Vertex * v);
+	double getPrice() const;
+	void setPrice(double price);
+	bool operator<(const cheapestVertex &v2) const;
+};
+
 #endif /* SRC_GRAPH_H_ */
