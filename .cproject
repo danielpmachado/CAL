@@ -95,15 +95,31 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="Proj.cdt.managedbuild.target.gnu.mingw.exe.996305465" name="Executable" projectType="cdt.managedbuild.target.gnu.mingw.exe"/>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.release.1691302140;cdt.managedbuild.config.gnu.mingw.exe.release.1691302140.;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release.2060086616;cdt.managedbuild.tool.gnu.c.compiler.input.160306381">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.1319175863;cdt.managedbuild.config.gnu.mingw.exe.debug.1319175863.;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.1392217425;cdt.managedbuild.tool.gnu.c.compiler.input.1685364381">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.1319175863;cdt.managedbuild.config.gnu.mingw.exe.debug.1319175863.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.86605850;cdt.managedbuild.tool.gnu.cpp.compiler.input.745626631">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.707339372;cdt.managedbuild.config.gnu.mingw.exe.debug.707339372.;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.1309818104;cdt.managedbuild.tool.gnu.c.compiler.input.61600150">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.release.1027774237;cdt.managedbuild.config.gnu.mingw.exe.release.1027774237.;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release.346753955;cdt.managedbuild.tool.gnu.c.compiler.input.1011164237">
+
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.release.992952136;cdt.managedbuild.config.gnu.mingw.exe.release.992952136.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.release.10591881;cdt.managedbuild.tool.gnu.cpp.compiler.input.1250312428">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.release.992952136;cdt.managedbuild.config.gnu.mingw.exe.release.992952136.;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release.2078555818;cdt.managedbuild.tool.gnu.c.compiler.input.1678937189">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.707339372;cdt.managedbuild.config.gnu.mingw.exe.debug.707339372.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.642850643;cdt.managedbuild.tool.gnu.cpp.compiler.input.229672553">
+
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.release.1691302140;cdt.managedbuild.config.gnu.mingw.exe.release.1691302140.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.release.239180691;cdt.managedbuild.tool.gnu.cpp.compiler.input.108252963">
@@ -122,6 +138,7 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 	</storageModule>
+
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
@@ -132,4 +149,4 @@
 			<resource resourceType="PROJECT" workspacePath="/Proj"/>
 		</configuration>
 	</storageModule>
-</cproject>
+
