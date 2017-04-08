@@ -36,6 +36,8 @@ const long LONG_INFINITY = LONG_MAX;
  */
 class Vertex {
 	long id;
+	static int vertexSecondID;
+	int secondID;
 	double longitude, latitude;
 	vector<Edge *> adj;
 	bool visited;
@@ -47,7 +49,7 @@ public:
 
 	Vertex(long id, double lon, double lat);
 	friend class Graph;
-
+	int getSecondID() const;
 	void addEdge(Vertex *dest, Road * road, double w, bool real);
 	bool removeEdgeTo(Vertex *d);
 	vector<Edge *> getAdj();
@@ -57,7 +59,7 @@ public:
 	void setLongitude(long lon);
 	void setLatitude(long lat);
 	void setID(long id);
-	bool isAccessible();
+	bool isAccessible() const;
 	long getDist() const;
 	void setDist(long dist);
 	int getIndegree() const;
@@ -111,6 +113,7 @@ public:
 	void dfsAux(Vertex *v);//auxiliar de dfs() que altera o atributo "visited" dos vertices quando estes sao atingidos
 	Vertex* getVertex(long lon, long lat) const;
 	Vertex * getVertex(long id);
+	Vertex * getVertexBySecondID(int id);
 	void resetIndegrees();
 	vector<Vertex*> getSources();//retorna vetor com possiveis vertices origem usados como ponto de começo em algoritmos de ordenacao, ou seja, vertices com indegree 0
 	vector<Vertex*> getPath(Vertex* origin, Vertex* dest);
@@ -147,6 +150,19 @@ public:
 	double getDist() const;
 	void setDist(double dist);
 	bool operator<(const closestVertex &v2) const;
+};
+
+class cheapestVertex {
+private:
+	Vertex * v;
+	double price;
+public:
+	cheapestVertex(Vertex * v, double price);
+	Vertex * getNode() const;
+	void setNode(Vertex * v);
+	double getPrice() const;
+	void setPrice(double price);
+	bool operator<(const cheapestVertex &v2) const;
 };
 
 #endif /* SRC_GRAPH_H_ */

@@ -8,11 +8,16 @@
 /*
  * CLASS VERTEX
  */
+int Vertex::vertexSecondID = 0;
 Vertex::Vertex(long id, double lon, double lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
+	vertexSecondID++;
+	secondID = vertexSecondID;
 	this->id = id;
 	path = NULL;
 }
-
+int Vertex::getSecondID() const {
+	return secondID;
+}
 void Vertex::addEdge(Vertex *dest, Road * road, double w, bool real) {
 	Edge *edgeD = new Edge(dest, road, w, real);
 	adj.push_back(edgeD);
@@ -81,7 +86,7 @@ Edge * Vertex::getEdgeToVertex(Vertex * dest) {
 	}
 	return NULL;
 }
-bool Vertex::isAccessible() {
+bool Vertex::isAccessible() const{
 	return visited;
 }
 /*
@@ -181,6 +186,14 @@ bool Graph::removeVertex(Vertex * v) {
 Vertex * Graph::getVertex(long id) {
 	for (int i = 0; i < vertexSet.size(); i++) {
 		if(vertexSet[i]->getID() == id) {
+			return vertexSet[i];
+		}
+	}
+	return NULL;
+}
+Vertex * Graph::getVertexBySecondID(int id) {
+	for (int i = 0; i < vertexSet.size(); i++) {
+		if(vertexSet[i]->getSecondID() == id) {
 			return vertexSet[i];
 		}
 	}
@@ -374,4 +387,28 @@ void closestVertex::setDist(double dist) {
 }
 bool closestVertex::operator<(const closestVertex &v2) const {
 	return dist > v2.getDist();
+}
+
+/*
+ * CLASS CHEAPESTVERTEX
+ */
+
+cheapestVertex::cheapestVertex(Vertex * v, double price) {
+	this->v = v;
+	this->price = price;
+}
+Vertex * cheapestVertex::getNode() const {
+	return v;
+}
+void cheapestVertex::setNode(Vertex * v) {
+	this->v = v;
+}
+double cheapestVertex::getPrice() const {
+	return price;
+}
+void cheapestVertex::setPrice(double price) {
+	this->price = price;
+}
+bool cheapestVertex::operator<(const cheapestVertex &v2) const {
+	return price > v2.getPrice();
 }
