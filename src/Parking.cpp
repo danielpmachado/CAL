@@ -585,12 +585,17 @@ double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 void Parking::toogleStreetNodes(string street) {
 	vector<Vertex*> streetNodes = getStreetNodes(street);
 
+	cout << "fsadfa";
 	for (int i = 0; i < streetNodes.size(); i++) {
+		cout << streetNodes.at(i)->getSecondID();
 		myGV->setVertexColor(streetNodes.at(i)->getSecondID(), "green");
+		cout << "pooo";
 		myGV->setVertexLabel(streetNodes.at(i)->getSecondID(), to_string(i+1));
 	}
-
+cout << "rearrange";
 	myGV->rearrange();
+
+	cout << "1\111";
 
 }
 
