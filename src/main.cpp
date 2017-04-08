@@ -1,5 +1,5 @@
 /*
- * main.cpp
+  * main.cpp
  *
  *  Created on: Apr 2, 2017
  *      Author: Sofia
@@ -17,9 +17,9 @@
 int main(){
 
 	Parking p;
-	//UserInterface ui(&p);
+	UserInterface ui(&p);
 
-	//ui.start();
+	ui.start();
 
 	getchar();
 	return 0;
