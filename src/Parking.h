@@ -60,6 +60,9 @@ public:
 	 * Planeia o caminho mais curto de um parque ao destino sem passar por bomba de gasolina
 	 */
 	void planGasPumpShortPath(Vertex * src, Vertex * dest);
+	/**
+	 * calcula qual a bomba de gasolina e parque pelos quais vai passar
+	 */
 	long calculateGasPumpShortPath(Vertex * src, Vertex * dest, GasPump * &finalGasPump,  ParkType * &finalParkType);
 	ParkType * getParkType(Vertex * v);
 

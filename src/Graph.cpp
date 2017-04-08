@@ -81,7 +81,7 @@ Edge * Vertex::getEdgeToVertex(Vertex * dest) {
 	}
 	return NULL;
 }
-bool Vertex::isAccessible() {
+bool Vertex::isAccessible() const{
 	return visited;
 }
 /*

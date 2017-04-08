@@ -57,7 +57,7 @@ public:
 	void setLongitude(long lon);
 	void setLatitude(long lat);
 	void setID(long id);
-	bool isAccessible();
+	bool isAccessible() const;
 	long getDist() const;
 	void setDist(long dist);
 	int getIndegree() const;

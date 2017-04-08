@@ -22,7 +22,7 @@ private:
 	double price;
 public:
 	ParkType(Vertex * v, string type, double price);
-	Vertex * getNode() const;
+	Vertex * getNode();
 	string getType() const;
 	double getPrice() const;
 	void setNode(Vertex * v);
