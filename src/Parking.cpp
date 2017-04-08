@@ -310,7 +310,7 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest, double &finalDist
 		}
 	}
 
-	drawPath(shortPath, "red");
+	drawPath(shortPath, "yellow");
 	finalDist = dist;
 	return park;
 }
@@ -334,18 +334,18 @@ ParkType * Parking::getCheapestPark(Vertex * src, Vertex * dest, double distMax,
 			}
 		}
 	}
-	drawPath(shortPath, "red");
+	drawPath(shortPath, "yellow");
 	return park;
 }
 
 void Parking::drawPath(vector<Vertex*> path, string color) {
 	Vertex * aux = NULL;
 	for (Vertex * node : path) {
-		myGV->setVertexColor(node->getID(), color);
 		if (aux != NULL) {
-			myGV->setEdgeThickness(aux->getEdgeToVertex(node)->getID(), 20);
+			myGV->setEdgeThickness(aux->getEdgeToVertex(node)->getID(), 7);
 			myGV->setEdgeColor(aux->getEdgeToVertex(node)->getID(), color);
 		}
+		myGV->setVertexColor(node->getID(), color);
 		aux = node;
 	}
 }
@@ -361,7 +361,7 @@ ParkType * Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
 
 	myGraph.dijkstraShortestPathByCar(src);
 	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
-	drawPath(pathToPark, "red");
+	drawPath(pathToPark, "orange");
 
 	dist += p->getNode()->getDist();
 
@@ -381,7 +381,7 @@ ParkType * Parking::planDirectCheapestPath(Vertex * src, Vertex * dest, double m
 
 	myGraph.dijkstraShortestPathByCar(src);
 	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
-	drawPath(pathToPark, "red");
+	drawPath(pathToPark, "orange");
 
 	dist += p->getNode()->getDist();
 
@@ -448,19 +448,19 @@ void Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
 	 */
 	myGraph.dijkstraShortestPathByCar(src);
 	vector<Vertex *> pathToGasPump = myGraph.getPath(src, pump->getNode());
-	drawPath(pathToGasPump, "red");
+	drawPath(pathToGasPump, "yellow");
 	/*
 	 * Draw path from GasPump to Park
 	 */
 	myGraph.dijkstraShortestPathByCar(pump->getNode());
 	vector<Vertex *> pathToPark = myGraph.getPath(pump->getNode(),park->getNode());
-	drawPath(pathToPark, "red");
+	drawPath(pathToPark, "orange");
 	/*
 	 * Draw path from Park to dest
 	 */
 	myGraph.dijkstraShortestPathByFoot(park->getNode());
 	vector<Vertex *> pathToDest = myGraph.getPath(park->getNode(), dest);
-	drawPath(pathToDest, "red");
+	drawPath(pathToDest, "cyan");
 
 	long totalDist = distFromSrcToPark + dest->getDist();
 	cout << "Total distance: " << totalDist << " m   ( " << distFromSrcToPark << " by car and " << dest->getDist() << " by foot )" << endl;
@@ -483,23 +483,26 @@ long Parking::calculateGasPumpCheapestPath(Vertex * src, Vertex * dest, double m
 	myGraph.dfs(src);
 	for (ParkType * p : parkTypeSet) {
 		if (p->getNode()->isAccessible()) {
-			cheapestVertex node = cheapestVertex(p->getNode(), p->getPrice());
-			accessibleParks.push(node);
+			myGraph.dijkstraShortestPathByFoot(p->getNode());
+			if(dest->getDist() <= maxDist) {
+				cheapestVertex node = cheapestVertex(p->getNode(), p->getPrice());
+				accessibleParks.push(node);
+			}
 		}
 	}
 	long dist = LONG_MAX;
 	while (!accessibleParks.empty()) {
 		Vertex * v = accessibleParks.top().getNode();
 		ParkType * parkAux = getParkType(v); //parque que esta a ser analisado
-		double distFromSrcToPark = 0;
 		for (GasPump * gp : accessibleGasPumps) {
+			double distFromSrcToPark = 0;
 			myGraph.dfs(gp->getNode());
 			if (parkAux->getNode()->isAccessible()) {
 				myGraph.dijkstraShortestPathByCar(src);
 				distFromSrcToPark += gp->getNode()->getDist(); //distancia da origem a bomba de gasolina
 				myGraph.dijkstraShortestPathByCar(gp->getNode());
 				distFromSrcToPark += parkAux->getNode()->getDist(); //distancia da bomba de gasolina ao parque
-				if (distFromSrcToPark <= maxDist && distFromSrcToPark < dist) {
+				if (distFromSrcToPark < dist) {
 					dist = distFromSrcToPark;
 					finalGasPump = gp;
 					finalParkType = parkAux;
@@ -527,19 +530,19 @@ void Parking::planGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDis
 	 */
 	myGraph.dijkstraShortestPathByCar(src);
 	vector<Vertex *> pathToGasPump = myGraph.getPath(src, pump->getNode());
-	drawPath(pathToGasPump, "red");
+	drawPath(pathToGasPump, "yellow");
 	/*
 	 * Draw path from GasPump to Park
 	 */
 	myGraph.dijkstraShortestPathByCar(pump->getNode());
 	vector<Vertex *> pathToPark = myGraph.getPath(pump->getNode(),park->getNode());
-	drawPath(pathToPark, "red");
+	drawPath(pathToPark, "orange");
 	/*
 	 * Draw path from Park to dest
 	 */
 	myGraph.dijkstraShortestPathByFoot(park->getNode());
 	vector<Vertex *> pathToDest = myGraph.getPath(park->getNode(), dest);
-	drawPath(pathToDest, "red");
+	drawPath(pathToDest, "cyan");
 
 	long totalDist = distFromSrcToPark + dest->getDist();
 	cout << "Total distance: " << totalDist << " m   ( " << distFromSrcToPark << " by car and " << dest->getDist() << " by foot )" << endl;
