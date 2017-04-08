@@ -375,3 +375,27 @@ void closestVertex::setDist(double dist) {
 bool closestVertex::operator<(const closestVertex &v2) const {
 	return dist > v2.getDist();
 }
+
+/*
+ * CLASS CHEAPESTVERTEX
+ */
+
+cheapestVertex::cheapestVertex(Vertex * v, double price) {
+	this->v = v;
+	this->price = price;
+}
+Vertex * cheapestVertex::getNode() const {
+	return v;
+}
+void cheapestVertex::setNode(Vertex * v) {
+	this->v = v;
+}
+double cheapestVertex::getPrice() const {
+	return price;
+}
+void cheapestVertex::setPrice(double price) {
+	this->price = price;
+}
+bool cheapestVertex::operator<(const cheapestVertex &v2) const {
+	return price > v2.getPrice();
+}
