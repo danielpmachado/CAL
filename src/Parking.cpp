@@ -499,7 +499,7 @@ long Parking::calculateGasPumpCheapestPath(Vertex * src, Vertex * dest, double m
 				distFromSrcToPark += gp->getNode()->getDist(); //distancia da origem a bomba de gasolina
 				myGraph.dijkstraShortestPathByCar(gp->getNode());
 				distFromSrcToPark += parkAux->getNode()->getDist(); //distancia da bomba de gasolina ao parque
-				if (distFromSrcToPark <= maxDist) {
+				if (distFromSrcToPark <= maxDist && distFromSrcToPark < dist) {
 					dist = distFromSrcToPark;
 					finalGasPump = gp;
 					finalParkType = parkAux;
