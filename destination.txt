@@ -1,3 +1,3 @@
-298948563;school
-192636948;cinema
-42464827;shopping
+228;school
+94;cinema
+10;shopping
