@@ -40,112 +40,261 @@ private:
 public:
 	Graph myGraph = Graph();
 	/**
-	 * construtor da classe
+	 * @brief parking class Constructor
 	 */
 	Parking();
+
 	/**
-	 * destrutor da classe
+	 * @brief parking class destructor
 	 */
 	virtual ~Parking();
+
 	/**
-	 * retorna o map com o id das ruas (como key) e ruas (como value)
+	 * @brief returns the map with roads id (key) and roads (value)
+	 *
+	 * @return map with roads and roads id
 	 */
 	map<long, Road*> getRoads();
+
 	/**
-	 * retorna o GraphViewer (myGV)
+	 * @brief returns the GraphViewer (myGV)
+	 *
+	 * @return GraphViewer (myGV)
 	 */
 	GraphViewer * getGraphViewer();
+
 	/**
-	 * retorna o grafo (myGraph)
+	 * @brief returns the graph (myGraph)
+	 *
+	 * @return  the graph (myGraph)
 	 */
 	Graph getGraph();
+
 	/**
-	 * le o ficheiro com a informacao sobre as ruas do mapa
+	 * @brief read the file with roads information
+	 *
 	 */
 	void readRoadsFile();
+
 	/**
-	 * le o ficheiro com a informacao sobre as arestas do grafo
+	 * @brief read the file with connections information
+	 *
 	 */
 	void readConnectionsFile();
+
 	/**
-	 * le o ficheiro com a informacao sobre os nos do grafo
+	 * @brief read the file with nodes information
+	 *
 	 */
 	void readNodesFile();
+
 	/**
-	 * le o ficheiro com a informacao sobre os parques de estacionamento
+	 * @brief read the file with parks information
+	 *
 	 */
 	void readParks();
+
 	/**
-	 * le o ficheiro com a informacao sobre os destinos de interesse
+	 * @brief read the file with destinations information
+	 *
 	 */
 	void readDestinations();
+
 	/**
-	 * le o ficheiro com a informacao sobre as bombas de gasolina
+	 * @brief read the file with gas pumps information
+	 *
 	 */
 	void readGasPumps();
+
 	/**
-	 * atribui nos e arestas ao GraphViewer e edita seus restantes atributos
+	 * @brief sets edges and nodes in GraphViewer and edits other atributes
+	 *
 	 */
 	void createGraphViewer();
+
 	/**
-	 * retorna o parque mais perto do destino (ignorando as bombas de gasolina)
+	 * @brief returns the closest park (ignoring gas pumps)
+	 *
+	 * @param src the vertex where the journey begins
+	 *
+	 * @param dest the vertex where the journey ends
+	 *
+	 * @param finalDist the distance between the beginning and the end
+	 *
+	 * @return the park type
 	 */
 	ParkType * getClosestPark(Vertex* src, Vertex * dest, double &finalDist);
+
 	/**
-	 * retorna o parque mais barato (ignorando as bombas de gasolina)
+	 * @brief returns the cheapest park
+	 *
+	 * @param src the vertex where the journey begins
+	 *
+	 * @param dest the vertex where the journey ends
+	 *
+	 * @param distMax the max distance you choose to drive by
+	 *
+	 * @param finalDist the distance between the beginning and the end
+	 *
+	 * @return the park type
 	 */
 	ParkType * getCheapestPark(Vertex * src, Vertex * dest, double distMax, double &finalDist);
+
 	/**
-	 * pinta no mapa o caminho path de cor color
+	 * @brief paint in the map  the path with a specific color
+	 *
+	 * @param path the vertexes vector
+	 *
+	 * @param color the color that is going to be used to paint the map
+   *
 	 */
 	void drawPath(vector<Vertex*> path, string color);
+
 	/**
-	 * Planeia o caminho mais curto de um parque ao destino passando por bomba de gasolina
+	 * @brief plans the shortest path between the park and the destiny passing by a gas bump
+	 *
+	 * @param src the vertex where the journey begins
+	 *
+	 * @param dest the vertex where the journey ends
+	 *
+	 * @return the park
 	 */
 	ParkType * planGasPumpShortPath(Vertex * src, Vertex * dest);
+
 	/**
-	 * calcula qual a bomba de gasolina e parque pelos quais vai passar (no caminho mais curto)
+	 * @brief calculates witch gas bump and park you are going by (the shortest path)
+	 *
+	 * @param src the vertex where the journey begins
+	 *
+	 * @param dest the vertex where the journey ends
+	 *
+	 * @param finalGasPump the chosen gas bump
+	 *
+	 * @param finalParkType the chosen park type
+	 *
+	 * @return a reference to the path
 	 */
 	long calculateGasPumpShortPath(Vertex * src, Vertex * dest, GasPump * &finalGasPump,  ParkType * &finalParkType);
+
 	/**
-	 * Planeia o caminho mais barato passando por bomba de gasolina
+	 * @brief plans the cheapest path passing by a gas bump
+	 *
+	 * @param src the vertex where the journey begins
+	 *
+	 * @param dest the vertex where the journey ends
+	 *
+	 * @param masDist the maximum distance that is chosen by the user
+	 *
+	 * @return the park type
 	 */
 	ParkType * planGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDist);
+
 	/**
-	 * calcula qual a bomba de gasolina e parque pelos quais vai passar (no caminho mais barato)
+	 * @brief calculates witch gas bump and park you are going by (the cheapest path)
+	 *
+	 * @param src the vertex where the journey begins
+	 *
+	 * @param dest the vertex where the journey ends
+	 *
+	 * @param finalGasPump the chosen gas bump
+	 *
+	 * @param finalParkType the chosen park type
+	 *
+	 * @return a reference to the path
 	 */
 	long calculateGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDist, GasPump * &finalGasPump,  ParkType * &finalParkType);
 
 	/*
-	 * retorna o objeto ParkType (parque de estacionamento) de vertice v
+	 * @brief return the ParkType object with the vertex v
+	 *
+	 * @param the vertex v
+	 *
+	 * @return the park type
 	 */
 	ParkType * getParkType(Vertex * v);
+
 	/**
-	 * Planeia o caminho mais curto de um parque ao destino sem passar por bomba de gasolina
+	 * @plans the shortest path to a park, without passing by a gas bump
+	 *
+	 * @param src the vertex where the journey begins
+	 *
+	 * @param dest the vertex where the journey ends
+	 *
+	 * @return a park type
+	 *
 	 */
 	ParkType * planDirectShortPath(Vertex * src, Vertex * dest);
-	/*
-	 * Planeia o caminho mais barato sem passar por bomba de gasolina
+
+	/**
+	 * @plans the cheapest path to a park, without passing by a gas bump
+	 *
+	 * @param src the vertex where the journey begins
+	 *
+	 * @param dest the vertex where the journey ends
+	 *
+	 * @param maxDist the maximum distance that is chosen by the user
+	 *
+	 * @return a park type
 	 */
 	ParkType * planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist);
 
 	/*
-	 * calcula a distancia na imagem entre dois vertices
+	 * @brief calculates the distance between 2 vertexes (in the image)
+	 *
+	 * @param src the vertex where the journey begins
+	 *
+	 * @param dest the vertex where the journey ends
+	 *
+	 * @return the distance between 2 vertexes
+   *
 	 */
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
+
+	/*
+	 * @brief toogles the street nodes in a specific street
+	 *
+	 * @param street the street passed by param
+	 *
+	 */
 	void toogleStreetNodes(string street);
 
+	/*
+	 * @brief gets the street names
+	 *
+	 * @return a vector with the street names
+	 *
+	 */
 	vector<string> getStreetNames()const;
+
+	/*
+	 * @brief gets the destinations
+	 *
+	 * @return a vector with the destinations
+	 *
+	 */
 	vector<DestPlace *> getDestinations()const;
+
+	/*
+	 * @brief gets the street names
+	 *
+	 * @param street the street where you are working
+	 *
+	 * @return a vector with the street nodes
+	 *
+	 */
 	vector<Vertex*> getStreetNodes(string street);
 
 
+	/*
+	 * @brief gets a vertex
+	 *
+	 * @param id the vertex id
+	 *
+	 * @return a vertex
+	 *
+	 */
 	Vertex * getVertex(long id);
 
 };
-
-
-// auxiliary functions
-
 
 #endif /* SRC_PARKING_H_ */
