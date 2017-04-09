@@ -36,8 +36,6 @@ const long LONG_INFINITY = LONG_MAX;
  */
 class Vertex {
 	long id;
-	static int vertexSecondID;
-	int secondID;
 	double longitude, latitude;
 	vector<Edge *> adj;
 	bool visited;
@@ -49,7 +47,6 @@ public:
 
 	Vertex(long id, double lon, double lat);
 	friend class Graph;
-	int getSecondID() const;
 	void addEdge(Vertex *dest, Road * road, double w, bool real);
 	bool removeEdgeTo(Vertex *d);
 	vector<Edge *> getAdj();
@@ -113,7 +110,6 @@ public:
 	void dfsAux(Vertex *v);//auxiliar de dfs() que altera o atributo "visited" dos vertices quando estes sao atingidos
 	Vertex* getVertex(long lon, long lat) const;
 	Vertex * getVertex(long id);
-	Vertex * getVertexBySecondID(int id);
 	void resetIndegrees();
 	vector<Vertex*> getSources();//retorna vetor com possiveis vertices origem usados como ponto de começo em algoritmos de ordenacao, ou seja, vertices com indegree 0
 	vector<Vertex*> getPath(Vertex* origin, Vertex* dest);

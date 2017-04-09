@@ -8,16 +8,13 @@
 /*
  * CLASS VERTEX
  */
-int Vertex::vertexSecondID = 0;
+
 Vertex::Vertex(long id, double lon, double lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
-	vertexSecondID++;
-	secondID = vertexSecondID;
+
 	this->id = id;
 	path = NULL;
 }
-int Vertex::getSecondID() const {
-	return secondID;
-}
+
 void Vertex::addEdge(Vertex *dest, Road * road, double w, bool real) {
 	Edge *edgeD = new Edge(dest, road, w, real);
 	adj.push_back(edgeD);
@@ -191,14 +188,7 @@ Vertex * Graph::getVertex(long id) {
 	}
 	return NULL;
 }
-Vertex * Graph::getVertexBySecondID(int id) {
-	for (int i = 0; i < vertexSet.size(); i++) {
-		if(vertexSet[i]->getSecondID() == id) {
-			return vertexSet[i];
-		}
-	}
-	return NULL;
-}
+
 void Graph::dfs(Vertex * origin) {
 	typename vector<Vertex*>::iterator it= vertexSet.begin();
 	typename vector<Vertex*>::iterator ite= vertexSet.end();
@@ -338,8 +328,8 @@ void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVert
 
         if(e->road->getName() == street && !e->dest->visited){
 
-            streetVertex.push_back(v->getSecondID());
-            streetVertex.push_back(e->dest->getSecondID());
+            streetVertex.push_back(v->getID());
+            streetVertex.push_back(e->dest->getID());
         }
 
         if (!e->dest->visited)
