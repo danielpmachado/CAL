@@ -1,0 +1,142 @@
+\hypertarget{class_edge}{}\section{Edge Class Reference}
+\label{class_edge}\index{Edge@{Edge}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_edge_ab1bd2846a532b77ad8ec13c162542a1e}{Edge} (\hyperlink{class_vertex}{Vertex} $\ast$d, \hyperlink{class_road}{Road} $\ast$road, double w, bool real)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_edge}{Edge} constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_road}{Road} $\ast$ \hyperlink{class_edge_ae967ccaa1db4dba903ccfb3c55be9bc5}{get\+Road} () const
+\begin{DoxyCompactList}\small\item\em returns a pointer to the road that is represented by the edge \end{DoxyCompactList}\item 
+\hyperlink{class_vertex}{Vertex} $\ast$ \hyperlink{class_edge_ac3c0ad78f24f90d2d2710472b1164764}{get\+Dest} ()
+\begin{DoxyCompactList}\small\item\em returns a pointer to the destination vertex \end{DoxyCompactList}\item 
+double \hyperlink{class_edge_a3a776c1ccafacdbdb10fdedd9cb329af}{get\+Weight} ()
+\begin{DoxyCompactList}\small\item\em returns the weight of the edge in km (distance between source vertex and destination vertex) \end{DoxyCompactList}\item 
+int \hyperlink{class_edge_a871891799480be52268bfe7ba482dcb5}{get\+ID} ()
+\begin{DoxyCompactList}\small\item\em returns the number that identifies the edge \end{DoxyCompactList}\item 
+bool \hyperlink{class_edge_ad62dd3ff18f1f29d1281625287db21ee}{is\+In\+Graph\+Viewer} ()
+\begin{DoxyCompactList}\small\item\em tells if the edge as been already insert in the graph viewer \end{DoxyCompactList}\item 
+\hypertarget{class_edge_acc1c45aaa9eeb6e9005e3dbd0a8f48b7}{}\label{class_edge_acc1c45aaa9eeb6e9005e3dbd0a8f48b7} 
+void \hyperlink{class_edge_acc1c45aaa9eeb6e9005e3dbd0a8f48b7}{set\+In\+Graph\+Viewer} ()
+\begin{DoxyCompactList}\small\item\em sets the value of the parameter is\+In\+Graph\+Viewer to true \end{DoxyCompactList}\item 
+bool \hyperlink{class_edge_a10128890aff4f38cb7a992ce8c113255}{is\+Real} ()
+\begin{DoxyCompactList}\small\item\em tells if it is possible for cars to go in this edge direction \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_edge_afab89afd724f1b07b1aaad6bdc61c47a}{}\label{class_edge_afab89afd724f1b07b1aaad6bdc61c47a} 
+class {\bfseries Graph}
+\item 
+\hypertarget{class_edge_a1251d18f08324022e8e73506c3768f3c}{}\label{class_edge_a1251d18f08324022e8e73506c3768f3c} 
+class {\bfseries Vertex}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_edge_ab1bd2846a532b77ad8ec13c162542a1e}{}\label{class_edge_ab1bd2846a532b77ad8ec13c162542a1e} 
+\index{Edge@{Edge}!Edge@{Edge}}
+\index{Edge@{Edge}!Edge@{Edge}}
+\subsubsection{\texorpdfstring{Edge()}{Edge()}}
+{\footnotesize\ttfamily Edge\+::\+Edge (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{d,  }\item[{\hyperlink{class_road}{Road} $\ast$}]{road,  }\item[{double}]{w,  }\item[{bool}]{real }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_edge}{Edge} constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & pointer to the destination vertex\\
+\hline
+{\em road} & pointer to the road that is represented by the vertex represented by the edge\\
+\hline
+{\em w} & weight of the edge in km (distance between source vertex and destination vertex)\\
+\hline
+{\em real} & true if it is possible for cars to go to in that direction false otherwise \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_edge_ac3c0ad78f24f90d2d2710472b1164764}{}\label{class_edge_ac3c0ad78f24f90d2d2710472b1164764} 
+\index{Edge@{Edge}!get\+Dest@{get\+Dest}}
+\index{get\+Dest@{get\+Dest}!Edge@{Edge}}
+\subsubsection{\texorpdfstring{get\+Dest()}{getDest()}}
+{\footnotesize\ttfamily \hyperlink{class_vertex}{Vertex} $\ast$ Edge\+::get\+Dest (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns a pointer to the destination vertex 
+
+\begin{DoxyReturn}{Returns}
+dst 
+\end{DoxyReturn}
+\hypertarget{class_edge_a871891799480be52268bfe7ba482dcb5}{}\label{class_edge_a871891799480be52268bfe7ba482dcb5} 
+\index{Edge@{Edge}!get\+ID@{get\+ID}}
+\index{get\+ID@{get\+ID}!Edge@{Edge}}
+\subsubsection{\texorpdfstring{get\+I\+D()}{getID()}}
+{\footnotesize\ttfamily int Edge\+::get\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns the number that identifies the edge 
+
+\begin{DoxyReturn}{Returns}
+id 
+\end{DoxyReturn}
+\hypertarget{class_edge_ae967ccaa1db4dba903ccfb3c55be9bc5}{}\label{class_edge_ae967ccaa1db4dba903ccfb3c55be9bc5} 
+\index{Edge@{Edge}!get\+Road@{get\+Road}}
+\index{get\+Road@{get\+Road}!Edge@{Edge}}
+\subsubsection{\texorpdfstring{get\+Road()}{getRoad()}}
+{\footnotesize\ttfamily \hyperlink{class_road}{Road} $\ast$ Edge\+::get\+Road (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+returns a pointer to the road that is represented by the edge 
+
+\begin{DoxyReturn}{Returns}
+road 
+\end{DoxyReturn}
+\hypertarget{class_edge_a3a776c1ccafacdbdb10fdedd9cb329af}{}\label{class_edge_a3a776c1ccafacdbdb10fdedd9cb329af} 
+\index{Edge@{Edge}!get\+Weight@{get\+Weight}}
+\index{get\+Weight@{get\+Weight}!Edge@{Edge}}
+\subsubsection{\texorpdfstring{get\+Weight()}{getWeight()}}
+{\footnotesize\ttfamily double Edge\+::get\+Weight (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns the weight of the edge in km (distance between source vertex and destination vertex) 
+
+\begin{DoxyReturn}{Returns}
+weight 
+\end{DoxyReturn}
+\hypertarget{class_edge_ad62dd3ff18f1f29d1281625287db21ee}{}\label{class_edge_ad62dd3ff18f1f29d1281625287db21ee} 
+\index{Edge@{Edge}!is\+In\+Graph\+Viewer@{is\+In\+Graph\+Viewer}}
+\index{is\+In\+Graph\+Viewer@{is\+In\+Graph\+Viewer}!Edge@{Edge}}
+\subsubsection{\texorpdfstring{is\+In\+Graph\+Viewer()}{isInGraphViewer()}}
+{\footnotesize\ttfamily bool Edge\+::is\+In\+Graph\+Viewer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+tells if the edge as been already insert in the graph viewer 
+
+\begin{DoxyReturn}{Returns}
+true if the edge is in the graph viewer, false otherwise 
+\end{DoxyReturn}
+\hypertarget{class_edge_a10128890aff4f38cb7a992ce8c113255}{}\label{class_edge_a10128890aff4f38cb7a992ce8c113255} 
+\index{Edge@{Edge}!is\+Real@{is\+Real}}
+\index{is\+Real@{is\+Real}!Edge@{Edge}}
+\subsubsection{\texorpdfstring{is\+Real()}{isReal()}}
+{\footnotesize\ttfamily bool Edge\+::is\+Real (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+tells if it is possible for cars to go in this edge direction 
+
+\begin{DoxyReturn}{Returns}
+true if it is possible for cars to drive in the edge direction, false otherwise 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Daniel/\+Documents/\+Git\+Hub/\+C\+A\+L/src/Graph.\+h\item 
+C\+:/\+Users/\+Daniel/\+Documents/\+Git\+Hub/\+C\+A\+L/src/Graph.\+cpp\end{DoxyCompactItemize}

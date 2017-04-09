@@ -1,0 +1,296 @@
+\hypertarget{class_graph}{}\section{Graph Class Reference}
+\label{class_graph}\index{Graph@{Graph}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_graph_ae4c72b8ac4d693c49800a4c7e273654f}{}\label{class_graph_ae4c72b8ac4d693c49800a4c7e273654f} 
+\hyperlink{class_graph_ae4c72b8ac4d693c49800a4c7e273654f}{Graph} ()
+\begin{DoxyCompactList}\small\item\em graph constructor \end{DoxyCompactList}\item 
+bool \hyperlink{class_graph_a59a5e666d2b7dc025704d7e6bce95c01}{add\+Vertex} (\hyperlink{class_vertex}{Vertex} $\ast$v)
+\begin{DoxyCompactList}\small\item\em adds a new vertex to the graph \end{DoxyCompactList}\item 
+bool \hyperlink{class_graph_a88d5bbd58c00151b0adc7b0c21c4fcd9}{add\+Edge} (int sourc\+ID, int dest\+ID, double w, \hyperlink{class_road}{Road} $\ast$road, bool real)
+\begin{DoxyCompactList}\small\item\em adds a new edge to the graph \end{DoxyCompactList}\item 
+bool \hyperlink{class_graph_ad3efda9573757644ea501c8078b5ee4b}{remove\+Vertex} (\hyperlink{class_vertex}{Vertex} $\ast$v)
+\begin{DoxyCompactList}\small\item\em removes the vertex pointed bt v \end{DoxyCompactList}\item 
+bool \hyperlink{class_graph_ae87923c630b6fb3d3fa087d5c27ad8ee}{remove\+Edge} (\hyperlink{class_vertex}{Vertex} $\ast$sourc, \hyperlink{class_vertex}{Vertex} $\ast$dest)
+\begin{DoxyCompactList}\small\item\em removes the edge between the vertexs pointed by sourc and dest \end{DoxyCompactList}\item 
+vector$<$ \hyperlink{class_vertex}{Vertex} $\ast$ $>$ \hyperlink{class_graph_ad9c74e7d666e95408940610429f7a59a}{get\+Vertex\+Set} ()
+\begin{DoxyCompactList}\small\item\em returns a vector containing all the vertex of the graph \end{DoxyCompactList}\item 
+int \hyperlink{class_graph_abb5e0517e2979c54eebdafc2a9875e8f}{get\+Num\+Vertex} () const
+\begin{DoxyCompactList}\small\item\em return the total number of vertex in the graph \end{DoxyCompactList}\item 
+void \hyperlink{class_graph_adb546d755f7529e114566bb27e91272e}{dfs} (\hyperlink{class_vertex}{Vertex} $\ast$origin)
+\begin{DoxyCompactList}\small\item\em algorithm to explore the graph in depth setting the parameter visited to true in all vertex analyzed \end{DoxyCompactList}\item 
+void \hyperlink{class_graph_ae2d00529a368c8651c378857852c9946}{dfs\+Aux} (\hyperlink{class_vertex}{Vertex} $\ast$v)
+\begin{DoxyCompactList}\small\item\em auxiliary method to the dfs algorithm, that is responsible for changing the visited parameter \end{DoxyCompactList}\item 
+\hyperlink{class_vertex}{Vertex} $\ast$ \hyperlink{class_graph_a0d47743637a652f8e3ba84f5d83118f3}{get\+Vertex} (long id)
+\begin{DoxyCompactList}\small\item\em gets the vertex with the number identification id \end{DoxyCompactList}\item 
+vector$<$ \hyperlink{class_vertex}{Vertex} $\ast$ $>$ \hyperlink{class_graph_a920bec27ba394f02f3d6b3aeefd7a8b0}{get\+Sources} ()
+\begin{DoxyCompactList}\small\item\em returns a vector containing all vertex that aren\textquotesingle{}t the destination of any edge \end{DoxyCompactList}\item 
+vector$<$ \hyperlink{class_vertex}{Vertex} $\ast$ $>$ \hyperlink{class_graph_a02923471911e67d955d3334e77fb4ab0}{get\+Path} (\hyperlink{class_vertex}{Vertex} $\ast$origin, \hyperlink{class_vertex}{Vertex} $\ast$dest)
+\begin{DoxyCompactList}\small\item\em returns a vector containing all vertex in the path from origin vertex to dest vertex \end{DoxyCompactList}\item 
+void \hyperlink{class_graph_a3364873245a79903515c5cbcb502a479}{dijkstra\+Shortest\+Path\+By\+Foot} (\hyperlink{class_vertex}{Vertex} $\ast$v)
+\begin{DoxyCompactList}\small\item\em algorithm to calculate the shortest path from a source vertex to all the other vertex on the map by foot (assumes that every edge is bidirectional) \end{DoxyCompactList}\item 
+void \hyperlink{class_graph_a2005ebde6efc1ec28733fafe6a346ccb}{dijkstra\+Shortest\+Path\+By\+Car} (\hyperlink{class_vertex}{Vertex} $\ast$v)
+\begin{DoxyCompactList}\small\item\em algorithm to calculate the shortest path from a source vertex to all the other vertex on the map by car (only analyzes the edges that belong to the original map) \end{DoxyCompactList}\item 
+vector$<$ long $>$ \hyperlink{class_graph_ae9f070d976df3f47d55246bd7268f160}{search\+Street\+Nodes} (string street)
+\begin{DoxyCompactList}\small\item\em returns all the vertex that are in the designated street using a dfs algorithm \end{DoxyCompactList}\item 
+void \hyperlink{class_graph_a8a9ef8edc2355fe125d5c306ee6eceaa}{search\+Street\+Nodes\+Aux} (\hyperlink{class_vertex}{Vertex} $\ast$v, string street, vector$<$ long $>$ \&street\+Vertex) const
+\begin{DoxyCompactList}\small\item\em auxiliary method to search\+Street\+Nodes \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_graph_a88d5bbd58c00151b0adc7b0c21c4fcd9}{}\label{class_graph_a88d5bbd58c00151b0adc7b0c21c4fcd9} 
+\index{Graph@{Graph}!add\+Edge@{add\+Edge}}
+\index{add\+Edge@{add\+Edge}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{add\+Edge()}{addEdge()}}
+{\footnotesize\ttfamily bool Graph\+::add\+Edge (\begin{DoxyParamCaption}\item[{int}]{sourc\+ID,  }\item[{int}]{dest\+ID,  }\item[{double}]{w,  }\item[{\hyperlink{class_road}{Road} $\ast$}]{road,  }\item[{bool}]{real }\end{DoxyParamCaption})}
+
+
+
+adds a new edge to the graph 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sourc\+ID} & id of the source vertex\\
+\hline
+{\em dest\+ID} & id of the destination vertex\\
+\hline
+{\em w} & weight of the edge to be added, represents the distance between the src and dst vertex\\
+\hline
+{\em road} & pointer to the road represented by the edge\\
+\hline
+{\em real} & true if it is possible for cars to drive in the edge direction, false otherwise\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the edge is successfully added false otherwise 
+\end{DoxyReturn}
+\hypertarget{class_graph_a59a5e666d2b7dc025704d7e6bce95c01}{}\label{class_graph_a59a5e666d2b7dc025704d7e6bce95c01} 
+\index{Graph@{Graph}!add\+Vertex@{add\+Vertex}}
+\index{add\+Vertex@{add\+Vertex}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{add\+Vertex()}{addVertex()}}
+{\footnotesize\ttfamily bool Graph\+::add\+Vertex (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{v }\end{DoxyParamCaption})}
+
+
+
+adds a new vertex to the graph 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & pointer to the vertex to be added \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_graph_adb546d755f7529e114566bb27e91272e}{}\label{class_graph_adb546d755f7529e114566bb27e91272e} 
+\index{Graph@{Graph}!dfs@{dfs}}
+\index{dfs@{dfs}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{dfs()}{dfs()}}
+{\footnotesize\ttfamily void Graph\+::dfs (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{origin }\end{DoxyParamCaption})}
+
+
+
+algorithm to explore the graph in depth setting the parameter visited to true in all vertex analyzed 
+
+
+\begin{DoxyParams}{Parameters}
+{\em origin} & pointer to the first vertex to be explored \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_graph_ae2d00529a368c8651c378857852c9946}{}\label{class_graph_ae2d00529a368c8651c378857852c9946} 
+\index{Graph@{Graph}!dfs\+Aux@{dfs\+Aux}}
+\index{dfs\+Aux@{dfs\+Aux}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{dfs\+Aux()}{dfsAux()}}
+{\footnotesize\ttfamily void Graph\+::dfs\+Aux (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{v }\end{DoxyParamCaption})}
+
+
+
+auxiliary method to the dfs algorithm, that is responsible for changing the visited parameter 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & pointer to the vertex to be analyzed \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_graph_a2005ebde6efc1ec28733fafe6a346ccb}{}\label{class_graph_a2005ebde6efc1ec28733fafe6a346ccb} 
+\index{Graph@{Graph}!dijkstra\+Shortest\+Path\+By\+Car@{dijkstra\+Shortest\+Path\+By\+Car}}
+\index{dijkstra\+Shortest\+Path\+By\+Car@{dijkstra\+Shortest\+Path\+By\+Car}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{dijkstra\+Shortest\+Path\+By\+Car()}{dijkstraShortestPathByCar()}}
+{\footnotesize\ttfamily void Graph\+::dijkstra\+Shortest\+Path\+By\+Car (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{v }\end{DoxyParamCaption})}
+
+
+
+algorithm to calculate the shortest path from a source vertex to all the other vertex on the map by car (only analyzes the edges that belong to the original map) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & pointer to the origin vertex \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_graph_a3364873245a79903515c5cbcb502a479}{}\label{class_graph_a3364873245a79903515c5cbcb502a479} 
+\index{Graph@{Graph}!dijkstra\+Shortest\+Path\+By\+Foot@{dijkstra\+Shortest\+Path\+By\+Foot}}
+\index{dijkstra\+Shortest\+Path\+By\+Foot@{dijkstra\+Shortest\+Path\+By\+Foot}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{dijkstra\+Shortest\+Path\+By\+Foot()}{dijkstraShortestPathByFoot()}}
+{\footnotesize\ttfamily void Graph\+::dijkstra\+Shortest\+Path\+By\+Foot (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{v }\end{DoxyParamCaption})}
+
+
+
+algorithm to calculate the shortest path from a source vertex to all the other vertex on the map by foot (assumes that every edge is bidirectional) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & pointer to the origin vertex \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_graph_abb5e0517e2979c54eebdafc2a9875e8f}{}\label{class_graph_abb5e0517e2979c54eebdafc2a9875e8f} 
+\index{Graph@{Graph}!get\+Num\+Vertex@{get\+Num\+Vertex}}
+\index{get\+Num\+Vertex@{get\+Num\+Vertex}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{get\+Num\+Vertex()}{getNumVertex()}}
+{\footnotesize\ttfamily int Graph\+::get\+Num\+Vertex (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+return the total number of vertex in the graph 
+
+\begin{DoxyReturn}{Returns}
+number of vertex in the graph 
+\end{DoxyReturn}
+\hypertarget{class_graph_a02923471911e67d955d3334e77fb4ab0}{}\label{class_graph_a02923471911e67d955d3334e77fb4ab0} 
+\index{Graph@{Graph}!get\+Path@{get\+Path}}
+\index{get\+Path@{get\+Path}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{get\+Path()}{getPath()}}
+{\footnotesize\ttfamily vector$<$ \hyperlink{class_vertex}{Vertex} $\ast$ $>$ Graph\+::get\+Path (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{origin,  }\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dest }\end{DoxyParamCaption})}
+
+
+
+returns a vector containing all vertex in the path from origin vertex to dest vertex 
+
+
+\begin{DoxyParams}{Parameters}
+{\em origin} & pointer to the source vertex\\
+\hline
+{\em dest} & pointer to the destination vertex\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of pointer to the vertex between origin and dest 
+\end{DoxyReturn}
+\hypertarget{class_graph_a920bec27ba394f02f3d6b3aeefd7a8b0}{}\label{class_graph_a920bec27ba394f02f3d6b3aeefd7a8b0} 
+\index{Graph@{Graph}!get\+Sources@{get\+Sources}}
+\index{get\+Sources@{get\+Sources}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{get\+Sources()}{getSources()}}
+{\footnotesize\ttfamily vector$<$ \hyperlink{class_vertex}{Vertex} $\ast$ $>$ Graph\+::get\+Sources (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns a vector containing all vertex that aren\textquotesingle{}t the destination of any edge 
+
+\begin{DoxyReturn}{Returns}
+vector containing pointer to vertex with indegree =0 
+\end{DoxyReturn}
+\hypertarget{class_graph_a0d47743637a652f8e3ba84f5d83118f3}{}\label{class_graph_a0d47743637a652f8e3ba84f5d83118f3} 
+\index{Graph@{Graph}!get\+Vertex@{get\+Vertex}}
+\index{get\+Vertex@{get\+Vertex}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{get\+Vertex()}{getVertex()}}
+{\footnotesize\ttfamily \hyperlink{class_vertex}{Vertex} $\ast$ Graph\+::get\+Vertex (\begin{DoxyParamCaption}\item[{long}]{id }\end{DoxyParamCaption})}
+
+
+
+gets the vertex with the number identification id 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & id of the vertex to be returned\\
+\hline
+{\em pointer} & to the vertex with the specified id \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_graph_ad9c74e7d666e95408940610429f7a59a}{}\label{class_graph_ad9c74e7d666e95408940610429f7a59a} 
+\index{Graph@{Graph}!get\+Vertex\+Set@{get\+Vertex\+Set}}
+\index{get\+Vertex\+Set@{get\+Vertex\+Set}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{get\+Vertex\+Set()}{getVertexSet()}}
+{\footnotesize\ttfamily vector$<$ \hyperlink{class_vertex}{Vertex} $\ast$$>$ Graph\+::get\+Vertex\+Set (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns a vector containing all the vertex of the graph 
+
+\begin{DoxyReturn}{Returns}
+Vertex\+Set 
+\end{DoxyReturn}
+\hypertarget{class_graph_ae87923c630b6fb3d3fa087d5c27ad8ee}{}\label{class_graph_ae87923c630b6fb3d3fa087d5c27ad8ee} 
+\index{Graph@{Graph}!remove\+Edge@{remove\+Edge}}
+\index{remove\+Edge@{remove\+Edge}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{remove\+Edge()}{removeEdge()}}
+{\footnotesize\ttfamily bool Graph\+::remove\+Edge (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{sourc,  }\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dest }\end{DoxyParamCaption})}
+
+
+
+removes the edge between the vertexs pointed by sourc and dest 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sourc} & pointer to the source vertex\\
+\hline
+{\em dest} & pointer to the dest vertex\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the edge was successfully removed, false otherwise 
+\end{DoxyReturn}
+\hypertarget{class_graph_ad3efda9573757644ea501c8078b5ee4b}{}\label{class_graph_ad3efda9573757644ea501c8078b5ee4b} 
+\index{Graph@{Graph}!remove\+Vertex@{remove\+Vertex}}
+\index{remove\+Vertex@{remove\+Vertex}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{remove\+Vertex()}{removeVertex()}}
+{\footnotesize\ttfamily bool Graph\+::remove\+Vertex (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{v }\end{DoxyParamCaption})}
+
+
+
+removes the vertex pointed bt v 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & pointer to the vertex to be removed \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_graph_ae9f070d976df3f47d55246bd7268f160}{}\label{class_graph_ae9f070d976df3f47d55246bd7268f160} 
+\index{Graph@{Graph}!search\+Street\+Nodes@{search\+Street\+Nodes}}
+\index{search\+Street\+Nodes@{search\+Street\+Nodes}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{search\+Street\+Nodes()}{searchStreetNodes()}}
+{\footnotesize\ttfamily vector$<$ long $>$ Graph\+::search\+Street\+Nodes (\begin{DoxyParamCaption}\item[{string}]{street }\end{DoxyParamCaption})}
+
+
+
+returns all the vertex that are in the designated street using a dfs algorithm 
+
+
+\begin{DoxyParams}{Parameters}
+{\em street} & street which vertex are returned\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector containing the id\textquotesingle{}s from the vertex of the designated street 
+\end{DoxyReturn}
+\hypertarget{class_graph_a8a9ef8edc2355fe125d5c306ee6eceaa}{}\label{class_graph_a8a9ef8edc2355fe125d5c306ee6eceaa} 
+\index{Graph@{Graph}!search\+Street\+Nodes\+Aux@{search\+Street\+Nodes\+Aux}}
+\index{search\+Street\+Nodes\+Aux@{search\+Street\+Nodes\+Aux}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{search\+Street\+Nodes\+Aux()}{searchStreetNodesAux()}}
+{\footnotesize\ttfamily void Graph\+::search\+Street\+Nodes\+Aux (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{v,  }\item[{string}]{street,  }\item[{vector$<$ long $>$ \&}]{street\+Vertex }\end{DoxyParamCaption}) const}
+
+
+
+auxiliary method to search\+Street\+Nodes 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & pointer to the vertex to be analyzed\\
+\hline
+{\em street} & street whose vertex id\textquotesingle{}s are to be returned\\
+\hline
+{\em vector} & passed by reference where the id\textquotesingle{}s of the vertex are saved \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Daniel/\+Documents/\+Git\+Hub/\+C\+A\+L/src/Graph.\+h\item 
+C\+:/\+Users/\+Daniel/\+Documents/\+Git\+Hub/\+C\+A\+L/src/Graph.\+cpp\end{DoxyCompactItemize}

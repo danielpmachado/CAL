@@ -1,0 +1,282 @@
+\hypertarget{class_vertex}{}\section{Vertex Class Reference}
+\label{class_vertex}\index{Vertex@{Vertex}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_vertex_a86617d6104f1672228e17fd113cb2201}{Vertex} (long id, double lon, double lat)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_vertex}{Vertex} constructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_vertex_a30935930ace7706cbd95d4b96a7fdb84}{add\+Edge} (\hyperlink{class_vertex}{Vertex} $\ast$dest, \hyperlink{class_road}{Road} $\ast$road, double w, bool real)
+\begin{DoxyCompactList}\small\item\em adds a new edge to the vector adj \end{DoxyCompactList}\item 
+bool \hyperlink{class_vertex_a0fb9defc6bc64bd16e51bcf867c511cf}{remove\+Edge\+To} (\hyperlink{class_vertex}{Vertex} $\ast$d)
+\begin{DoxyCompactList}\small\item\em removes the edge from the vector of edges \end{DoxyCompactList}\item 
+vector$<$ \hyperlink{class_edge}{Edge} $\ast$ $>$ \hyperlink{class_vertex_af82c54a43ccbef87e0e8d3b5e406923e}{get\+Adj} ()
+\begin{DoxyCompactList}\small\item\em returns the vector containing the edges of the vertex \end{DoxyCompactList}\item 
+long \hyperlink{class_vertex_aa87c2ee75727a9fe1f53379d3ff7632e}{get\+ID} () const
+\begin{DoxyCompactList}\small\item\em returns vertex id \end{DoxyCompactList}\item 
+double \hyperlink{class_vertex_af1a2bee6c38f511cbfea082eb7149537}{get\+Longitude} () const
+\begin{DoxyCompactList}\small\item\em returns the longitude of the point represented by the vertex \end{DoxyCompactList}\item 
+double \hyperlink{class_vertex_a7455a09de51b274867edae2254cef38d}{get\+Latitude} () const
+\begin{DoxyCompactList}\small\item\em returns the latitude of the point represented by the vertex \end{DoxyCompactList}\item 
+void \hyperlink{class_vertex_a7d0a5b733d2989ff210731130d59ea01}{set\+Longitude} (long lon)
+\begin{DoxyCompactList}\small\item\em changes the value of the longitude \end{DoxyCompactList}\item 
+void \hyperlink{class_vertex_ab64d264d0cee87b14859d2a9df071403}{set\+Latitude} (long lat)
+\begin{DoxyCompactList}\small\item\em changes the value of the latitude \end{DoxyCompactList}\item 
+bool \hyperlink{class_vertex_ac6febe9ce4ec00dcd59710e1b0fba407}{is\+Accessible} () const
+\begin{DoxyCompactList}\small\item\em tells whether the vertex is accessible or not \end{DoxyCompactList}\item 
+long \hyperlink{class_vertex_a7f1702326d1d54ea68897d27e68fd1ff}{get\+Dist} () const
+\begin{DoxyCompactList}\small\item\em return distance of the vertex from a certain point \end{DoxyCompactList}\item 
+void \hyperlink{class_vertex_a5c2c39cab1350900bbeb42cfa99b70d2}{set\+Dist} (long dist)
+\begin{DoxyCompactList}\small\item\em changes distance value \end{DoxyCompactList}\item 
+int \hyperlink{class_vertex_afd1d78d4b08162c2c470db5c7b1386f6}{get\+Indegree} () const
+\begin{DoxyCompactList}\small\item\em returns the indegree of the vertex \end{DoxyCompactList}\item 
+bool \hyperlink{class_vertex_aac8bd382faf2f37c38583c0ec1a3801e}{is\+In\+Queue} () const
+\begin{DoxyCompactList}\small\item\em whether the vertex is or isn\textquotesingle{}t in queue \end{DoxyCompactList}\item 
+\hyperlink{class_edge}{Edge} $\ast$ \hyperlink{class_vertex_a2c25e32570b84328b84a256bed0e6c70}{get\+Edge\+To\+Vertex} (\hyperlink{class_vertex}{Vertex} $\ast$dst)
+\begin{DoxyCompactList}\small\item\em return the edge to the destination vertex pointed by dst \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_vertex_ab6e865ed22eb34fdd50c3df267a8ffe6}{}\label{class_vertex_ab6e865ed22eb34fdd50c3df267a8ffe6} 
+\hyperlink{class_vertex}{Vertex} $\ast$ {\bfseries path}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_vertex_afab89afd724f1b07b1aaad6bdc61c47a}{}\label{class_vertex_afab89afd724f1b07b1aaad6bdc61c47a} 
+class {\bfseries Graph}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_vertex_a86617d6104f1672228e17fd113cb2201}{}\label{class_vertex_a86617d6104f1672228e17fd113cb2201} 
+\index{Vertex@{Vertex}!Vertex@{Vertex}}
+\index{Vertex@{Vertex}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{Vertex()}{Vertex()}}
+{\footnotesize\ttfamily Vertex\+::\+Vertex (\begin{DoxyParamCaption}\item[{long}]{id,  }\item[{double}]{lon,  }\item[{double}]{lat }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_vertex}{Vertex} constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & unique number that identifies the vertex\\
+\hline
+{\em lon} & longitude of the point represented by the vertex in degrees\\
+\hline
+{\em lat} & latitude of the point represented by the vertex in degrees \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_vertex_a30935930ace7706cbd95d4b96a7fdb84}{}\label{class_vertex_a30935930ace7706cbd95d4b96a7fdb84} 
+\index{Vertex@{Vertex}!add\+Edge@{add\+Edge}}
+\index{add\+Edge@{add\+Edge}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{add\+Edge()}{addEdge()}}
+{\footnotesize\ttfamily void Vertex\+::add\+Edge (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dest,  }\item[{\hyperlink{class_road}{Road} $\ast$}]{road,  }\item[{double}]{w,  }\item[{bool}]{real }\end{DoxyParamCaption})}
+
+
+
+adds a new edge to the vector adj 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & pointer to the vertex at the other end of the edge\\
+\hline
+{\em road} & pointer to the road that is represented by the edge\\
+\hline
+{\em real} & true if it is possible for cars to go to in that direction false otherwise \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_vertex_af82c54a43ccbef87e0e8d3b5e406923e}{}\label{class_vertex_af82c54a43ccbef87e0e8d3b5e406923e} 
+\index{Vertex@{Vertex}!get\+Adj@{get\+Adj}}
+\index{get\+Adj@{get\+Adj}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{get\+Adj()}{getAdj()}}
+{\footnotesize\ttfamily vector$<$ \hyperlink{class_edge}{Edge} $\ast$ $>$ Vertex\+::get\+Adj (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns the vector containing the edges of the vertex 
+
+\begin{DoxyReturn}{Returns}
+vector adj 
+\end{DoxyReturn}
+\hypertarget{class_vertex_a7f1702326d1d54ea68897d27e68fd1ff}{}\label{class_vertex_a7f1702326d1d54ea68897d27e68fd1ff} 
+\index{Vertex@{Vertex}!get\+Dist@{get\+Dist}}
+\index{get\+Dist@{get\+Dist}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{get\+Dist()}{getDist()}}
+{\footnotesize\ttfamily long Vertex\+::get\+Dist (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+return distance of the vertex from a certain point 
+
+\begin{DoxyReturn}{Returns}
+dist 
+\end{DoxyReturn}
+\hypertarget{class_vertex_a2c25e32570b84328b84a256bed0e6c70}{}\label{class_vertex_a2c25e32570b84328b84a256bed0e6c70} 
+\index{Vertex@{Vertex}!get\+Edge\+To\+Vertex@{get\+Edge\+To\+Vertex}}
+\index{get\+Edge\+To\+Vertex@{get\+Edge\+To\+Vertex}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{get\+Edge\+To\+Vertex()}{getEdgeToVertex()}}
+{\footnotesize\ttfamily \hyperlink{class_edge}{Edge} $\ast$ Vertex\+::get\+Edge\+To\+Vertex (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dst }\end{DoxyParamCaption})}
+
+
+
+return the edge to the destination vertex pointed by dst 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dst} & pointer to the destination vertex\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+edge 
+\end{DoxyReturn}
+\hypertarget{class_vertex_aa87c2ee75727a9fe1f53379d3ff7632e}{}\label{class_vertex_aa87c2ee75727a9fe1f53379d3ff7632e} 
+\index{Vertex@{Vertex}!get\+ID@{get\+ID}}
+\index{get\+ID@{get\+ID}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{get\+I\+D()}{getID()}}
+{\footnotesize\ttfamily long Vertex\+::get\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+returns vertex id 
+
+\begin{DoxyReturn}{Returns}
+id 
+\end{DoxyReturn}
+\hypertarget{class_vertex_afd1d78d4b08162c2c470db5c7b1386f6}{}\label{class_vertex_afd1d78d4b08162c2c470db5c7b1386f6} 
+\index{Vertex@{Vertex}!get\+Indegree@{get\+Indegree}}
+\index{get\+Indegree@{get\+Indegree}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{get\+Indegree()}{getIndegree()}}
+{\footnotesize\ttfamily int Vertex\+::get\+Indegree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+returns the indegree of the vertex 
+
+\begin{DoxyReturn}{Returns}
+indegree 
+\end{DoxyReturn}
+\hypertarget{class_vertex_a7455a09de51b274867edae2254cef38d}{}\label{class_vertex_a7455a09de51b274867edae2254cef38d} 
+\index{Vertex@{Vertex}!get\+Latitude@{get\+Latitude}}
+\index{get\+Latitude@{get\+Latitude}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{get\+Latitude()}{getLatitude()}}
+{\footnotesize\ttfamily double Vertex\+::get\+Latitude (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+returns the latitude of the point represented by the vertex 
+
+\begin{DoxyReturn}{Returns}
+lat 
+\end{DoxyReturn}
+\hypertarget{class_vertex_af1a2bee6c38f511cbfea082eb7149537}{}\label{class_vertex_af1a2bee6c38f511cbfea082eb7149537} 
+\index{Vertex@{Vertex}!get\+Longitude@{get\+Longitude}}
+\index{get\+Longitude@{get\+Longitude}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{get\+Longitude()}{getLongitude()}}
+{\footnotesize\ttfamily double Vertex\+::get\+Longitude (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+returns the longitude of the point represented by the vertex 
+
+\begin{DoxyReturn}{Returns}
+lon 
+\end{DoxyReturn}
+\hypertarget{class_vertex_ac6febe9ce4ec00dcd59710e1b0fba407}{}\label{class_vertex_ac6febe9ce4ec00dcd59710e1b0fba407} 
+\index{Vertex@{Vertex}!is\+Accessible@{is\+Accessible}}
+\index{is\+Accessible@{is\+Accessible}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{is\+Accessible()}{isAccessible()}}
+{\footnotesize\ttfamily bool Vertex\+::is\+Accessible (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+tells whether the vertex is accessible or not 
+
+\begin{DoxyReturn}{Returns}
+true if the vertex has been visited false otherwise 
+\end{DoxyReturn}
+\hypertarget{class_vertex_aac8bd382faf2f37c38583c0ec1a3801e}{}\label{class_vertex_aac8bd382faf2f37c38583c0ec1a3801e} 
+\index{Vertex@{Vertex}!is\+In\+Queue@{is\+In\+Queue}}
+\index{is\+In\+Queue@{is\+In\+Queue}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{is\+In\+Queue()}{isInQueue()}}
+{\footnotesize\ttfamily bool Vertex\+::is\+In\+Queue (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+whether the vertex is or isn\textquotesingle{}t in queue 
+
+\begin{DoxyReturn}{Returns}
+true is vertex is in queue false otherwise 
+\end{DoxyReturn}
+\hypertarget{class_vertex_a0fb9defc6bc64bd16e51bcf867c511cf}{}\label{class_vertex_a0fb9defc6bc64bd16e51bcf867c511cf} 
+\index{Vertex@{Vertex}!remove\+Edge\+To@{remove\+Edge\+To}}
+\index{remove\+Edge\+To@{remove\+Edge\+To}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{remove\+Edge\+To()}{removeEdgeTo()}}
+{\footnotesize\ttfamily bool Vertex\+::remove\+Edge\+To (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{d }\end{DoxyParamCaption})}
+
+
+
+removes the edge from the vector of edges 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & destination vertex from the edge to be removed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the vertex was removed false otherwise 
+\end{DoxyReturn}
+\hypertarget{class_vertex_a5c2c39cab1350900bbeb42cfa99b70d2}{}\label{class_vertex_a5c2c39cab1350900bbeb42cfa99b70d2} 
+\index{Vertex@{Vertex}!set\+Dist@{set\+Dist}}
+\index{set\+Dist@{set\+Dist}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{set\+Dist()}{setDist()}}
+{\footnotesize\ttfamily void Vertex\+::set\+Dist (\begin{DoxyParamCaption}\item[{long}]{dist }\end{DoxyParamCaption})}
+
+
+
+changes distance value 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dist} & new distance \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_vertex_ab64d264d0cee87b14859d2a9df071403}{}\label{class_vertex_ab64d264d0cee87b14859d2a9df071403} 
+\index{Vertex@{Vertex}!set\+Latitude@{set\+Latitude}}
+\index{set\+Latitude@{set\+Latitude}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{set\+Latitude()}{setLatitude()}}
+{\footnotesize\ttfamily void Vertex\+::set\+Latitude (\begin{DoxyParamCaption}\item[{long}]{lat }\end{DoxyParamCaption})}
+
+
+
+changes the value of the latitude 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lat} & new latitude \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_vertex_a7d0a5b733d2989ff210731130d59ea01}{}\label{class_vertex_a7d0a5b733d2989ff210731130d59ea01} 
+\index{Vertex@{Vertex}!set\+Longitude@{set\+Longitude}}
+\index{set\+Longitude@{set\+Longitude}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{set\+Longitude()}{setLongitude()}}
+{\footnotesize\ttfamily void Vertex\+::set\+Longitude (\begin{DoxyParamCaption}\item[{long}]{lon }\end{DoxyParamCaption})}
+
+
+
+changes the value of the longitude 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lon} & new longitude \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Daniel/\+Documents/\+Git\+Hub/\+C\+A\+L/src/Graph.\+h\item 
+C\+:/\+Users/\+Daniel/\+Documents/\+Git\+Hub/\+C\+A\+L/src/Graph.\+cpp\end{DoxyCompactItemize}

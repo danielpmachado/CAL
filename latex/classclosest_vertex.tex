@@ -1,0 +1,120 @@
+\hypertarget{classclosest_vertex}{}\section{closest\+Vertex Class Reference}
+\label{classclosest_vertex}\index{closest\+Vertex@{closest\+Vertex}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classclosest_vertex_acd41491eb99e59a0f10ee8de0b50a66d}{closest\+Vertex} (\hyperlink{class_vertex}{Vertex} $\ast$v, double dist)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classclosest_vertex}{closest\+Vertex} constructor \end{DoxyCompactList}\item 
+\hyperlink{class_vertex}{Vertex} $\ast$ \hyperlink{classclosest_vertex_ac5f6fae3c1b289755622166f2ef700c0}{get\+Node} () const
+\begin{DoxyCompactList}\small\item\em gets the vertex pointer to the park \end{DoxyCompactList}\item 
+void \hyperlink{classclosest_vertex_a899b2479d95304851a4749e008b21065}{set\+Node} (\hyperlink{class_vertex}{Vertex} $\ast$v)
+\begin{DoxyCompactList}\small\item\em changes the value pointed by v \end{DoxyCompactList}\item 
+double \hyperlink{classclosest_vertex_a2b8387796aa6b9dedaac682ee11ecc30}{get\+Dist} () const
+\begin{DoxyCompactList}\small\item\em gets the distance of v to the src vertex \end{DoxyCompactList}\item 
+void \hyperlink{classclosest_vertex_a16d20ede3c6e2be693305fac4e0ccdea}{set\+Dist} (double dist)
+\begin{DoxyCompactList}\small\item\em changes the distance of the vertex pointed by v \end{DoxyCompactList}\item 
+bool \hyperlink{classclosest_vertex_ac4d58777399d8d0fea2ab441cd00660e}{operator$<$} (const \hyperlink{classclosest_vertex}{closest\+Vertex} \&v2) const
+\begin{DoxyCompactList}\small\item\em overload of the $<$ operator \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classclosest_vertex_acd41491eb99e59a0f10ee8de0b50a66d}{}\label{classclosest_vertex_acd41491eb99e59a0f10ee8de0b50a66d} 
+\index{closest\+Vertex@{closest\+Vertex}!closest\+Vertex@{closest\+Vertex}}
+\index{closest\+Vertex@{closest\+Vertex}!closest\+Vertex@{closest\+Vertex}}
+\subsubsection{\texorpdfstring{closest\+Vertex()}{closestVertex()}}
+{\footnotesize\ttfamily closest\+Vertex\+::closest\+Vertex (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{v,  }\item[{double}]{dist }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classclosest_vertex}{closest\+Vertex} constructor 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & pointer to \hyperlink{class_vertex}{Vertex} that represents a park\\
+\hline
+{\em dist} & distance to the park represented by vertex v \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classclosest_vertex_a2b8387796aa6b9dedaac682ee11ecc30}{}\label{classclosest_vertex_a2b8387796aa6b9dedaac682ee11ecc30} 
+\index{closest\+Vertex@{closest\+Vertex}!get\+Dist@{get\+Dist}}
+\index{get\+Dist@{get\+Dist}!closest\+Vertex@{closest\+Vertex}}
+\subsubsection{\texorpdfstring{get\+Dist()}{getDist()}}
+{\footnotesize\ttfamily double closest\+Vertex\+::get\+Dist (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+gets the distance of v to the src vertex 
+
+\begin{DoxyReturn}{Returns}
+dist 
+\end{DoxyReturn}
+\hypertarget{classclosest_vertex_ac5f6fae3c1b289755622166f2ef700c0}{}\label{classclosest_vertex_ac5f6fae3c1b289755622166f2ef700c0} 
+\index{closest\+Vertex@{closest\+Vertex}!get\+Node@{get\+Node}}
+\index{get\+Node@{get\+Node}!closest\+Vertex@{closest\+Vertex}}
+\subsubsection{\texorpdfstring{get\+Node()}{getNode()}}
+{\footnotesize\ttfamily \hyperlink{class_vertex}{Vertex} $\ast$ closest\+Vertex\+::get\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+gets the vertex pointer to the park 
+
+\begin{DoxyReturn}{Returns}
+pointer to vertex v 
+\end{DoxyReturn}
+\hypertarget{classclosest_vertex_ac4d58777399d8d0fea2ab441cd00660e}{}\label{classclosest_vertex_ac4d58777399d8d0fea2ab441cd00660e} 
+\index{closest\+Vertex@{closest\+Vertex}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!closest\+Vertex@{closest\+Vertex}}
+\subsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily bool closest\+Vertex\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \hyperlink{classclosest_vertex}{closest\+Vertex} \&}]{v2 }\end{DoxyParamCaption}) const}
+
+
+
+overload of the $<$ operator 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v2} & vertex to be compared to v\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if v distance is higher than v2 distance, false otherwise 
+\end{DoxyReturn}
+\hypertarget{classclosest_vertex_a16d20ede3c6e2be693305fac4e0ccdea}{}\label{classclosest_vertex_a16d20ede3c6e2be693305fac4e0ccdea} 
+\index{closest\+Vertex@{closest\+Vertex}!set\+Dist@{set\+Dist}}
+\index{set\+Dist@{set\+Dist}!closest\+Vertex@{closest\+Vertex}}
+\subsubsection{\texorpdfstring{set\+Dist()}{setDist()}}
+{\footnotesize\ttfamily void closest\+Vertex\+::set\+Dist (\begin{DoxyParamCaption}\item[{double}]{dist }\end{DoxyParamCaption})}
+
+
+
+changes the distance of the vertex pointed by v 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dist} & new distance value \\
+\hline
+\end{DoxyParams}
+\hypertarget{classclosest_vertex_a899b2479d95304851a4749e008b21065}{}\label{classclosest_vertex_a899b2479d95304851a4749e008b21065} 
+\index{closest\+Vertex@{closest\+Vertex}!set\+Node@{set\+Node}}
+\index{set\+Node@{set\+Node}!closest\+Vertex@{closest\+Vertex}}
+\subsubsection{\texorpdfstring{set\+Node()}{setNode()}}
+{\footnotesize\ttfamily void closest\+Vertex\+::set\+Node (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{v }\end{DoxyParamCaption})}
+
+
+
+changes the value pointed by v 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & pointer to the vertex that is going to replace v \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Daniel/\+Documents/\+Git\+Hub/\+C\+A\+L/src/Graph.\+h\item 
+C\+:/\+Users/\+Daniel/\+Documents/\+Git\+Hub/\+C\+A\+L/src/Graph.\+cpp\end{DoxyCompactItemize}
