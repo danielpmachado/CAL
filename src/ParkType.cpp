@@ -12,7 +12,7 @@ ParkType::ParkType(Vertex * v, string type, double price) {
 	this->type = type;
 	this->price = price;
 }
-Vertex * ParkType::getNode() const {
+Vertex * ParkType::getNode() {
 	return v;
 }
 string ParkType::getType() const {

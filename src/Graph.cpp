@@ -8,7 +8,9 @@
 /*
  * CLASS VERTEX
  */
+
 Vertex::Vertex(long id, double lon, double lat): longitude(lon),latitude(lat), visited(false), processing(false), indegree(0), dist(0), inQueue(false) {
+
 	this->id = id;
 	path = NULL;
 }
@@ -46,9 +48,6 @@ void Vertex::setLatitude(long lat) {
 	this->latitude = lat;
 }
 
-void Vertex::setID(long id) {
-	this->id = id;
-}
 
 void Vertex::setDist(long dist){
 	this->dist= dist;
@@ -81,7 +80,7 @@ Edge * Vertex::getEdgeToVertex(Vertex * dest) {
 	}
 	return NULL;
 }
-bool Vertex::isAccessible() {
+bool Vertex::isAccessible() const{
 	return visited;
 }
 /*
@@ -186,6 +185,7 @@ Vertex * Graph::getVertex(long id) {
 	}
 	return NULL;
 }
+
 void Graph::dfs(Vertex * origin) {
 	typename vector<Vertex*>::iterator it= vertexSet.begin();
 	typename vector<Vertex*>::iterator ite= vertexSet.end();
@@ -311,13 +311,13 @@ vector<long> Graph::searchStreetNodes(string street) {
 
     for (it = vertexSet.begin(); it != vertexSet.end(); it++) {
         if (!(*it)->visited)
-            searchStreetNodes(*it, street, streetVertex);
+            searchStreetNodesAux(*it, street, streetVertex);
     }
 
     return streetVertex;
 }
 
-void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVertex) const {
+void Graph::searchStreetNodesAux(Vertex * v,string street, vector<long> &streetVertex) const {
     v->visited = true;
 
 
@@ -330,7 +330,7 @@ void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVert
         }
 
         if (!e->dest->visited)
-            searchStreetNodes(e->dest,street, streetVertex);
+            searchStreetNodesAux(e->dest,street, streetVertex);
 
 
     }
@@ -374,4 +374,28 @@ void closestVertex::setDist(double dist) {
 }
 bool closestVertex::operator<(const closestVertex &v2) const {
 	return dist > v2.getDist();
+}
+
+/*
+ * CLASS CHEAPESTVERTEX
+ */
+
+cheapestVertex::cheapestVertex(Vertex * v, double price) {
+	this->v = v;
+	this->price = price;
+}
+Vertex * cheapestVertex::getNode() const {
+	return v;
+}
+void cheapestVertex::setNode(Vertex * v) {
+	this->v = v;
+}
+double cheapestVertex::getPrice() const {
+	return price;
+}
+void cheapestVertex::setPrice(double price) {
+	this->price = price;
+}
+bool cheapestVertex::operator<(const cheapestVertex &v2) const {
+	return price > v2.getPrice();
 }

@@ -146,6 +146,7 @@ public:
 	 * @param path the vertexes vector
 	 *
 	 * @param color the color that is going to be used to paint the map
+   *
 	 */
 	void drawPath(vector<Vertex*> path, string color);
 
@@ -245,6 +246,7 @@ public:
 	 * @param dest the vertex where the journey ends
 	 *
 	 * @return the distance between 2 vertexes
+   *
 	 */
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 

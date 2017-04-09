@@ -156,6 +156,7 @@ public:
 	 *
 	 */
 	bool wantGasoline();
+
 };
 
 #endif /* SRC_USERINTERFACE_H_ */

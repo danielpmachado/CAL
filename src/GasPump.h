@@ -19,10 +19,27 @@ class GasPump {
 private:
 	Vertex * v;
 public:
-	GasPump (Vertex * v);
+	/**
+	 * @brief  Gas pump construtor
+	 *
+	 * @param v vertex that represents the gas pump on the graph
+	 *
+	 */
+	GasPump(Vertex * v);
+	/**
+	 * @brief  returns the vertex that represents the gas pump ont he graph
+	 *
+	 * @return v pointer to the vertex
+	 *
+	 */
 	Vertex * getNode() const;
+	/**
+	 * @brief changes the vertex that represents the gas pump on the graph
+	 *
+	 * @param v pointer to the new vertex
+	 *
+	 */
 	void setNode(Vertex * v);
 };
-
 
 #endif /* SRC_GASPUMP_H_ */

@@ -33,6 +33,7 @@ public:
 	 */
 	ParkType(Vertex * v, string type, double price);
 
+
 	/*
 	 * @brief gets the node of the park
 	 *
