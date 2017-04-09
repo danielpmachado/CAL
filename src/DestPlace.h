@@ -27,7 +27,6 @@ public:
 	 *
 	 * @param v pointer to the graph vertex corresponding to the destination place
 	 *
-	 *
 	 */
 	DestPlace(string place, Vertex * v);
 	/**
