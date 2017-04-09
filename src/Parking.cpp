@@ -361,7 +361,7 @@ ParkType * Parking::planDirectShortPath(Vertex * src, Vertex * dest) {
 
 	myGraph.dijkstraShortestPathByCar(src);
 	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
-	drawPath(pathToPark, "orange");
+	drawPath(pathToPark, "red");
 
 	dist += p->getNode()->getDist();
 
@@ -381,7 +381,7 @@ ParkType * Parking::planDirectCheapestPath(Vertex * src, Vertex * dest, double m
 
 	myGraph.dijkstraShortestPathByCar(src);
 	vector<Vertex *> pathToPark = myGraph.getPath(src, p->getNode());
-	drawPath(pathToPark, "orange");
+	drawPath(pathToPark, "red");
 
 	dist += p->getNode()->getDist();
 
@@ -448,19 +448,19 @@ ParkType * Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
 	 */
 	myGraph.dijkstraShortestPathByCar(src);
 	vector<Vertex *> pathToGasPump = myGraph.getPath(src, pump->getNode());
-	drawPath(pathToGasPump, "yellow");
+	drawPath(pathToGasPump, "red");
 	/*
 	 * Draw path from GasPump to Park
 	 */
 	myGraph.dijkstraShortestPathByCar(pump->getNode());
 	vector<Vertex *> pathToPark = myGraph.getPath(pump->getNode(),park->getNode());
-	drawPath(pathToPark, "orange");
+	drawPath(pathToPark, "red");
 	/*
 	 * Draw path from Park to dest
 	 */
 	myGraph.dijkstraShortestPathByFoot(park->getNode());
 	vector<Vertex *> pathToDest = myGraph.getPath(park->getNode(), dest);
-	drawPath(pathToDest, "cyan");
+	drawPath(pathToDest, "red");
 
 
 	dest->setDist(distFromSrcToPark +dest->getDist());
@@ -469,17 +469,7 @@ ParkType * Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
 
 	return park;
 
-	/*
-	long totalDist = distFromSrcToPark + dest->getDist();
-	cout << "Total distance: " << totalDist << " m   ( " << distFromSrcToPark << " by car and " << dest->getDist() << " by foot )" << endl;
-	cout << "Type of Park: ";
-	if (park->getType() == "meter") {
-		cout << "Parking meter\n";
-	} else
-		cout << "Garage\n";
-	cout << "Price: " << park->getPrice() << " euros/h\n";
 
-	*/
 }
 long Parking::calculateGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDist, GasPump * &finalGasPump,  ParkType * &finalParkType) {
 	myGraph.dfs(src);
@@ -540,37 +530,26 @@ ParkType * Parking::planGasPumpCheapestPath(Vertex * src, Vertex * dest, double 
 	 */
 	myGraph.dijkstraShortestPathByCar(src);
 	vector<Vertex *> pathToGasPump = myGraph.getPath(src, pump->getNode());
-	drawPath(pathToGasPump, "yellow");
+	drawPath(pathToGasPump, "red");
 	/*
 	 * Draw path from GasPump to Park
 	 */
 	myGraph.dijkstraShortestPathByCar(pump->getNode());
 	vector<Vertex *> pathToPark = myGraph.getPath(pump->getNode(),park->getNode());
-	drawPath(pathToPark, "orange");
+	drawPath(pathToPark, "red");
 	/*
 	 * Draw path from Park to dest
 	 */
 	myGraph.dijkstraShortestPathByFoot(park->getNode());
 	vector<Vertex *> pathToDest = myGraph.getPath(park->getNode(), dest);
-	drawPath(pathToDest, "cyan");
+	drawPath(pathToDest, "red");
 
 	dest->setDist(distFromSrcToPark +dest->getDist());
 	park->getNode()->setDist(distFromSrcToPark);
 
 	return park;
 
-	/*
 
-	long totalDist = distFromSrcToPark + dest->getDist();
-	cout << "Total distance: " << totalDist << " m   ( " << distFromSrcToPark << " by car and " << dest->getDist() << " by foot )" << endl;
-	cout << "Type of Park: ";
-	if (park->getType() == "meter") {
-		cout << "Parking meter\n";
-	} else
-		cout << "Garage\n";
-	cout << "Price: " << park->getPrice() << " euros/h\n";
-
-	*/
 }
 double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
