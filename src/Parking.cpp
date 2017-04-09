@@ -173,7 +173,7 @@ void Parking::readParks() {
 		getline(linestream, data, ';');
 		type = data.substr(0, data.size());
 		linestream >> price;
-		ParkType * p = new ParkType(myGraph.getVertexBySecondID(node_id), type, price);
+		ParkType * p = new ParkType(myGraph.getVertex(node_id), type, price);
 		parkTypeSet.push_back(p);
 		if (type == "meter") {
 			myGV->setVertexIcon(node_id, "meterIcon.png");
@@ -198,7 +198,7 @@ void Parking::readGasPumps() {
 		stringstream linestream(line);
 		linestream >> node_id;
 
-		GasPump * gp = new GasPump(myGraph.getVertexBySecondID(node_id));
+		GasPump * gp = new GasPump(myGraph.getVertex(node_id));
 		gasPumpSet.push_back(gp);
 		myGV->setVertexIcon(node_id, "gasPumpIcon.png");
 	}
@@ -226,7 +226,7 @@ void Parking::readDestinations() {
 		getline(linestream, data, ';');
 		place = data.substr(0, data.size());
 
-		DestPlace * d = new DestPlace(place, myGraph.getVertexBySecondID(node_id));
+		DestPlace * d = new DestPlace(place, myGraph.getVertex(node_id));
 		destPlacesSet.push_back(d);
 		if (place == "school") {
 			myGV->setVertexIcon(node_id, "schoolIcon.png");
@@ -249,13 +249,12 @@ void Parking::createGraphViewer() {
 	int x;
 	int y;
 	for (Vertex * v : myGraph.getVertexSet()) {
-		node_id = v->getSecondID();
+		node_id = v->getID();
 		x = convertLongitudeToX(v->getLongitude());
 		y = convertLatitudeToY(v->getLatitude());
 
 		myGV->addNode(node_id, x, y);
 		myGV->setVertexSize(node_id, 30);
-		myGV->setVertexLabel(node_id, to_string(node_id));
 
 	}
 	myGV->defineEdgeCurved(false);
@@ -264,18 +263,18 @@ void Parking::createGraphViewer() {
 			if (e->isReal()) {
 				if (!e->isInGraphViewer()) { //se ja estiver no myGV, nao voltamos a inseri-lo
 					if (e->getRoad()->isTwoWays()) {
-						myGV->addEdge(e->getID(), v->getSecondID(),
-								e->getDest()->getSecondID(), EdgeType::UNDIRECTED);
+						myGV->addEdge(e->getID(), v->getID(),
+								e->getDest()->getID(), EdgeType::UNDIRECTED);
 						myGV->setEdgeLabel(e->getID(), "");
 					} else {
-						myGV->addEdge(e->getID(), v->getSecondID(),
-								e->getDest()->getSecondID(), EdgeType::DIRECTED);
+						myGV->addEdge(e->getID(), v->getID(),
+								e->getDest()->getID(), EdgeType::DIRECTED);
 						myGV->setEdgeLabel(e->getID(), "");
 					}
 					e->setInGraphViewer();
 				}
 			} else {
-				myGV->addEdge(e->getID(), v->getSecondID(), e->getDest()->getSecondID(),
+				myGV->addEdge(e->getID(), v->getID(), e->getDest()->getID(),
 						EdgeType::UNDIRECTED);
 				myGV->setEdgeLabel(e->getID(), "");
 			}
@@ -310,7 +309,7 @@ ParkType * Parking::getClosestPark(Vertex* src, Vertex * dest, double &finalDist
 		}
 	}
 
-	drawPath(shortPath, "yellow");
+	drawPath(shortPath, "red");
 	finalDist = dist;
 	return park;
 }
@@ -323,18 +322,19 @@ ParkType * Parking::getCheapestPark(Vertex * src, Vertex * dest, double distMax,
 		if (p->getNode()->isAccessible()) {
 			myGraph.dijkstraShortestPathByFoot(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
-			drawPath(shortPathAux, "pink");
+			drawPath(shortPathAux, "red");
 			if (dest->getDist() <= distMax) {
 				if (p->getPrice() < price) {
 					price = p->getPrice();
 					shortPath = shortPathAux;
 					finalDist = dest->getDist();
 					park = p;
+
 				}
 			}
 		}
 	}
-	drawPath(shortPath, "yellow");
+	drawPath(shortPath, "red");
 	return park;
 }
 
@@ -345,7 +345,7 @@ void Parking::drawPath(vector<Vertex*> path, string color) {
 			myGV->setEdgeThickness(aux->getEdgeToVertex(node)->getID(), 7);
 			myGV->setEdgeColor(aux->getEdgeToVertex(node)->getID(), color);
 		}
-		myGV->setVertexColor(node->getSecondID(), color);
+		myGV->setVertexColor(node->getID(), color);
 		aux = node;
 	}
 }
@@ -564,14 +564,14 @@ double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 void Parking::toogleStreetNodes(string street) {
 	vector<Vertex*> streetNodes = getStreetNodes(street);
 
-	cout << "fsadfa";
+
 	for (int i = 0; i < streetNodes.size(); i++) {
-		cout << streetNodes.at(i)->getSecondID();
-		myGV->setVertexColor(streetNodes.at(i)->getSecondID(), "green");
-		cout << "pooo";
-		myGV->setVertexLabel(streetNodes.at(i)->getSecondID(), to_string(i+1));
+
+		myGV->setVertexColor(streetNodes.at(i)->getID(), "green");
+
+		myGV->setVertexLabel(streetNodes.at(i)->getID(), to_string(i+1));
 	}
-cout << "rearrange";
+
 	myGV->rearrange();
 
 	cout << "1\111";
@@ -622,7 +622,7 @@ Vertex * Parking::getVertex(long id) {
 	vector<Vertex*> vertexSet = myGraph.getVertexSet();
 
 	for (Vertex * v : vertexSet)
-		if (v->getSecondID() == id)
+		if (v->getID() == id)
 			return v;
 
 	return NULL;
