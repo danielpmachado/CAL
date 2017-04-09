@@ -1,0 +1,322 @@
+\hypertarget{class_parking}{}\section{Parking Class Reference}
+\label{class_parking}\index{Parking@{Parking}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_parking_ac086edc07a4a5930e29f61f8b97a8875}{}\label{class_parking_ac086edc07a4a5930e29f61f8b97a8875} 
+\hyperlink{class_parking_ac086edc07a4a5930e29f61f8b97a8875}{Parking} ()
+\begin{DoxyCompactList}\small\item\em parking class Constructor \end{DoxyCompactList}\item 
+\hypertarget{class_parking_aba04e48c6e34ae0c1eaee8f3d670e8fb}{}\label{class_parking_aba04e48c6e34ae0c1eaee8f3d670e8fb} 
+virtual \hyperlink{class_parking_aba04e48c6e34ae0c1eaee8f3d670e8fb}{$\sim$\+Parking} ()
+\begin{DoxyCompactList}\small\item\em parking class destructor \end{DoxyCompactList}\item 
+map$<$ long, \hyperlink{class_road}{Road} $\ast$ $>$ \hyperlink{class_parking_a9417cfc4ef7b657a9f8669ac99ba52dc}{get\+Roads} ()
+\begin{DoxyCompactList}\small\item\em returns the map with roads id (key) and roads (value) \end{DoxyCompactList}\item 
+\hyperlink{class_graph_viewer}{Graph\+Viewer} $\ast$ \hyperlink{class_parking_aa4e46408596998c56555a55010efa8c5}{get\+Graph\+Viewer} ()
+\begin{DoxyCompactList}\small\item\em returns the \hyperlink{class_graph_viewer}{Graph\+Viewer} (my\+GV) \end{DoxyCompactList}\item 
+\hyperlink{class_graph}{Graph} \hyperlink{class_parking_ae41ff10e4c3b9e8bff5c3fb4565bb270}{get\+Graph} ()
+\begin{DoxyCompactList}\small\item\em returns the graph (my\+Graph) \end{DoxyCompactList}\item 
+\hypertarget{class_parking_a31cb6986a86de3ea2a740234cb8e981f}{}\label{class_parking_a31cb6986a86de3ea2a740234cb8e981f} 
+void \hyperlink{class_parking_a31cb6986a86de3ea2a740234cb8e981f}{read\+Roads\+File} ()
+\begin{DoxyCompactList}\small\item\em read the file with roads information \end{DoxyCompactList}\item 
+\hypertarget{class_parking_a652748ece86c2e0350f962b122b175e7}{}\label{class_parking_a652748ece86c2e0350f962b122b175e7} 
+void \hyperlink{class_parking_a652748ece86c2e0350f962b122b175e7}{read\+Connections\+File} ()
+\begin{DoxyCompactList}\small\item\em read the file with connections information \end{DoxyCompactList}\item 
+\hypertarget{class_parking_ad96e1f7a78c0c21d49c64c5c667c9d44}{}\label{class_parking_ad96e1f7a78c0c21d49c64c5c667c9d44} 
+void \hyperlink{class_parking_ad96e1f7a78c0c21d49c64c5c667c9d44}{read\+Nodes\+File} ()
+\begin{DoxyCompactList}\small\item\em read the file with nodes information \end{DoxyCompactList}\item 
+\hypertarget{class_parking_a6349589812d75d4a10ee1e6442bdefd7}{}\label{class_parking_a6349589812d75d4a10ee1e6442bdefd7} 
+void \hyperlink{class_parking_a6349589812d75d4a10ee1e6442bdefd7}{read\+Parks} ()
+\begin{DoxyCompactList}\small\item\em read the file with parks information \end{DoxyCompactList}\item 
+\hypertarget{class_parking_a3ec3ee75c3a2628798e952cba73bff57}{}\label{class_parking_a3ec3ee75c3a2628798e952cba73bff57} 
+void \hyperlink{class_parking_a3ec3ee75c3a2628798e952cba73bff57}{read\+Destinations} ()
+\begin{DoxyCompactList}\small\item\em read the file with destinations information \end{DoxyCompactList}\item 
+\hypertarget{class_parking_a409bca3edb1a74d4992212bd642e92ed}{}\label{class_parking_a409bca3edb1a74d4992212bd642e92ed} 
+void \hyperlink{class_parking_a409bca3edb1a74d4992212bd642e92ed}{read\+Gas\+Pumps} ()
+\begin{DoxyCompactList}\small\item\em read the file with gas pumps information \end{DoxyCompactList}\item 
+\hypertarget{class_parking_a0d6680f145563bc6fe340b1577751e6f}{}\label{class_parking_a0d6680f145563bc6fe340b1577751e6f} 
+void \hyperlink{class_parking_a0d6680f145563bc6fe340b1577751e6f}{create\+Graph\+Viewer} ()
+\begin{DoxyCompactList}\small\item\em sets edges and nodes in \hyperlink{class_graph_viewer}{Graph\+Viewer} and edits other atributes \end{DoxyCompactList}\item 
+\hyperlink{class_park_type}{Park\+Type} $\ast$ \hyperlink{class_parking_a977a7b98451cd93b099160e101b26013}{get\+Closest\+Park} (\hyperlink{class_vertex}{Vertex} $\ast$src, \hyperlink{class_vertex}{Vertex} $\ast$dest, double \&final\+Dist)
+\begin{DoxyCompactList}\small\item\em returns the closest park (ignoring gas pumps) \end{DoxyCompactList}\item 
+\hyperlink{class_park_type}{Park\+Type} $\ast$ \hyperlink{class_parking_a58ad3ea1d3adb08d3c1bcc39c468eb9c}{get\+Cheapest\+Park} (\hyperlink{class_vertex}{Vertex} $\ast$src, \hyperlink{class_vertex}{Vertex} $\ast$dest, double dist\+Max, double \&final\+Dist)
+\begin{DoxyCompactList}\small\item\em returns the cheapest park \end{DoxyCompactList}\item 
+void \hyperlink{class_parking_ad7f3892d2f758cb719596c86eebcd2ef}{draw\+Path} (vector$<$ \hyperlink{class_vertex}{Vertex} $\ast$$>$ path, string color)
+\begin{DoxyCompactList}\small\item\em paint in the map the path with a specific color \end{DoxyCompactList}\item 
+\hyperlink{class_park_type}{Park\+Type} $\ast$ \hyperlink{class_parking_abdb6ca65eb0ce593a4d61c1cc7127249}{plan\+Gas\+Pump\+Short\+Path} (\hyperlink{class_vertex}{Vertex} $\ast$src, \hyperlink{class_vertex}{Vertex} $\ast$dest)
+\begin{DoxyCompactList}\small\item\em plans the shortest path between the park and the destiny passing by a gas bump \end{DoxyCompactList}\item 
+long \hyperlink{class_parking_abccfb9b95538727e84bc5cc4f7af7f3c}{calculate\+Gas\+Pump\+Short\+Path} (\hyperlink{class_vertex}{Vertex} $\ast$src, \hyperlink{class_vertex}{Vertex} $\ast$dest, \hyperlink{class_gas_pump}{Gas\+Pump} $\ast$\&final\+Gas\+Pump, \hyperlink{class_park_type}{Park\+Type} $\ast$\&final\+Park\+Type)
+\begin{DoxyCompactList}\small\item\em calculates witch gas bump and park you are going by (the shortest path) \end{DoxyCompactList}\item 
+\hyperlink{class_park_type}{Park\+Type} $\ast$ \hyperlink{class_parking_ae24384a39d133693a71a9b61a68a5338}{plan\+Gas\+Pump\+Cheapest\+Path} (\hyperlink{class_vertex}{Vertex} $\ast$src, \hyperlink{class_vertex}{Vertex} $\ast$dest, double max\+Dist)
+\begin{DoxyCompactList}\small\item\em plans the cheapest path passing by a gas bump \end{DoxyCompactList}\item 
+long \hyperlink{class_parking_a81d595949f5c57dc90abde0601e54309}{calculate\+Gas\+Pump\+Cheapest\+Path} (\hyperlink{class_vertex}{Vertex} $\ast$src, \hyperlink{class_vertex}{Vertex} $\ast$dest, double max\+Dist, \hyperlink{class_gas_pump}{Gas\+Pump} $\ast$\&final\+Gas\+Pump, \hyperlink{class_park_type}{Park\+Type} $\ast$\&final\+Park\+Type)
+\begin{DoxyCompactList}\small\item\em calculates witch gas bump and park you are going by (the cheapest path) \end{DoxyCompactList}\item 
+\hypertarget{class_parking_a28517acbb7933cfc4cd316241892b427}{}\label{class_parking_a28517acbb7933cfc4cd316241892b427} 
+\hyperlink{class_park_type}{Park\+Type} $\ast$ {\bfseries get\+Park\+Type} (\hyperlink{class_vertex}{Vertex} $\ast$v)
+\item 
+\hyperlink{class_park_type}{Park\+Type} $\ast$ \hyperlink{class_parking_a0b6e08963a4f6970199057c7efeb5a08}{plan\+Direct\+Short\+Path} (\hyperlink{class_vertex}{Vertex} $\ast$src, \hyperlink{class_vertex}{Vertex} $\ast$dest)
+\item 
+\hyperlink{class_park_type}{Park\+Type} $\ast$ \hyperlink{class_parking_ac564c99f4178b653861b8db6532ca99e}{plan\+Direct\+Cheapest\+Path} (\hyperlink{class_vertex}{Vertex} $\ast$src, \hyperlink{class_vertex}{Vertex} $\ast$dest, double max\+Dist)
+\item 
+\hypertarget{class_parking_a3abfe9a8b5c23bdc313bcdfee3657b07}{}\label{class_parking_a3abfe9a8b5c23bdc313bcdfee3657b07} 
+double {\bfseries distance\+Between\+Vertex} (\hyperlink{class_vertex}{Vertex} $\ast$v1, \hyperlink{class_vertex}{Vertex} $\ast$v2)
+\item 
+\hypertarget{class_parking_a0406c3e3e8556470dcd70f71c88d3a9c}{}\label{class_parking_a0406c3e3e8556470dcd70f71c88d3a9c} 
+void {\bfseries toogle\+Street\+Nodes} (string street)
+\item 
+\hypertarget{class_parking_a050810e59f181f7e3d5b18df2204625e}{}\label{class_parking_a050810e59f181f7e3d5b18df2204625e} 
+vector$<$ string $>$ {\bfseries get\+Street\+Names} () const
+\item 
+\hypertarget{class_parking_a6ad772cb903a420b58a79b78d31c983d}{}\label{class_parking_a6ad772cb903a420b58a79b78d31c983d} 
+vector$<$ \hyperlink{class_dest_place}{Dest\+Place} $\ast$ $>$ {\bfseries get\+Destinations} () const
+\item 
+\hypertarget{class_parking_ae4fe54d30022e394f30dd131316faf79}{}\label{class_parking_ae4fe54d30022e394f30dd131316faf79} 
+vector$<$ \hyperlink{class_vertex}{Vertex} $\ast$ $>$ {\bfseries get\+Street\+Nodes} (string street)
+\item 
+\hypertarget{class_parking_ae0b2f55db76cd07975ac87d0cb9cfa72}{}\label{class_parking_ae0b2f55db76cd07975ac87d0cb9cfa72} 
+\hyperlink{class_vertex}{Vertex} $\ast$ {\bfseries get\+Vertex} (long id)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_parking_a09707c0f47a616fc2754f8f88ac93055}{}\label{class_parking_a09707c0f47a616fc2754f8f88ac93055} 
+\hyperlink{class_graph}{Graph} {\bfseries my\+Graph} = \hyperlink{class_graph}{Graph}()
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_parking_a81d595949f5c57dc90abde0601e54309}{}\label{class_parking_a81d595949f5c57dc90abde0601e54309} 
+\index{Parking@{Parking}!calculate\+Gas\+Pump\+Cheapest\+Path@{calculate\+Gas\+Pump\+Cheapest\+Path}}
+\index{calculate\+Gas\+Pump\+Cheapest\+Path@{calculate\+Gas\+Pump\+Cheapest\+Path}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{calculate\+Gas\+Pump\+Cheapest\+Path()}{calculateGasPumpCheapestPath()}}
+{\footnotesize\ttfamily long Parking\+::calculate\+Gas\+Pump\+Cheapest\+Path (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{src,  }\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dest,  }\item[{double}]{max\+Dist,  }\item[{\hyperlink{class_gas_pump}{Gas\+Pump} $\ast$\&}]{final\+Gas\+Pump,  }\item[{\hyperlink{class_park_type}{Park\+Type} $\ast$\&}]{final\+Park\+Type }\end{DoxyParamCaption})}
+
+
+
+calculates witch gas bump and park you are going by (the cheapest path) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em src} & the vertex where the journey begins\\
+\hline
+{\em dest} & the vertex where the journey ends\\
+\hline
+{\em final\+Gas\+Pump} & the chosen gas bump\\
+\hline
+{\em final\+Park\+Type} & the chosen park type\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a reference to the path 
+\end{DoxyReturn}
+\hypertarget{class_parking_abccfb9b95538727e84bc5cc4f7af7f3c}{}\label{class_parking_abccfb9b95538727e84bc5cc4f7af7f3c} 
+\index{Parking@{Parking}!calculate\+Gas\+Pump\+Short\+Path@{calculate\+Gas\+Pump\+Short\+Path}}
+\index{calculate\+Gas\+Pump\+Short\+Path@{calculate\+Gas\+Pump\+Short\+Path}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{calculate\+Gas\+Pump\+Short\+Path()}{calculateGasPumpShortPath()}}
+{\footnotesize\ttfamily long Parking\+::calculate\+Gas\+Pump\+Short\+Path (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{src,  }\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dest,  }\item[{\hyperlink{class_gas_pump}{Gas\+Pump} $\ast$\&}]{final\+Gas\+Pump,  }\item[{\hyperlink{class_park_type}{Park\+Type} $\ast$\&}]{final\+Park\+Type }\end{DoxyParamCaption})}
+
+
+
+calculates witch gas bump and park you are going by (the shortest path) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em src} & the vertex where the journey begins\\
+\hline
+{\em dest} & the vertex where the journey ends\\
+\hline
+{\em final\+Gas\+Pump} & the chosen gas bump\\
+\hline
+{\em final\+Park\+Type} & the chosen park type\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a reference to the path 
+\end{DoxyReturn}
+\hypertarget{class_parking_ad7f3892d2f758cb719596c86eebcd2ef}{}\label{class_parking_ad7f3892d2f758cb719596c86eebcd2ef} 
+\index{Parking@{Parking}!draw\+Path@{draw\+Path}}
+\index{draw\+Path@{draw\+Path}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{draw\+Path()}{drawPath()}}
+{\footnotesize\ttfamily void Parking\+::draw\+Path (\begin{DoxyParamCaption}\item[{vector$<$ \hyperlink{class_vertex}{Vertex} $\ast$$>$}]{path,  }\item[{string}]{color }\end{DoxyParamCaption})}
+
+
+
+paint in the map the path with a specific color 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & the vertexes vector\\
+\hline
+{\em color} & the color that is going to be used to paint the map \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_parking_a58ad3ea1d3adb08d3c1bcc39c468eb9c}{}\label{class_parking_a58ad3ea1d3adb08d3c1bcc39c468eb9c} 
+\index{Parking@{Parking}!get\+Cheapest\+Park@{get\+Cheapest\+Park}}
+\index{get\+Cheapest\+Park@{get\+Cheapest\+Park}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{get\+Cheapest\+Park()}{getCheapestPark()}}
+{\footnotesize\ttfamily \hyperlink{class_park_type}{Park\+Type} $\ast$ Parking\+::get\+Cheapest\+Park (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{src,  }\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dest,  }\item[{double}]{dist\+Max,  }\item[{double \&}]{final\+Dist }\end{DoxyParamCaption})}
+
+
+
+returns the cheapest park 
+
+
+\begin{DoxyParams}{Parameters}
+{\em src} & the vertex where the journey begins\\
+\hline
+{\em dest} & the vertex where the journey ends\\
+\hline
+{\em dist\+Max} & the max distance you choose to drive by\\
+\hline
+{\em final\+Dist} & the distance between the beginning and the end\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the park type 
+\end{DoxyReturn}
+\hypertarget{class_parking_a977a7b98451cd93b099160e101b26013}{}\label{class_parking_a977a7b98451cd93b099160e101b26013} 
+\index{Parking@{Parking}!get\+Closest\+Park@{get\+Closest\+Park}}
+\index{get\+Closest\+Park@{get\+Closest\+Park}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{get\+Closest\+Park()}{getClosestPark()}}
+{\footnotesize\ttfamily \hyperlink{class_park_type}{Park\+Type} $\ast$ Parking\+::get\+Closest\+Park (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{src,  }\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dest,  }\item[{double \&}]{final\+Dist }\end{DoxyParamCaption})}
+
+
+
+returns the closest park (ignoring gas pumps) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em src} & the vertex where the journey begins\\
+\hline
+{\em dest} & the vertex where the journey ends\\
+\hline
+{\em final\+Dist} & the distance between the beginning and the end\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the park type 
+\end{DoxyReturn}
+\hypertarget{class_parking_ae41ff10e4c3b9e8bff5c3fb4565bb270}{}\label{class_parking_ae41ff10e4c3b9e8bff5c3fb4565bb270} 
+\index{Parking@{Parking}!get\+Graph@{get\+Graph}}
+\index{get\+Graph@{get\+Graph}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{get\+Graph()}{getGraph()}}
+{\footnotesize\ttfamily \hyperlink{class_graph}{Graph} Parking\+::get\+Graph (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns the graph (my\+Graph) 
+
+\begin{DoxyReturn}{Returns}
+the graph (my\+Graph) 
+\end{DoxyReturn}
+\hypertarget{class_parking_aa4e46408596998c56555a55010efa8c5}{}\label{class_parking_aa4e46408596998c56555a55010efa8c5} 
+\index{Parking@{Parking}!get\+Graph\+Viewer@{get\+Graph\+Viewer}}
+\index{get\+Graph\+Viewer@{get\+Graph\+Viewer}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{get\+Graph\+Viewer()}{getGraphViewer()}}
+{\footnotesize\ttfamily \hyperlink{class_graph_viewer}{Graph\+Viewer} $\ast$ Parking\+::get\+Graph\+Viewer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns the \hyperlink{class_graph_viewer}{Graph\+Viewer} (my\+GV) 
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_graph_viewer}{Graph\+Viewer} (my\+GV) 
+\end{DoxyReturn}
+\hypertarget{class_parking_a9417cfc4ef7b657a9f8669ac99ba52dc}{}\label{class_parking_a9417cfc4ef7b657a9f8669ac99ba52dc} 
+\index{Parking@{Parking}!get\+Roads@{get\+Roads}}
+\index{get\+Roads@{get\+Roads}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{get\+Roads()}{getRoads()}}
+{\footnotesize\ttfamily map$<$ long, \hyperlink{class_road}{Road} $\ast$ $>$ Parking\+::get\+Roads (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns the map with roads id (key) and roads (value) 
+
+\begin{DoxyReturn}{Returns}
+map with roads and roads id 
+\end{DoxyReturn}
+\hypertarget{class_parking_ac564c99f4178b653861b8db6532ca99e}{}\label{class_parking_ac564c99f4178b653861b8db6532ca99e} 
+\index{Parking@{Parking}!plan\+Direct\+Cheapest\+Path@{plan\+Direct\+Cheapest\+Path}}
+\index{plan\+Direct\+Cheapest\+Path@{plan\+Direct\+Cheapest\+Path}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{plan\+Direct\+Cheapest\+Path()}{planDirectCheapestPath()}}
+{\footnotesize\ttfamily \hyperlink{class_park_type}{Park\+Type} $\ast$ Parking\+::plan\+Direct\+Cheapest\+Path (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{src,  }\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dest,  }\item[{double}]{max\+Dist }\end{DoxyParamCaption})}
+
+the cheapest path to a park, without passing by a gas bump
+
+
+\begin{DoxyParams}{Parameters}
+{\em src} & the vertex where the journey begins\\
+\hline
+{\em dest} & the vertex where the journey ends\\
+\hline
+{\em max\+Dist} & the maximum distance that is chosen by the user\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a park type 
+\end{DoxyReturn}
+\hypertarget{class_parking_a0b6e08963a4f6970199057c7efeb5a08}{}\label{class_parking_a0b6e08963a4f6970199057c7efeb5a08} 
+\index{Parking@{Parking}!plan\+Direct\+Short\+Path@{plan\+Direct\+Short\+Path}}
+\index{plan\+Direct\+Short\+Path@{plan\+Direct\+Short\+Path}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{plan\+Direct\+Short\+Path()}{planDirectShortPath()}}
+{\footnotesize\ttfamily \hyperlink{class_park_type}{Park\+Type} $\ast$ Parking\+::plan\+Direct\+Short\+Path (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{src,  }\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dest }\end{DoxyParamCaption})}
+
+the shortest path to a park, without passing by a gas bump
+
+
+\begin{DoxyParams}{Parameters}
+{\em src} & the vertex where the journey begins\\
+\hline
+{\em dest} & the vertex where the journey ends\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a park type 
+\end{DoxyReturn}
+\hypertarget{class_parking_ae24384a39d133693a71a9b61a68a5338}{}\label{class_parking_ae24384a39d133693a71a9b61a68a5338} 
+\index{Parking@{Parking}!plan\+Gas\+Pump\+Cheapest\+Path@{plan\+Gas\+Pump\+Cheapest\+Path}}
+\index{plan\+Gas\+Pump\+Cheapest\+Path@{plan\+Gas\+Pump\+Cheapest\+Path}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{plan\+Gas\+Pump\+Cheapest\+Path()}{planGasPumpCheapestPath()}}
+{\footnotesize\ttfamily \hyperlink{class_park_type}{Park\+Type} $\ast$ Parking\+::plan\+Gas\+Pump\+Cheapest\+Path (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{src,  }\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dest,  }\item[{double}]{max\+Dist }\end{DoxyParamCaption})}
+
+
+
+plans the cheapest path passing by a gas bump 
+
+
+\begin{DoxyParams}{Parameters}
+{\em src} & the vertex where the journey begins\\
+\hline
+{\em dest} & the vertex where the journey ends\\
+\hline
+{\em mas\+Dist} & the maximum distance that is chosen by the user\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the park type 
+\end{DoxyReturn}
+\hypertarget{class_parking_abdb6ca65eb0ce593a4d61c1cc7127249}{}\label{class_parking_abdb6ca65eb0ce593a4d61c1cc7127249} 
+\index{Parking@{Parking}!plan\+Gas\+Pump\+Short\+Path@{plan\+Gas\+Pump\+Short\+Path}}
+\index{plan\+Gas\+Pump\+Short\+Path@{plan\+Gas\+Pump\+Short\+Path}!Parking@{Parking}}
+\subsubsection{\texorpdfstring{plan\+Gas\+Pump\+Short\+Path()}{planGasPumpShortPath()}}
+{\footnotesize\ttfamily \hyperlink{class_park_type}{Park\+Type} $\ast$ Parking\+::plan\+Gas\+Pump\+Short\+Path (\begin{DoxyParamCaption}\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{src,  }\item[{\hyperlink{class_vertex}{Vertex} $\ast$}]{dest }\end{DoxyParamCaption})}
+
+
+
+plans the shortest path between the park and the destiny passing by a gas bump 
+
+
+\begin{DoxyParams}{Parameters}
+{\em src} & the vertex where the journey begins\\
+\hline
+{\em dest} & the vertex where the journey ends\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the park 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Daniel/\+Documents/\+Git\+Hub/\+C\+A\+L/src/Parking.\+h\item 
+C\+:/\+Users/\+Daniel/\+Documents/\+Git\+Hub/\+C\+A\+L/src/Parking.\+cpp\end{DoxyCompactItemize}
