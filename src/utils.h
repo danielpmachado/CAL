@@ -27,10 +27,36 @@
 
 typedef unsigned long long int ull_int;
 
+/*
+ * @brief converts the longitude to x axis
+ *
+ * @param longitude the value of longitude
+ *
+ * @return the x value
+ *
+ */
 int convertLongitudeToX(double longitude);
+
+/*
+ * @brief converts the latitude to y axis
+ *
+ * @param latitude the value of latitude
+ *
+ * @return the y value
+ *
+ */
 int convertLatitudeToY(double latitude);
 
+/*
+ * @brief clears the screen
+ *
+ */
 void clearScreen();
+
+/*
+ * @ pauses the screen
+ *
+ */
 void pauseScreen();
 
 
