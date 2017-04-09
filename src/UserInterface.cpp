@@ -7,6 +7,9 @@
 
 #include "UserInterface.h"
 
+HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE); // used for goto
+COORD CursorPosition; // used for goto
+
 
 UserInterface::UserInterface(Parking * p) {
 	this->p = p;
@@ -18,8 +21,6 @@ UserInterface::~UserInterface() {
 }
 
 
-HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE); // used for goto
-COORD CursorPosition; // used for goto
 
 void gotoXY(int x, int y)
 {
@@ -111,11 +112,11 @@ Vertex * UserInterface::chooseVertex(string street){
     vector<Vertex *> streetNodes = p->getStreetNodes(street);
 
     SetConsoleTextAttribute(console, 240);
-    gotoXY(50, 7); writeNodes(0,streetNodes);
+    gotoXY(50, 7); writeNodes(1,streetNodes);
 
     SetConsoleTextAttribute(console, 15);
     for(int i = 1; i < streetNodes.size(); i++){
-        gotoXY(50, i+7);  writeNodes(i,streetNodes);
+        gotoXY(50, i+7);  writeNodes(i+1,streetNodes);
     }
 
     gotoXY(1,1);
@@ -129,11 +130,11 @@ Vertex * UserInterface::chooseVertex(string street){
         if (GetAsyncKeyState(VK_DOWN) && x < streetNodes.size()+6) //down button pressed
         {
             gotoXY(50, x);SetConsoleTextAttribute(console, 15);
-            writeNodes(x-7,streetNodes);
+            writeNodes(x-6,streetNodes);
             x++;
 
             gotoXY(50, x); SetConsoleTextAttribute(console, 240);
-            writeNodes(x-7,streetNodes);
+            writeNodes(x-6,streetNodes);
 
             SetConsoleTextAttribute(console, 15);
             menu_item++;
@@ -144,11 +145,11 @@ Vertex * UserInterface::chooseVertex(string street){
         if (GetAsyncKeyState(VK_UP) && x > 7) //up button pressed
         {
             gotoXY(50, x); SetConsoleTextAttribute(console, 15);
-            writeNodes(x-7,streetNodes);
+            writeNodes(x-6,streetNodes);
             x--;
 
             gotoXY(50, x); SetConsoleTextAttribute(console, 240);
-            writeNodes(x-7,streetNodes);
+            writeNodes(x-6,streetNodes);
 
             SetConsoleTextAttribute(console, 15);
             menu_item--;
@@ -464,12 +465,12 @@ void UserInterface::start(){
     pauseScreen();
     clearScreen();
 
-    gotoXY(37,4); cout << "|| Please chose the street your in ||" << endl;
+    gotoXY(37,4); cout << "|| Please choose the street your in ||" << endl;
     string street  = chooseStreetName();
     p->toogleStreetNodes(street);
     clearScreen();
 
-    gotoXY(28,4); cout << "|| From the green nodes choose the closest to your position ||" << endl;
+    gotoXY(28,4); cout << "|| From the green dots choose the closest to your position ||" << endl;
     Vertex * src = chooseVertex(street);
     clearScreen();
 
