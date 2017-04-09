@@ -311,13 +311,13 @@ vector<long> Graph::searchStreetNodes(string street) {
 
     for (it = vertexSet.begin(); it != vertexSet.end(); it++) {
         if (!(*it)->visited)
-            searchStreetNodes(*it, street, streetVertex);
+            searchStreetNodesAux(*it, street, streetVertex);
     }
 
     return streetVertex;
 }
 
-void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVertex) const {
+void Graph::searchStreetNodesAux(Vertex * v,string street, vector<long> &streetVertex) const {
     v->visited = true;
 
 
@@ -330,7 +330,7 @@ void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVert
         }
 
         if (!e->dest->visited)
-            searchStreetNodes(e->dest,street, streetVertex);
+            searchStreetNodesAux(e->dest,street, streetVertex);
 
 
     }
