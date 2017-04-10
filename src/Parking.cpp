@@ -10,7 +10,7 @@ Parking::Parking() {
 	readDestinations();
 	readGasPumps();
 	myGV->rearrange();
-	planGasPumpCheapestPath(myGraph.getVertexBySecondID(46), myGraph.getVertexBySecondID(10), 1000);
+	//planGasPumpCheapestPath(myGraph.getVertexBySecondID(46), myGraph.getVertexBySecondID(10), 1000);
 }
 
 
@@ -435,13 +435,13 @@ long Parking::calculateGasPumpShortPath(Vertex * src, Vertex * dest, GasPump * &
 	return dist;
 }
 
-void Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
+ParkType * Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
 	GasPump * pump = NULL;
 	ParkType * park = NULL;
 	long distFromSrcToPark = calculateGasPumpShortPath(src, dest, pump, park);
 	if (distFromSrcToPark == LONG_MAX) {
 		cout << "There is not a possible path. Try again.\n";
-		return;
+		return park;
 	}
 	/*
 	 * Draw path from origin to GasPump
@@ -462,6 +462,14 @@ void Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
 	vector<Vertex *> pathToDest = myGraph.getPath(park->getNode(), dest);
 	drawPath(pathToDest, "cyan");
 
+
+	dest->setDist(distFromSrcToPark +dest->getDist());
+	park->getNode()->setDist(distFromSrcToPark);
+
+
+	return park;
+
+	/*
 	long totalDist = distFromSrcToPark + dest->getDist();
 	cout << "Total distance: " << totalDist << " m   ( " << distFromSrcToPark << " by car and " << dest->getDist() << " by foot )" << endl;
 	cout << "Type of Park: ";
@@ -470,6 +478,8 @@ void Parking::planGasPumpShortPath(Vertex * src, Vertex * dest) {
 	} else
 		cout << "Garage\n";
 	cout << "Price: " << park->getPrice() << " euros/h\n";
+
+	*/
 }
 long Parking::calculateGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDist, GasPump * &finalGasPump,  ParkType * &finalParkType) {
 	myGraph.dfs(src);
@@ -517,13 +527,13 @@ long Parking::calculateGasPumpCheapestPath(Vertex * src, Vertex * dest, double m
 	}
 	return dist;
 }
-void Parking::planGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDist) {
+ParkType * Parking::planGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDist) {
 	GasPump * pump = NULL;
 	ParkType * park = NULL;
 	long distFromSrcToPark = calculateGasPumpCheapestPath(src, dest, maxDist, pump, park);
 	if (distFromSrcToPark == LONG_MAX) {
 		cout << "There is not a possible path. Try again.\n";
-		return;
+		return park;
 	}
 	/*
 	 * Draw path from origin to GasPump
@@ -544,6 +554,13 @@ void Parking::planGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDis
 	vector<Vertex *> pathToDest = myGraph.getPath(park->getNode(), dest);
 	drawPath(pathToDest, "cyan");
 
+	dest->setDist(distFromSrcToPark +dest->getDist());
+	park->getNode()->setDist(distFromSrcToPark);
+
+	return park;
+
+	/*
+
 	long totalDist = distFromSrcToPark + dest->getDist();
 	cout << "Total distance: " << totalDist << " m   ( " << distFromSrcToPark << " by car and " << dest->getDist() << " by foot )" << endl;
 	cout << "Type of Park: ";
@@ -552,6 +569,8 @@ void Parking::planGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDis
 	} else
 		cout << "Garage\n";
 	cout << "Price: " << park->getPrice() << " euros/h\n";
+
+	*/
 }
 double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
@@ -566,12 +585,17 @@ double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 void Parking::toogleStreetNodes(string street) {
 	vector<Vertex*> streetNodes = getStreetNodes(street);
 
+	cout << "fsadfa";
 	for (int i = 0; i < streetNodes.size(); i++) {
+		cout << streetNodes.at(i)->getSecondID();
 		myGV->setVertexColor(streetNodes.at(i)->getSecondID(), "green");
+		cout << "pooo";
 		myGV->setVertexLabel(streetNodes.at(i)->getSecondID(), to_string(i+1));
 	}
-
+cout << "rearrange";
 	myGV->rearrange();
+
+	cout << "1\111";
 
 }
 

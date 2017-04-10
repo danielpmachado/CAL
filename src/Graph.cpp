@@ -338,8 +338,8 @@ void Graph::searchStreetNodes(Vertex * v,string street, vector<long> &streetVert
 
         if(e->road->getName() == street && !e->dest->visited){
 
-            streetVertex.push_back(v->getID());
-            streetVertex.push_back(e->dest->getID());
+            streetVertex.push_back(v->getSecondID());
+            streetVertex.push_back(e->dest->getSecondID());
         }
 
         if (!e->dest->visited)

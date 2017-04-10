@@ -30,7 +30,7 @@ using namespace std;
 
 class Parking {
 private:
-	Graph myGraph = Graph();
+
 	map<long, Road*> roads;
 	GraphViewer *myGV= new GraphViewer(5000, 3496, false);
 	vector<ParkType*>parkTypeSet;
@@ -38,6 +38,7 @@ private:
 	vector<GasPump *>gasPumpSet;
 
 public:
+	Graph myGraph = Graph();
 	/**
 	 * construtor da classe
 	 */
@@ -101,7 +102,7 @@ public:
 	/**
 	 * Planeia o caminho mais curto de um parque ao destino passando por bomba de gasolina
 	 */
-	void planGasPumpShortPath(Vertex * src, Vertex * dest);
+	ParkType * planGasPumpShortPath(Vertex * src, Vertex * dest);
 	/**
 	 * calcula qual a bomba de gasolina e parque pelos quais vai passar (no caminho mais curto)
 	 */
@@ -109,15 +110,12 @@ public:
 	/**
 	 * Planeia o caminho mais barato passando por bomba de gasolina
 	 */
-	void planGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDist);
+	ParkType * planGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDist);
 	/**
 	 * calcula qual a bomba de gasolina e parque pelos quais vai passar (no caminho mais barato)
 	 */
 	long calculateGasPumpCheapestPath(Vertex * src, Vertex * dest, double maxDist, GasPump * &finalGasPump,  ParkType * &finalParkType);
-	/*
-	 * Planeia o caminho mais barato passando por bomba de gasolina
-	 */
-	void planGasPumpShortPath(Vertex * src, Vertex * dest, double maxDist);
+
 	/*
 	 * retorna o objeto ParkType (parque de estacionamento) de vertice v
 	 */
