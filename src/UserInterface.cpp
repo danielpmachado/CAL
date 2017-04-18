@@ -457,63 +457,73 @@ bool UserInterface::wantGasoline(){
 
 void UserInterface::start(){
 
-    clearScreen();
-    SetConsoleTextAttribute(console, 15);
+	bool cont = true;
 
-    gotoXY(45,6); cout << " || PARKING SA || ";
-    gotoXY(40,10); cout << "PRESS ENTER TO CALCULATE ROUTE" << endl;
-    pauseScreen();
-    clearScreen();
+	while(cont){
 
-    gotoXY(37,4); cout << "|| Please choose the street your in ||" << endl;
-    string street  = chooseStreetName();
-    p->toogleStreetNodes(street);
-    clearScreen();
+		clearScreen();
+		SetConsoleTextAttribute(console, 15);
 
-    gotoXY(28,4); cout << "|| From the green dots choose the closest to your position ||" << endl;
-    Vertex * src = chooseVertex(street);
-    clearScreen();
+		gotoXY(45,6); cout << " || PARKING SA || ";
+		gotoXY(40,10); cout << "PRESS ENTER TO CALCULATE ROUTE" << endl;
+		pauseScreen();
+		clearScreen();
 
-    gotoXY(45,4); cout << "|| Where do you want to go? ||" << endl;
-    Vertex * dst = chooseDestiny();
-    clearScreen();
+		gotoXY(37,4); cout << "|| Please choose the street your in ||" << endl;
+		string street  = chooseStreetName();
+		p->toogleStreetNodes(street);
+		clearScreen();
 
-    gotoXY(52,4); cout << "|| Park Option ||" << endl;
-    int pref = choosePreference();
-    clearScreen();
+		gotoXY(28,4); cout << "|| From the green dots choose the closest to your position ||" << endl;
+		Vertex * src = chooseVertex(street);
+		clearScreen();
 
-    gotoXY(35,4); cout << "|| Do you want to pass by a Gasoline Bump? ||" << endl;
-    bool gasBump = wantGasoline();
-    clearScreen();
+		gotoXY(45,4); cout << "|| Where do you want to go? ||" << endl;
+		Vertex * dst = chooseDestiny();
+		clearScreen();
 
-    ParkType * car_park;
+		gotoXY(52,4); cout << "|| Park Option ||" << endl;
+		int pref = choosePreference();
+		clearScreen();
 
-    switch(pref){
-    case 0:
-    	if(gasBump)
-    		car_park = p->planGasPumpShortPath(src,dst);
-    	else
-    		car_park = p->planDirectShortPath(src, dst);
+		gotoXY(35,4); cout << "|| Do you want to pass by a Gasoline Bump? ||" << endl;
+		bool gasBump = wantGasoline();
+		clearScreen();
 
-    	if(car_park != NULL) displayRouteInformation(src,dst,car_park);
-    	break;
-    case 1:
+		ParkType * car_park;
 
-    	gotoXY(30,4); cout << "|| Max distance between the Car Park and your Destination ||"  << endl;
-    	long max_distance = chooseMaxDistance();
-    	clearScreen();
+		switch(pref){
+		case 0:
+			if(gasBump)
+				car_park = p->planGasPumpShortPath(src,dst);
+			else
+				car_park = p->planDirectShortPath(src, dst);
 
+			if(car_park != NULL) displayRouteInformation(src,dst,car_park);
+			break;
+		case 1:
 
-    	if(gasBump)
-        		car_park = p->planGasPumpCheapestPath(src,dst, max_distance);
-        	else
-        		car_park = p->planDirectCheapestPath(src,dst, max_distance);
+			gotoXY(30,4); cout << "|| Max distance between the Car Park and your Destination ||"  << endl;
+			long max_distance = chooseMaxDistance();
+			clearScreen();
 
 
-    	if(car_park != NULL) displayRouteInformation(src,dst,car_park);
-    	break;
-    }
+			if(gasBump)
+				car_park = p->planGasPumpCheapestPath(src,dst, max_distance);
+			else
+				car_park = p->planDirectCheapestPath(src,dst, max_distance);
 
+
+			if(car_park != NULL) displayRouteInformation(src,dst,car_park);
+			break;
+		}
+
+		system("pause>nul");
+
+		if(GetAsyncKeyState (VK_ESCAPE))
+			exit(1);
+
+	}
 }
 
 
