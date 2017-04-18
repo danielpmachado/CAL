@@ -11,10 +11,6 @@ HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE); // used for goto
 COORD CursorPosition; // used for goto
 
 
-UserInterface::UserInterface(Parking * p) {
-	this->p = p;
-
-}
 
 UserInterface::~UserInterface() {
 	// TODO Auto-generated destructor stub
@@ -457,9 +453,19 @@ bool UserInterface::wantGasoline(){
 
 void UserInterface::start(){
 
-	bool cont = true;
 
-	while(cont){
+
+
+	while(1){
+
+
+		this->p = new Parking();
+
+		p->createGraphViewer();
+		p->readParks();
+		p->readDestinations();
+		p->readGasPumps();
+		p->getGraphViewer()->rearrange();
 
 		clearScreen();
 		SetConsoleTextAttribute(console, 15);
@@ -522,6 +528,8 @@ void UserInterface::start(){
 
 		if(GetAsyncKeyState (VK_ESCAPE))
 			exit(1);
+
+		p->getGraphViewer()->closeWindow();
 
 	}
 }

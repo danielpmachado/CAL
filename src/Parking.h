@@ -32,7 +32,7 @@ class Parking {
 private:
 
 	map<long, Road*> roads;
-	GraphViewer *myGV= new GraphViewer(5000, 3496, false);
+	GraphViewer *myGV;
 	vector<ParkType*>parkTypeSet;
 	vector<DestPlace *>destPlacesSet;
 	vector<GasPump *>gasPumpSet;

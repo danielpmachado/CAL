@@ -5,11 +5,11 @@ Parking::Parking() {
 	readNodesFile();
 	readRoadsFile();
 	readConnectionsFile();
-	createGraphViewer();
-	readParks();
-	readDestinations();
-	readGasPumps();
-	myGV->rearrange();
+	//createGraphViewer();
+	//readParks();
+	//readDestinations();
+	//readGasPumps();
+	//myGV->rearrange();
 	//planGasPumpCheapestPath(myGraph.getVertexBySecondID(46), myGraph.getVertexBySecondID(10), 1000);
 }
 
@@ -240,10 +240,15 @@ void Parking::readDestinations() {
 	destFile.close();
 }
 void Parking::createGraphViewer() {
+
+	myGV= new GraphViewer(5000, 3496, false);
+
 	myGV->setBackground("map.png");
 	myGV->createWindow(5000, 3496);
 	myGV->defineVertexColor("blue");
 	myGV->defineEdgeColor("black");
+
+
 
 	ull_int node_id;
 	int x;
@@ -255,6 +260,7 @@ void Parking::createGraphViewer() {
 
 		myGV->addNode(node_id, x, y);
 		myGV->setVertexSize(node_id, 30);
+
 
 	}
 	myGV->defineEdgeCurved(false);
@@ -322,7 +328,7 @@ ParkType * Parking::getCheapestPark(Vertex * src, Vertex * dest, double distMax,
 		if (p->getNode()->isAccessible()) {
 			myGraph.dijkstraShortestPathByFoot(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
-			drawPath(shortPathAux, "red");
+			//drawPath(shortPathAux, "red");
 			if (dest->getDist() <= distMax) {
 				if (p->getPrice() < price) {
 					price = p->getPrice();

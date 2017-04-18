@@ -26,7 +26,7 @@ public:
 	 * @param p the parking used
 	 *
 	 */
-	UserInterface(Parking * p);
+	UserInterface(){}
 
 	/*
 	 * @brief  User Interface desctructor
