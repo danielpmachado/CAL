@@ -302,7 +302,7 @@ public:
 	 *
 	 * @return vector os roads' names
 	 */
-	vector<string> stringMatchingRoads(string roadName);//e mais facil retornar um vetor de Road* porque assim depois conseguimos fazer a correspondencia com a aresta correspondente
+	string stringMatchingRoads(string roadName);//e mais facil retornar um vetor de Road* porque assim depois conseguimos fazer a correspondencia com a aresta correspondente
 
 	/**
 	 * @brief  gets the approximate string match for roads' names

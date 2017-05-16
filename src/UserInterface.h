@@ -157,6 +157,13 @@ public:
 	 */
 	bool wantGasoline();
 
+
+	void writeInterest(int i);
+
+	int chooseInterest();
+
+	string insertStreetName();
+
 };
 
 #endif /* SRC_USERINTERFACE_H_ */

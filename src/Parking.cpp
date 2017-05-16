@@ -661,32 +661,39 @@ Vertex * Parking::getVertex(long id) {
 	return v;
 }*/
 
-vector<string> Parking::stringMatchingRoads(string roadName) {
-	vector<string>v;
+string Parking::stringMatchingRoads(string roadName) {
+
 	map<string, vector<Road*>>::iterator it = roadsNames.begin();
 	for(it; it != roadsNames.end(); it++) {
 		if(kmp(it->first, roadName)) {
-			v.push_back(it->first);
+			return it->first;
 		}
 	}
 
-	return v;
+	return "";
 }
 
 vector<string> Parking::ApproximateStringMatching(string roadName) {
 	vector<string>v;
 	priority_queue<MatchingRoad> roadsSet;
 	map<string, vector<Road*>>::iterator it = roadsNames.begin();
-		for(it; it != roadsNames.end(); it++) {
-		int changes = editDistance(roadName, it->first);
-		MatchingRoad r = MatchingRoad(it->first, changes);
-		roadsSet.push(r);
+	for(it; it != roadsNames.end(); it++) {
+		if(it->first != "") {
+			int changes = editDistance(roadName, it->first);
+			MatchingRoad r = MatchingRoad(it->first, changes);
+			roadsSet.push(r);
+		}
+	}
+	if(roadsSet.top().getDist() == 0) {
+		v.push_back(roadsSet.top().getRoadName());
+		return v;
 	}
 	for(int i = 1; i <= 3; i++) {
 		string r = roadsSet.top().getRoadName();
 		roadsSet.pop();
 		v.push_back(r);
 	}
+
 	return v;
 }
 
