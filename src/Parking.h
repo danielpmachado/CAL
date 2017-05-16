@@ -16,6 +16,7 @@
 #include <cmath>
 #include <algorithm>
 #include <climits>
+#include <vector>
 
 #include "graphviewer.h"
 #include "Graph.h"
@@ -32,6 +33,7 @@ class Parking {
 private:
 
 	map<long, Road*> roads;
+	map<string, vector<Road*> > roadsNames;
 	GraphViewer *myGV;
 	vector<ParkType*>parkTypeSet;
 	vector<DestPlace *>destPlacesSet;
@@ -238,7 +240,7 @@ public:
 	 */
 	ParkType * planDirectCheapestPath(Vertex * src, Vertex * dest, double maxDist);
 
-	/*
+	/**
 	 * @brief calculates the distance between 2 vertexes (in the image)
 	 *
 	 * @param src the vertex where the journey begins
@@ -250,7 +252,7 @@ public:
 	 */
 	double distanceBetweenVertex(Vertex * v1, Vertex * v2) ;
 
-	/*
+	/**
 	 * @brief toogles the street nodes in a specific street
 	 *
 	 * @param street the street passed by param
@@ -258,7 +260,7 @@ public:
 	 */
 	void toogleStreetNodes(string street);
 
-	/*
+	/**
 	 * @brief gets the street names
 	 *
 	 * @return a vector with the street names
@@ -266,7 +268,7 @@ public:
 	 */
 	vector<string> getStreetNames()const;
 
-	/*
+	/**
 	 * @brief gets the destinations
 	 *
 	 * @return a vector with the destinations
@@ -274,7 +276,7 @@ public:
 	 */
 	vector<DestPlace *> getDestinations()const;
 
-	/*
+	/**
 	 * @brief gets the street names
 	 *
 	 * @param street the street where you are working
@@ -285,7 +287,7 @@ public:
 	vector<Vertex*> getStreetNodes(string street);
 
 
-	/*
+	/**
 	 * @brief gets a vertex
 	 *
 	 * @param id the vertex id
@@ -295,6 +297,19 @@ public:
 	 */
 	Vertex * getVertex(long id);
 
+	/**
+	 * @brief  gets the exact string match for roads' names
+	 *
+	 * @return vector os roads' names
+	 */
+	vector<string> stringMatchingRoads(string roadName);//e mais facil retornar um vetor de Road* porque assim depois conseguimos fazer a correspondencia com a aresta correspondente
+
+	/**
+	 * @brief  gets the approximate string match for roads' names
+	 *
+	 * @return vector os roads' names
+	 */
+	vector<string> ApproximateStringMatching(string roadName);
 };
 
 #endif /* SRC_PARKING_H_ */

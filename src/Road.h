@@ -22,6 +22,7 @@ private:
 	int id;
 	string name;
 	bool twoWays;
+	string district;
 public:
 
 	/*
@@ -78,7 +79,58 @@ public:
 	void setTwoWays();
 };
 
-
+class MatchingRoad {
+private:
+	string roadName;
+	int editDist;
+public:
+	/**
+		 * @brief MatchingRoad constructor
+		 *
+		 * @param s represents the road name
+		 *
+		 * @param dist represents the edit distance
+		 *
+		 */
+	MatchingRoad(string s, int dist);
+		/**
+		 * @brief gets the road name
+		 *
+		 * @return string road name
+		 *
+		 */
+		string getRoadName() const;
+		/**
+		 * @brief changes the value string by s
+		 *
+		 * @param s string road name
+		 *
+		 */
+		void setRoadName(string s);
+		/**
+			 * @brief gets the distance of v to the src vertex
+			 *
+			 * @return dist
+			 *
+			 */
+		int getDist() const;
+		/**
+			 * @brief changes the edit distance
+			 *
+			 * @param dist new edit distance value
+			 *
+			 */
+		void setDist(int dist);
+		/**
+			 * @brief overload of the < operator
+			 *
+			 * @param r2 MatchingRoad to be compared to this
+			 *
+			 * @return true if this edit distance is higher than v2 edit distance, false otherwise
+			 *
+			 */
+		bool operator<(const MatchingRoad &r2) const;
+};
 
 
 #endif /* SRC_ROAD_H_ */

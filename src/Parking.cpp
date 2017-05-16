@@ -60,7 +60,13 @@ void Parking::readRoadsFile() {
 
 		Road *newRoad = new Road(id, name, twoWays);
 		roads.insert(pair<long, Road*>(id, newRoad));
+		vector<Road*> v;
+		roadsNames.insert(pair<string, vector<Road*>>(name, v));
 
+	}
+	map<long, Road*>::iterator it = roads.begin();
+	for(it; it != roads.end(); it++) {
+		roadsNames[it->second->getName()].push_back(it->second);
 	}
 
 }
@@ -632,6 +638,56 @@ Vertex * Parking::getVertex(long id) {
 			return v;
 
 	return NULL;
+}
+
+
+/*vector<Road*> Parking::stringMatchingRoads(string roadName) {
+	vector<Road*>v;//vetor inicialmente com todas as ruas
+	map<long, Road*>::iterator it = roads.begin();
+	for(it; it != roads.end(); it++) {
+		v.push_back(it->second);
+	}
+	vector<string>stringSplited = split(roadName, ' ');//separar as palavras do input dado pelo utilizador
+	for(const string s : stringSplited) {
+		vector<Road*>v2;
+		for(Road * road : v) {
+			if(kmp(road->getName(), s)) {//se encontrou a palavra no nome da rua...
+				v2.push_back(road);//... guardamos a rua
+			}
+		}
+		v = v2;//atualizar o vetor de ruas validas
+	}
+
+	return v;
+}*/
+
+vector<string> Parking::stringMatchingRoads(string roadName) {
+	vector<string>v;
+	map<string, vector<Road*>>::iterator it = roadsNames.begin();
+	for(it; it != roadsNames.end(); it++) {
+		if(kmp(it->first, roadName)) {
+			v.push_back(it->first);
+		}
+	}
+
+	return v;
+}
+
+vector<string> Parking::ApproximateStringMatching(string roadName) {
+	vector<string>v;
+	priority_queue<MatchingRoad> roadsSet;
+	map<string, vector<Road*>>::iterator it = roadsNames.begin();
+		for(it; it != roadsNames.end(); it++) {
+		int changes = editDistance(roadName, it->first);
+		MatchingRoad r = MatchingRoad(it->first, changes);
+		roadsSet.push(r);
+	}
+	for(int i = 1; i <= 3; i++) {
+		string r = roadsSet.top().getRoadName();
+		roadsSet.pop();
+		v.push_back(r);
+	}
+	return v;
 }
 
 
