@@ -164,13 +164,17 @@ public:
 
 	string insertStreetName();
 
-	Vertex * strMatching(string str);
+	Vertex * strMatching();
 
-	Vertex * aproxStrMatching(string str);
+	Vertex * aproxStrMatching();
 
 	void writeSearchType(int i);
 
 	int chooseSearchType();
+
+	void writeAproxStreetName(int i, vector<string> streetNames);
+
+	string chooseAproxStreetName(vector<string> streetNames);
 
 };
 
