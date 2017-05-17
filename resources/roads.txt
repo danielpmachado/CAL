@@ -1,0 +1,123 @@
+5029221;Boerum Place;False
+5674618;Fulton Street;True
+5675443;Pearl Street;True
+5676917;;True
+5676999;Tech Place;False
+5677340;Montague Street;False
+5678195;Willoughby Street;False
+5678318;Court Street;True
+5678510;Red Hook Lane;False
+5678671;Fleet Place;False
+5679449;Gallatin Place;False
+5679842;Boerum Place;False
+5680429;Gold Street;False
+5680574;Schermerhorn Street;False
+5680631;Livingston Street;True
+5680669;Albee Square;True
+5680955;Hoyt Street;False
+5680993;Duffield Street;False
+5681796;Johnson Street;False
+25563947;Adams Street;False
+34452219;Willoughby Street;False
+34452220;Willoughby Street;False
+37394898;Myrtle Avenue;True
+40178575;;True
+41381890;Myrtle Avenue;False
+43314907;Bridge Street;False
+46121844;Cadman Plaza West;True
+46121855;Joralemon Street;False
+46121856;Myrtle Avenue;False
+46121857;Fulton Street;False
+46121859;Fulton Mall;False
+46121864;Joralemon Street;False
+46121867;Fulton Mall;True
+46788734;Tech Place;True
+46788735;Tech Place;False
+46788736;Tech Place;False
+46788737;;False
+46788738;Duffield Street;False
+46788740;Tech Place;False
+46788742;Gold Street;False
+46788746;Prince Street;False
+46788748;Fleet Place;False
+46788749;Fleet Street;False
+46788750;Duffield Street;False
+46788756;Albee Square;False
+46788758;Pearl Street;False
+46788761;Fulton Street;True
+46788762;Joralemon Street;False
+46818454;Cadman Plaza East;False
+46818841;;False
+46820140;Joralemon Street;False
+46820403;Adams Street / Brooklyn Bridge Boulevard;False
+68523754;Adams Street / Brooklyn Bridge Boulevard;False
+110155714;Gold Street;False
+110155730;Flatbush Avenue Extension;False
+110155731;Fleet Street;False
+110155732;;False
+110161764;;False
+221604537;Fulton Mall;True
+221604538;Boerum Place;False
+221605481;Livingston Street;True
+221605486;Livingston Street;True
+221605488;Boerum Place;False
+221694583;Adams Street / Brooklyn Bridge Boulevard;False
+221694584;Adams Street / Brooklyn Bridge Boulevard;False
+221696387;Jay Street;True
+221731897;Adams Street / Brooklyn Bridge Boulevard;False
+221731898;Livingston Street;True
+222246977;Lawrence Street;False
+222246978;Jay Street;True
+222246979;Lawrence Street;True
+222246980;Bridge Street;False
+222246981;Flatbush Avenue Extension;False
+222246983;Flatbush Avenue Extension;False
+222248833;Smith Street;True
+222300291;Schermerhorn Street;False
+227064512;Adams Street / Brooklyn Bridge Boulevard;False
+227074794;Schermerhorn Street;False
+275389181;Willoughby Street;True
+324751028;Willoughby Street;False
+349154278;Willoughby Street;True
+349154287;Flatbush Avenue Extension;False
+349155333;Prince Street;False
+349155334;Fair Street;False
+349156821;Tech Place;False
+386201385;Jay Street;True
+420571175;Adams Street / Brooklyn Bridge Boulevard;False
+420571176;Flatbush Avenue Extension;False
+420571177;Flatbush Avenue Extension;False
+420572573;Jay Street;True
+420572574;Smith Street;True
+421121604;Boerum Place;False
+421121605;Boerum Place;False
+421121606;Boerum Place;False
+421121609;Boerum Place;False
+421121610;Myrtle Avenue;False
+421121611;Myrtle Avenue;False
+421121612;Myrtle Avenue;False
+421121615;Myrtle Avenue;False
+421121616;Myrtle Avenue;False
+421754837;Flatbush Avenue Extension;False
+421754839;Myrtle Avenue;False
+421755066;Flatbush Avenue Extension;False
+421755067;Flatbush Avenue Extension;False
+440633365;Adams Street / Brooklyn Bridge Boulevard;False
+440633375;Boerum Place;False
+451956945;;False
+452285838;;False
+455211317;Adams Street / Brooklyn Bridge Boulevard;False
+455211323;Adams Street / Brooklyn Bridge Boulevard;False
+455211328;Adams Street / Brooklyn Bridge Boulevard;False
+455211333;;False
+456391447;;False
+456391963;Flatbush Avenue Extension;False
+458395552;Tech Place;False
+460126494;;False
+460126495;;False
+460126496;;False
+460126497;;False
+460126498;;False
+460126499;;False
+460576120;Jay Street;True
+460576121;Jay Street;True

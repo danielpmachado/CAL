@@ -536,7 +536,7 @@ void UserInterface::start(){
 
 	while(1){
 
-		this->p = new Parking();
+		this->p = new Parking("resources\\nodes.txt", "resources\\connections.txt", "resources\\roads.txt");
 
 		p->createGraphViewer();
 		p->readParks();

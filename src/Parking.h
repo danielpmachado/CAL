@@ -39,12 +39,22 @@ private:
 	vector<DestPlace *>destPlacesSet;
 	vector<GasPump *>gasPumpSet;
 
+
 public:
 	Graph myGraph = Graph();
 	/**
-	 * @brief parking class Constructor
-	 */
-	Parking();
+		 * @brief parking class Constructor
+		 *
+		 * @param n_file_name nodes file name
+		 *
+		 * @param c_file_name connections file name
+		 *
+		 * @param r_file_name roads file name
+		 *
+		 *
+		 */
+	Parking(string n_file_name, string c_file_name, string r_file_name);
+
 
 	/**
 	 * @brief parking class destructor
@@ -76,19 +86,19 @@ public:
 	 * @brief read the file with roads information
 	 *
 	 */
-	void readRoadsFile();
+	void readRoadsFile(string file_name);
 
 	/**
 	 * @brief read the file with connections information
 	 *
 	 */
-	void readConnectionsFile();
+	void readConnectionsFile(string file_name);
 
 	/**
 	 * @brief read the file with nodes information
 	 *
 	 */
-	void readNodesFile();
+	void readNodesFile(string file_name);
 
 	/**
 	 * @brief read the file with parks information
