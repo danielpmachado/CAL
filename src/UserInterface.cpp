@@ -779,15 +779,8 @@ void UserInterface::start(){
 		 */
 		if(interest == 0) {
 
-			/*
-			gotoXY(45,4); cout << "|| Insert the street name ||" << endl;
-			string street  = insertStreetName();
-			clearScreen();
-*/
-
 			gotoXY(45,4); cout << "|| Choose the type of search ||" << endl;
 			int type = chooseSearchType();
-
 
 			if(type == 0) {  // pesquisa exata
 
