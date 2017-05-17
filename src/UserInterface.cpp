@@ -517,7 +517,7 @@ int UserInterface::chooseInterest(){
 void UserInterface::writeSearchType(int i){
 
 	if(i == 0)
-		cout << "       String Macthing                     " << endl;
+		cout << "       String Matching                     " << endl;
 	else
 		cout << "       Approximate String Matching         " << endl;
 }
@@ -529,10 +529,10 @@ int UserInterface::chooseSearchType(){
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
     SetConsoleTextAttribute(console, 240);
-    gotoXY(43, 7); writeSearchType(0);
+    gotoXY(40, 7); writeSearchType(0);
 
     SetConsoleTextAttribute(console, 15);
-    gotoXY(43, 8); writeSearchType(1);
+    gotoXY(40, 8); writeSearchType(1);
 
 
     gotoXY(1,1);
@@ -545,11 +545,11 @@ int UserInterface::chooseSearchType(){
 
         if (GetAsyncKeyState(VK_DOWN) && x < 8) //down button pressed
         {
-            gotoXY(43, x);SetConsoleTextAttribute(console, 15);
+            gotoXY(40, x);SetConsoleTextAttribute(console, 15);
             writeSearchType(x-7);
             x++;
 
-            gotoXY(43, x); SetConsoleTextAttribute(console, 240);
+            gotoXY(40, x); SetConsoleTextAttribute(console, 240);
             writeSearchType(x-7);
 
             SetConsoleTextAttribute(console, 15);
@@ -560,11 +560,11 @@ int UserInterface::chooseSearchType(){
 
         if (GetAsyncKeyState(VK_UP) && x > 7) //up button pressed
         {
-            gotoXY(43, x); SetConsoleTextAttribute(console, 15);
+            gotoXY(40, x); SetConsoleTextAttribute(console, 15);
             writeSearchType(x-7);
             x--;
 
-            gotoXY(43, x); SetConsoleTextAttribute(console, 240);
+            gotoXY(40, x); SetConsoleTextAttribute(console, 240);
             writeSearchType(x-7);
 
             SetConsoleTextAttribute(console, 15);
@@ -585,6 +585,8 @@ string UserInterface::insertStreetName(){
 
 	gotoXY(42, 7); cout << "Street Name : ";
 	cin >> str;
+
+	/*
 	vector<string> result = p->ApproximateStringMatching(str);
 	if(result.size() == 0) cout << "vetor vazio :(\n";
 	cout << endl;
@@ -593,12 +595,19 @@ string UserInterface::insertStreetName(){
 		cout << result[i] << endl;
 		cout << "i = " << i << endl << endl;
 	}
+	*/
 	return str;
 }
 
-Vertex * UserInterface::strMatching(string str){
+Vertex * UserInterface::strMatching(){
 
-	gotoXY(45,4); cout << "|| String Matching ||" << endl;
+	clearScreen();
+	gotoXY(45,4); cout << "|| Insert the street name ||" << endl;
+	string str  = insertStreetName();
+	clearScreen();
+
+
+	//gotoXY(45,4); cout << "|| String Matching ||" << endl;
 
 	string result  =  p->stringMatchingRoads(str);
 	Vertex * dst;
@@ -612,7 +621,7 @@ Vertex * UserInterface::strMatching(string str){
 		clearScreen();
 
 		gotoXY(28,4); cout << "|| From the green dots choose the closest to your position ||" << endl;
-		dst = chooseVertex(str);
+		dst = chooseVertex(result);
 		clearScreen();
 	}
 
@@ -621,11 +630,111 @@ Vertex * UserInterface::strMatching(string str){
 }
 
 
-Vertex * UserInterface::aproxStrMatching(string str){
+Vertex * UserInterface::aproxStrMatching(){
+
+	clearScreen();
+	gotoXY(45,4); cout << "|| Insert the street name ||" << endl;
+	string str  = insertStreetName();
+	clearScreen();
+
 
 	gotoXY(33,4); cout << "|| Approximate String Matching ||" << endl;
 	vector<string> result = p->ApproximateStringMatching(str);
+	Vertex * dst;
 
+	if(result.size() == 1){ // perfect match
+
+		p->toogleStreetNodes(str);
+		clearScreen();
+
+		gotoXY(28,4); cout << "|| From the green dots choose the closest to your position ||" << endl;
+		dst = chooseVertex(result.at(0));
+		clearScreen();
+	}
+	else {
+
+		clearScreen();
+		gotoXY(40,4); cout << "|| Maybe you are looking for one of those ||" << endl;
+		string street = chooseAproxStreetName(result);
+
+		p->toogleStreetNodes(str);
+		clearScreen();
+
+		gotoXY(28,4); cout << "|| From the green dots choose the closest to your position ||" << endl;
+		dst = chooseVertex(street);
+		clearScreen();
+	}
+
+	return dst;
+}
+
+
+
+
+void UserInterface::writeAproxStreetName(int i, vector<string> streetNames){
+
+    if(streetNames[i] == "Adams Street Brooklyn Bridge Boulevard")
+        cout << setw(15) << " " << left << setw(30)<< streetNames[i] << setw(12) <<  " " << endl;
+    else
+        cout << setw(15) << " " << left << setw(30)<< streetNames[i] << setw(20) <<  " " << endl;
+}
+
+
+string UserInterface::chooseAproxStreetName(vector<string> streetNames){
+
+    int menu_item = 0, x = 7;
+    bool running = true;
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    SetConsoleTextAttribute(console, 240);
+    gotoXY(30, 7); writeAproxStreetName(0,streetNames);
+
+    SetConsoleTextAttribute(console, 15);
+    for(int i = 1; i < streetNames.size(); i++){
+        gotoXY(30, i+7);  writeAproxStreetName(i,streetNames);
+    }
+
+    gotoXY(1,1);
+    system("pause>nul");
+    if(GetAsyncKeyState(VK_RETURN)) gotoXY(1,1);
+
+    while(running){
+
+        system("pause>nul");
+
+        if (GetAsyncKeyState(VK_DOWN) && x < streetNames.size()+6) //down button pressed
+        {
+            gotoXY(30, x);SetConsoleTextAttribute(console, 15);
+            writeAproxStreetName(x-7,streetNames);
+            x++;
+
+            gotoXY(30, x); SetConsoleTextAttribute(console, 240);
+            writeAproxStreetName(x-7,streetNames);
+
+            SetConsoleTextAttribute(console, 15);
+            menu_item++;
+            continue;
+        }
+
+        if (GetAsyncKeyState(VK_UP) && x > 7) //up button pressed
+        {
+            gotoXY(30, x); SetConsoleTextAttribute(console, 15);
+            writeAproxStreetName(x-7,streetNames);
+            x--;
+
+            gotoXY(30, x); SetConsoleTextAttribute(console, 240);
+            writeAproxStreetName(x-7,streetNames);
+
+            SetConsoleTextAttribute(console, 15);
+            menu_item--;
+            continue;
+        }
+
+        if (GetAsyncKeyState(VK_RETURN))  // Enter key pressed
+        {
+        	return streetNames[x-7];
+        }
+    }
 }
 
 void UserInterface::start(){
@@ -670,10 +779,36 @@ void UserInterface::start(){
 		 */
 		if(interest == 0) {
 
+			/*
 			gotoXY(45,4); cout << "|| Insert the street name ||" << endl;
 			string street  = insertStreetName();
-			system("pause>nul");
 			clearScreen();
+*/
+
+			gotoXY(45,4); cout << "|| Choose the type of search ||" << endl;
+			int type = chooseSearchType();
+
+
+			if(type == 0) {  // pesquisa exata
+
+				Vertex * aux = strMatching();
+				clearScreen();
+
+				while(aux == NULL){
+
+					gotoXY(45,4); cout << "|| Insert the street name ||" << endl;
+					gotoXY(36,8); cout << "This road does not exist, please insert again";
+					system("pause>nul");
+					aux = strMatching();
+				}
+
+				dst = aux;
+			}
+			else {
+
+				dst = aproxStrMatching();
+			}
+
 		}
 
 
@@ -685,6 +820,8 @@ void UserInterface::start(){
 			Vertex * dst = chooseDestiny();
 			clearScreen();
 		}
+
+
 
 		/*
 		 * Common part
