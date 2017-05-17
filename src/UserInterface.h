@@ -164,6 +164,14 @@ public:
 
 	string insertStreetName();
 
+	Vertex * strMatching(string str);
+
+	Vertex * aproxStrMatching(string str);
+
+	void writeSearchType(int i);
+
+	int chooseSearchType();
+
 };
 
 #endif /* SRC_USERINTERFACE_H_ */

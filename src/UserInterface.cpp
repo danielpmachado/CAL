@@ -513,6 +513,72 @@ int UserInterface::chooseInterest(){
     }
 }
 
+
+void UserInterface::writeSearchType(int i){
+
+	if(i == 0)
+		cout << "       String Macthing                     " << endl;
+	else
+		cout << "       Approximate String Matching         " << endl;
+}
+
+int UserInterface::chooseSearchType(){
+
+    int menu_item = 0, x = 7;
+    bool running = true;
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    SetConsoleTextAttribute(console, 240);
+    gotoXY(43, 7); writeSearchType(0);
+
+    SetConsoleTextAttribute(console, 15);
+    gotoXY(43, 8); writeSearchType(1);
+
+
+    gotoXY(1,1);
+    system("pause>nul");
+    if(GetAsyncKeyState(VK_RETURN)) gotoXY(1,1);
+
+    while(running){
+
+        system("pause>nul");
+
+        if (GetAsyncKeyState(VK_DOWN) && x < 8) //down button pressed
+        {
+            gotoXY(43, x);SetConsoleTextAttribute(console, 15);
+            writeSearchType(x-7);
+            x++;
+
+            gotoXY(43, x); SetConsoleTextAttribute(console, 240);
+            writeSearchType(x-7);
+
+            SetConsoleTextAttribute(console, 15);
+            menu_item++;
+            continue;
+
+        }
+
+        if (GetAsyncKeyState(VK_UP) && x > 7) //up button pressed
+        {
+            gotoXY(43, x); SetConsoleTextAttribute(console, 15);
+            writeSearchType(x-7);
+            x--;
+
+            gotoXY(43, x); SetConsoleTextAttribute(console, 240);
+            writeSearchType(x-7);
+
+            SetConsoleTextAttribute(console, 15);
+            menu_item--;
+            continue;
+        }
+
+        if (GetAsyncKeyState(VK_RETURN))  // Enter key pressed
+        	return x-7;
+    }
+}
+
+
+
 string UserInterface::insertStreetName(){
 
 	string str;
@@ -530,7 +596,37 @@ string UserInterface::insertStreetName(){
 	return str;
 }
 
+Vertex * UserInterface::strMatching(string str){
 
+	gotoXY(45,4); cout << "|| String Matching ||" << endl;
+
+	string result  =  p->stringMatchingRoads(str);
+	Vertex * dst;
+
+	if(result == ""){
+		dst = NULL;
+	}
+	else {
+
+		p->toogleStreetNodes(str);
+		clearScreen();
+
+		gotoXY(28,4); cout << "|| From the green dots choose the closest to your position ||" << endl;
+		dst = chooseVertex(str);
+		clearScreen();
+	}
+
+	return dst;
+
+}
+
+
+Vertex * UserInterface::aproxStrMatching(string str){
+
+	gotoXY(33,4); cout << "|| Approximate String Matching ||" << endl;
+	vector<string> result = p->ApproximateStringMatching(str);
+
+}
 
 void UserInterface::start(){
 
@@ -565,10 +661,15 @@ void UserInterface::start(){
 		int interest = chooseInterest();
 		clearScreen();
 
+
+		Vertex * dst;
+
+
 		/*
 		 * Segunda parte
 		 */
 		if(interest == 0) {
+
 			gotoXY(45,4); cout << "|| Insert the street name ||" << endl;
 			string street  = insertStreetName();
 			system("pause>nul");
@@ -583,43 +684,48 @@ void UserInterface::start(){
 			gotoXY(45,4); cout << "|| Where do you want to go? ||" << endl;
 			Vertex * dst = chooseDestiny();
 			clearScreen();
-
-			gotoXY(52,4); cout << "|| Park Option ||" << endl;
-			int pref = choosePreference();
-			clearScreen();
-
-			gotoXY(35,4); cout << "|| Do you want to pass by a Gasoline Bump? ||" << endl;
-			bool gasBump = wantGasoline();
-			clearScreen();
-
-			ParkType * car_park;
-
-			switch(pref){
-			case 0:
-				if(gasBump)
-					car_park = p->planGasPumpShortPath(src,dst);
-				else
-					car_park = p->planDirectShortPath(src, dst);
-
-				if(car_park != NULL) displayRouteInformation(src,dst,car_park);
-				break;
-			case 1:
-
-				gotoXY(30,4); cout << "|| Max distance between the Car Park and your Destination ||"  << endl;
-				long max_distance = chooseMaxDistance();
-				clearScreen();
-
-
-				if(gasBump)
-					car_park = p->planGasPumpCheapestPath(src,dst, max_distance);
-				else
-					car_park = p->planDirectCheapestPath(src,dst, max_distance);
-
-
-				if(car_park != NULL) displayRouteInformation(src,dst,car_park);
-				break;
-			}
 		}
+
+		/*
+		 * Common part
+		 */
+
+		gotoXY(52,4); cout << "|| Park Option ||" << endl;
+		int pref = choosePreference();
+		clearScreen();
+
+		gotoXY(35,4); cout << "|| Do you want to pass by a Gasoline Bump? ||" << endl;
+		bool gasBump = wantGasoline();
+		clearScreen();
+
+		ParkType * car_park;
+
+		switch(pref){
+		case 0:
+			if(gasBump)
+				car_park = p->planGasPumpShortPath(src,dst);
+			else
+				car_park = p->planDirectShortPath(src, dst);
+
+			if(car_park != NULL) displayRouteInformation(src,dst,car_park);
+			break;
+		case 1:
+
+			gotoXY(30,4); cout << "|| Max distance between the Car Park and your Destination ||"  << endl;
+			long max_distance = chooseMaxDistance();
+			clearScreen();
+
+
+			if(gasBump)
+				car_park = p->planGasPumpCheapestPath(src,dst, max_distance);
+			else
+				car_park = p->planDirectCheapestPath(src,dst, max_distance);
+
+
+			if(car_park != NULL) displayRouteInformation(src,dst,car_park);
+			break;
+		}
+
 		system("pause>nul");
 
 		if(GetAsyncKeyState (VK_ESCAPE))
