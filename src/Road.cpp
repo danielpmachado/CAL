@@ -32,4 +32,19 @@ void Road::setTwoWays() {
 	twoWays = twoWays ? false : true;
 }
 
+MatchingRoad::MatchingRoad(string s, int dist) {
+	this->roadName = s;
+	this->editDist = dist;
+}
 
+string MatchingRoad::getRoadName() const { return this->roadName; }
+
+void MatchingRoad::setRoadName(string s) { this->roadName = s; }
+
+int MatchingRoad::getDist() const { return this->editDist; }
+
+void MatchingRoad::setDist(int dist) { this->editDist = dist; }
+
+bool MatchingRoad::operator<(const MatchingRoad &r2) const {
+	return this->editDist > r2.getDist();
+}

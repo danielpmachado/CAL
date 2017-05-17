@@ -26,7 +26,7 @@ public:
 	 * @param p the parking used
 	 *
 	 */
-	UserInterface(Parking * p);
+	UserInterface(){}
 
 	/*
 	 * @brief  User Interface desctructor
@@ -156,6 +156,21 @@ public:
 	 *
 	 */
 	bool wantGasoline();
+
+
+	void writeInterest(int i);
+
+	int chooseInterest();
+
+	string insertStreetName();
+
+	Vertex * strMatching(string str);
+
+	Vertex * aproxStrMatching(string str);
+
+	void writeSearchType(int i);
+
+	int chooseSearchType();
 
 };
 

@@ -16,8 +16,8 @@
 
 int main(){
 
-	Parking p;
-	UserInterface ui(&p);
+
+	UserInterface ui;
 
 	ui.start();
 

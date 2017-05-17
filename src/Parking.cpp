@@ -1,16 +1,12 @@
 
 #include "Parking.h"
 
-Parking::Parking() {
-	readNodesFile();
-	readRoadsFile();
-	readConnectionsFile();
-	createGraphViewer();
-	readParks();
-	readDestinations();
-	readGasPumps();
-	myGV->rearrange();
-	//planGasPumpCheapestPath(myGraph.getVertexBySecondID(46), myGraph.getVertexBySecondID(10), 1000);
+Parking::Parking(string n_file_name, string c_file_name, string r_file_name){
+
+	readNodesFile(n_file_name);
+	readRoadsFile(r_file_name);
+	readConnectionsFile(c_file_name);
+
 }
 
 
@@ -30,16 +26,16 @@ Graph Parking::getGraph() {
 	return myGraph;
 }
 
-void Parking::readRoadsFile() {
+void Parking::readRoadsFile(string file_name) {
 	ifstream file;
 	ull_int id;
 	string name;
 	bool twoWays;
 	string line;
 
-	file.open("roads.txt");
+	file.open(file_name);
 	if (!file) {
-		cout << "Unable to open file roads.txt" << endl;
+		cout << "Unable to open Roads file\n" << endl;
 		return;
 	}
 
@@ -60,12 +56,18 @@ void Parking::readRoadsFile() {
 
 		Road *newRoad = new Road(id, name, twoWays);
 		roads.insert(pair<long, Road*>(id, newRoad));
+		vector<Road*> v;
+		roadsNames.insert(pair<string, vector<Road*>>(name, v));
 
+	}
+	map<long, Road*>::iterator it = roads.begin();
+	for(it; it != roads.end(); it++) {
+		roadsNames[it->second->getName()].push_back(it->second);
 	}
 
 }
 
-void Parking::readConnectionsFile() {
+void Parking::readConnectionsFile(string file_name) {
 
 	ifstream file;
 	ull_int srcNodeID;
@@ -73,10 +75,10 @@ void Parking::readConnectionsFile() {
 	ull_int roadID;
 	string line;
 
-	file.open("connections.txt");
+	file.open(file_name);
 
 	if (!file) {
-		cerr << "Unable to open file connections.txt";
+		cerr << "Unable to open Connections file\n";
 		return;
 	}
 
@@ -112,17 +114,17 @@ void Parking::readConnectionsFile() {
 
 }
 
-void Parking::readNodesFile() {
+void Parking::readNodesFile(string file_name) {
 	ifstream nodesFile;
 	ull_int node_id;
 	float lon;
 	float lat;
 	string line;
 
-	nodesFile.open("nodes.txt");
+	nodesFile.open(file_name);
 
 	if (!nodesFile) {
-		cerr << "Unable to open file nodes.txt";
+		cerr << "Unable to open Nodes file\n";
 		return;
 	}
 
@@ -157,7 +159,7 @@ void Parking::readParks() {
 	ull_int node_id;
 	string type;
 	double price;
-	parksFile.open("parkingPlaces.txt");
+	parksFile.open("resources\\parkingPlaces.txt");
 
 	if (!parksFile) {
 		cerr << "Unable to open file parkingPlaces.txt";
@@ -188,7 +190,7 @@ void Parking::readGasPumps() {
 	ifstream gasPumpFile;
 	string line;
 	ull_int node_id;
-	gasPumpFile.open("gaspump.txt");
+	gasPumpFile.open("resources\\gaspump.txt");
 
 	if (!gasPumpFile) {
 		cerr << "Unable to open file gaspump.txt";
@@ -210,7 +212,7 @@ void Parking::readDestinations() {
 	string line;
 	ull_int node_id;
 	string place;
-	destFile.open("destination.txt");
+	destFile.open("resources\\destination.txt");
 
 	if (!destFile) {
 		cerr << "Unable to open file destination.txt";
@@ -240,10 +242,15 @@ void Parking::readDestinations() {
 	destFile.close();
 }
 void Parking::createGraphViewer() {
-	myGV->setBackground("map.png");
+
+	myGV= new GraphViewer(5000, 3496, false);
+
+	myGV->setBackground("resources\\map.png");
 	myGV->createWindow(5000, 3496);
 	myGV->defineVertexColor("blue");
 	myGV->defineEdgeColor("black");
+
+
 
 	ull_int node_id;
 	int x;
@@ -255,6 +262,7 @@ void Parking::createGraphViewer() {
 
 		myGV->addNode(node_id, x, y);
 		myGV->setVertexSize(node_id, 30);
+
 
 	}
 	myGV->defineEdgeCurved(false);
@@ -322,7 +330,7 @@ ParkType * Parking::getCheapestPark(Vertex * src, Vertex * dest, double distMax,
 		if (p->getNode()->isAccessible()) {
 			myGraph.dijkstraShortestPathByFoot(p->getNode());
 			vector<Vertex *> shortPathAux = myGraph.getPath(p->getNode(), dest);
-			drawPath(shortPathAux, "red");
+			//drawPath(shortPathAux, "red");
 			if (dest->getDist() <= distMax) {
 				if (p->getPrice() < price) {
 					price = p->getPrice();
@@ -626,6 +634,75 @@ Vertex * Parking::getVertex(long id) {
 			return v;
 
 	return NULL;
+}
+
+
+/*vector<Road*> Parking::stringMatchingRoads(string roadName) {
+	vector<Road*>v;//vetor inicialmente com todas as ruas
+	map<long, Road*>::iterator it = roads.begin();
+	for(it; it != roads.end(); it++) {
+		v.push_back(it->second);
+	}
+	vector<string>stringSplited = split(roadName, ' ');//separar as palavras do input dado pelo utilizador
+	for(const string s : stringSplited) {
+		vector<Road*>v2;
+		for(Road * road : v) {
+			if(kmp(road->getName(), s)) {//se encontrou a palavra no nome da rua...
+				v2.push_back(road);//... guardamos a rua
+			}
+		}
+		v = v2;//atualizar o vetor de ruas validas
+	}
+
+	return v;
+}*/
+
+string Parking::stringMatchingRoads(string roadName) {
+
+	map<string, vector<Road*>>::iterator it = roadsNames.begin();
+	for(it; it != roadsNames.end(); it++) {
+		if(kmp(it->first, roadName)) {
+			return it->first;
+		}
+	}
+
+	return "";
+}
+
+vector<string> Parking::ApproximateStringMatching(string roadName) {
+	vector<string>result;
+	vector<string>splitedRoadName = split(roadName);//vetor so com as palavras do input separadas
+	int totalChanges = 0;
+	priority_queue<MatchingRoad> roadsSet;
+	map<string, vector<Road*>>::iterator it = roadsNames.begin();
+	for(it; it != roadsNames.end(); it++) {
+		if(it->first != "") {
+			vector<string>splitedText = split(it->first);//palavras das ruas guardadas separadas num vetor
+
+			for(const string & s : splitedRoadName) {
+				int changes = 1000;
+				for(const string & t : splitedText) {
+					int aux = editDistance(s, t);
+					changes = aux < changes ? aux : changes;//guardamos sempre o menor numero de alteracoes para uma determinada palavra de todo o input do utilizador
+				}
+				totalChanges += changes;
+			}
+			MatchingRoad r = MatchingRoad(it->first, totalChanges);
+			roadsSet.push(r);
+			totalChanges = 0;
+		}
+	}
+	if(roadsSet.top().getDist() == 0) {//utilizador escreveu corretamente todo o nome da rua
+		result.push_back(roadsSet.top().getRoadName());
+		return result;//vetor so com uma string
+	}
+	for(int i = 1; i <= 3; i++) {
+		string r = roadsSet.top().getRoadName();
+		roadsSet.pop();
+		result.push_back(r);
+	}
+
+	return result;//vetor com o top 3 das ruas mais parecidas com o input do utilizador
 }
 
 
