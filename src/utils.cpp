@@ -19,16 +19,44 @@ int convertLatitudeToY(double latitude) {
 
 }
 
-vector<string> split(string str, char delimiter) {
-  vector<string> internal;
-  stringstream ss(str); // Turn the string into a stream.
-  string tok;
+void upCase(string &str){
+    size_t i = 0;
 
-  while(getline(ss, tok, delimiter)) {
-    internal.push_back(tok);
-  }
+    while (i < str.length()){
+        str.at(i) = tolower(str.at(i));
+        i++;
+    }
 
-  return internal;
+    if (str == "de" || str == "do" || str =="da" || str == "das" || str == "dos" || str == "e") return;
+
+    str.at(0)= toupper(str.at(0));
+}
+
+void normalize(string &str)
+{
+    istringstream iss(str);
+    string final_str;
+
+    while (iss >> str){
+        upCase(str);
+        final_str = final_str + " " + str;
+    }
+
+    final_str.erase(0, 1);
+
+    str = final_str;
+}
+
+vector<string> split(string str) {
+	vector<string>result;
+	istringstream iss(str);
+	string token;
+
+	while (iss >> token){
+		upCase(token);
+		result.push_back(token);
+	}
+	return result;
 }
 
 void pre_kmp(string pattern, vector<int> & prefix)

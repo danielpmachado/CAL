@@ -59,10 +59,15 @@ void clearScreen();
  *
  */
 void pauseScreen();
+
+void normalize(string &str);
+
+void upCase(string &str);
+
 /**
  *@brief splits a string in a vector of strings
  */
-vector<string> split(string str, char delimiter);
+vector<string> split(string str);
 
 /**
  * @brief Knuth-Morris-Pratt algorithm

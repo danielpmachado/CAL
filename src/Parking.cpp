@@ -674,27 +674,39 @@ string Parking::stringMatchingRoads(string roadName) {
 }
 
 vector<string> Parking::ApproximateStringMatching(string roadName) {
-	vector<string>v;
+	vector<string>result;
+	vector<string>splitedRoadName = split(roadName);//vetor so com as palavras do input separadas
+	int totalChanges = 0;
 	priority_queue<MatchingRoad> roadsSet;
 	map<string, vector<Road*>>::iterator it = roadsNames.begin();
 	for(it; it != roadsNames.end(); it++) {
 		if(it->first != "") {
-			int changes = editDistance(roadName, it->first);
-			MatchingRoad r = MatchingRoad(it->first, changes);
+			vector<string>splitedText = split(it->first);//palavras das ruas guardadas separadas num vetor
+
+			for(const string & s : splitedRoadName) {
+				int changes = 1000;
+				for(const string & t : splitedText) {
+					int aux = editDistance(s, t);
+					changes = aux < changes ? aux : changes;//guardamos sempre o menor numero de alteracoes para uma determinada palavra de todo o input do utilizador
+				}
+				totalChanges += changes;
+			}
+			MatchingRoad r = MatchingRoad(it->first, totalChanges);
 			roadsSet.push(r);
+			totalChanges = 0;
 		}
 	}
-	if(roadsSet.top().getDist() == 0) {
-		v.push_back(roadsSet.top().getRoadName());
-		return v;
+	if(roadsSet.top().getDist() == 0) {//utilizador escreveu corretamente todo o nome da rua
+		result.push_back(roadsSet.top().getRoadName());
+		return result;//vetor so com uma string
 	}
 	for(int i = 1; i <= 3; i++) {
 		string r = roadsSet.top().getRoadName();
 		roadsSet.pop();
-		v.push_back(r);
+		result.push_back(r);
 	}
 
-	return v;
+	return result;//vetor com o top 3 das ruas mais parecidas com o input do utilizador
 }
 
 

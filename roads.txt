@@ -49,8 +49,8 @@
 46818454;Cadman Plaza East;False
 46818841;;False
 46820140;Joralemon Street;False
-46820403;Adams Street / Brooklyn Bridge Boulevard;False
-68523754;Adams Street / Brooklyn Bridge Boulevard;False
+46820403;Adams Street Brooklyn Bridge Boulevard;False
+68523754;Adams Street Brooklyn Bridge Boulevard;False
 110155714;Gold Street;False
 110155730;Flatbush Avenue Extension;False
 110155731;Fleet Street;False
@@ -61,10 +61,10 @@
 221605481;Livingston Street;True
 221605486;Livingston Street;True
 221605488;Boerum Place;False
-221694583;Adams Street / Brooklyn Bridge Boulevard;False
-221694584;Adams Street / Brooklyn Bridge Boulevard;False
+221694583;Adams Street Brooklyn Bridge Boulevard;False
+221694584;Adams Street Brooklyn Bridge Boulevard;False
 221696387;Jay Street;True
-221731897;Adams Street / Brooklyn Bridge Boulevard;False
+221731897;Adams Street Brooklyn Bridge Boulevard;False
 221731898;Livingston Street;True
 222246977;Lawrence Street;False
 222246978;Jay Street;True
@@ -74,7 +74,7 @@
 222246983;Flatbush Avenue Extension;False
 222248833;Smith Street;True
 222300291;Schermerhorn Street;False
-227064512;Adams Street / Brooklyn Bridge Boulevard;False
+227064512;Adams Street Brooklyn Bridge Boulevard;False
 227074794;Schermerhorn Street;False
 275389181;Willoughby Street;True
 324751028;Willoughby Street;False
@@ -84,7 +84,7 @@
 349155334;Fair Street;False
 349156821;Tech Place;False
 386201385;Jay Street;True
-420571175;Adams Street / Brooklyn Bridge Boulevard;False
+420571175;Adams Street Brooklyn Bridge Boulevard;False
 420571176;Flatbush Avenue Extension;False
 420571177;Flatbush Avenue Extension;False
 420572573;Jay Street;True
@@ -102,13 +102,13 @@
 421754839;Myrtle Avenue;False
 421755066;Flatbush Avenue Extension;False
 421755067;Flatbush Avenue Extension;False
-440633365;Adams Street / Brooklyn Bridge Boulevard;False
+440633365;Adams Street Brooklyn Bridge Boulevard;False
 440633375;Boerum Place;False
 451956945;;False
 452285838;;False
-455211317;Adams Street / Brooklyn Bridge Boulevard;False
-455211323;Adams Street / Brooklyn Bridge Boulevard;False
-455211328;Adams Street / Brooklyn Bridge Boulevard;False
+455211317;Adams Street Brooklyn Bridge Boulevard;False
+455211323;Adams Street Brooklyn Bridge Boulevard;False
+455211328;Adams Street Brooklyn Bridge Boulevard;False
 455211333;;False
 456391447;;False
 456391963;Flatbush Avenue Extension;False
