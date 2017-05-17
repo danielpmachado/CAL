@@ -1,0 +1,37 @@
+5670922;Ludlow Street;False
+5671920;Norfolk Street;False
+5672899;Orchard Street;False
+5673410;Essex Street;True
+25198317;Broome Street;False
+39956200;Broome Street;False
+40337681;Delancey Street;False
+46139048;Allen Street;False
+46201677;Norfolk Street;False
+46201679;Grand Street;True
+46349390;Suffolk Street;False
+68668559;Grand Street;False
+110777346;Allen Street;False
+111826111;Hester Street;False
+190550014;Broome Street;False
+194923768;Essex Street;True
+194923770;Grand Street;True
+226041016;Grand Street;True
+231393429;Delancey Street;False
+231393430;Essex Street;True
+315174425;Broome Street;False
+364262519;;False
+364262520;;False
+364262521;;False
+364262522;;False
+420354145;Delancey Street;False
+420354362;Grand Street;False
+421826773;Essex Street;True
+421827960;Delancey Street;False
+421827961;Delancey Street;False
+421827962;Delancey Street;False
+446864088;Delancey Street;False
+446864089;Orchard Street;False
+446864090;Delancey Street;False
+446864091;Ludlow Street;False
+451954060;Delancey Street;False
+463035843;Delancey Street;False

@@ -1,16 +1,12 @@
 
 #include "Parking.h"
 
-Parking::Parking() {
-	readNodesFile();
-	readRoadsFile();
-	readConnectionsFile();
-	//createGraphViewer();
-	//readParks();
-	//readDestinations();
-	//readGasPumps();
-	//myGV->rearrange();
-	//planGasPumpCheapestPath(myGraph.getVertexBySecondID(46), myGraph.getVertexBySecondID(10), 1000);
+Parking::Parking(string n_file_name, string c_file_name, string r_file_name){
+
+	readNodesFile(n_file_name);
+	readRoadsFile(r_file_name);
+	readConnectionsFile(c_file_name);
+
 }
 
 
@@ -30,16 +26,16 @@ Graph Parking::getGraph() {
 	return myGraph;
 }
 
-void Parking::readRoadsFile() {
+void Parking::readRoadsFile(string file_name) {
 	ifstream file;
 	ull_int id;
 	string name;
 	bool twoWays;
 	string line;
 
-	file.open("roads.txt");
+	file.open(file_name);
 	if (!file) {
-		cout << "Unable to open file roads.txt" << endl;
+		cout << "Unable to open Roads file\n" << endl;
 		return;
 	}
 
@@ -71,7 +67,7 @@ void Parking::readRoadsFile() {
 
 }
 
-void Parking::readConnectionsFile() {
+void Parking::readConnectionsFile(string file_name) {
 
 	ifstream file;
 	ull_int srcNodeID;
@@ -79,10 +75,10 @@ void Parking::readConnectionsFile() {
 	ull_int roadID;
 	string line;
 
-	file.open("connections.txt");
+	file.open(file_name);
 
 	if (!file) {
-		cerr << "Unable to open file connections.txt";
+		cerr << "Unable to open Connections file\n";
 		return;
 	}
 
@@ -118,17 +114,17 @@ void Parking::readConnectionsFile() {
 
 }
 
-void Parking::readNodesFile() {
+void Parking::readNodesFile(string file_name) {
 	ifstream nodesFile;
 	ull_int node_id;
 	float lon;
 	float lat;
 	string line;
 
-	nodesFile.open("nodes.txt");
+	nodesFile.open(file_name);
 
 	if (!nodesFile) {
-		cerr << "Unable to open file nodes.txt";
+		cerr << "Unable to open Nodes file\n";
 		return;
 	}
 
@@ -163,7 +159,7 @@ void Parking::readParks() {
 	ull_int node_id;
 	string type;
 	double price;
-	parksFile.open("parkingPlaces.txt");
+	parksFile.open("resources\\parkingPlaces.txt");
 
 	if (!parksFile) {
 		cerr << "Unable to open file parkingPlaces.txt";
@@ -194,7 +190,7 @@ void Parking::readGasPumps() {
 	ifstream gasPumpFile;
 	string line;
 	ull_int node_id;
-	gasPumpFile.open("gaspump.txt");
+	gasPumpFile.open("resources\\gaspump.txt");
 
 	if (!gasPumpFile) {
 		cerr << "Unable to open file gaspump.txt";
@@ -216,7 +212,7 @@ void Parking::readDestinations() {
 	string line;
 	ull_int node_id;
 	string place;
-	destFile.open("destination.txt");
+	destFile.open("resources\\destination.txt");
 
 	if (!destFile) {
 		cerr << "Unable to open file destination.txt";
@@ -249,7 +245,7 @@ void Parking::createGraphViewer() {
 
 	myGV= new GraphViewer(5000, 3496, false);
 
-	myGV->setBackground("map.png");
+	myGV->setBackground("resources\\map.png");
 	myGV->createWindow(5000, 3496);
 	myGV->defineVertexColor("blue");
 	myGV->defineEdgeColor("black");
