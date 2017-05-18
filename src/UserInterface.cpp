@@ -785,7 +785,7 @@ void UserInterface::start(){
 	//currentParking = p1;
 	while(1){
 		p1 = new Parking("resources\\nodes.txt", "resources\\connections.txt", "resources\\roads.txt");
-		p2 = new Parking("resources\\nodes_2.txt", "resources\\connections_2.txt", "resources_2\\roads.txt");
+		p2 = new Parking("resources\\nodes_2.txt", "resources\\connections_2.txt", "resources\\roads_2.txt");
 
 
 		currentParking->createGraphViewer();

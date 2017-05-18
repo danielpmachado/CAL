@@ -23,23 +23,23 @@ void upCase(string &str){
     size_t i = 0;
 
     while (i < str.length()){
-        str.at(i) = tolower(str.at(i));
+        str.at(i) = toupper(str.at(i));
         i++;
     }
 
     if (str == "de" || str == "do" || str =="da" || str == "das" || str == "dos" || str == "e") return;
 
-    str.at(0)= toupper(str.at(0));
+    //str.at(0)= toupper(str.at(0));
 }
 
 void normalize(string &str)
 {
     istringstream iss(str);
-    string final_str;
-
-    while (iss >> str){
-        upCase(str);
-        final_str = final_str + " " + str;
+    string final_str = "";
+    string token;
+    while (iss >> token){
+        upCase(token);
+        final_str += " " + token;
     }
 
     final_str.erase(0, 1);
