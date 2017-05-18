@@ -945,7 +945,7 @@ string UserInterface::stringMatchingDistrict (string input) {
 	normalize(input);
 	if(kmp("BROOKLIN", input)) {
 		return "Brooklin";
-	}
+	} //TODO: acrescentar o outro distrito
 
 
 	return "";
