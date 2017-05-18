@@ -17,7 +17,9 @@
 using namespace std;
 
 class UserInterface {
-	Parking * p;
+	Parking * p1;
+	Parking * p2;
+	Parking * currentParking;
 public:
 
 	/*
@@ -162,6 +164,10 @@ public:
 
 	int chooseInterest();
 
+	string insertDistrictName();
+
+	bool strMatchingDistrict();
+
 	string insertStreetName();
 
 	Vertex * strMatching();
@@ -176,6 +182,7 @@ public:
 
 	string chooseAproxStreetName(vector<string> streetNames);
 
+	string stringMatchingDistrict (string input);
 };
 
 #endif /* SRC_USERINTERFACE_H_ */

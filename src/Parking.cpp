@@ -178,9 +178,9 @@ void Parking::readParks() {
 		ParkType * p = new ParkType(myGraph.getVertex(node_id), type, price);
 		parkTypeSet.push_back(p);
 		if (type == "meter") {
-			myGV->setVertexIcon(node_id, "meterIcon.png");
+			myGV->setVertexIcon(node_id, "resources\\meterIcon.png");
 		} else {
-			myGV->setVertexIcon(node_id, "garageIcon.png");
+			myGV->setVertexIcon(node_id, "resources\\garageIcon.png");
 		}
 	}
 
@@ -202,7 +202,7 @@ void Parking::readGasPumps() {
 
 		GasPump * gp = new GasPump(myGraph.getVertex(node_id));
 		gasPumpSet.push_back(gp);
-		myGV->setVertexIcon(node_id, "gasPumpIcon.png");
+		myGV->setVertexIcon(node_id, "resources\\gasPumpIcon.png");
 	}
 
 	gasPumpFile.close();
@@ -231,11 +231,11 @@ void Parking::readDestinations() {
 		DestPlace * d = new DestPlace(place, myGraph.getVertex(node_id));
 		destPlacesSet.push_back(d);
 		if (place == "school") {
-			myGV->setVertexIcon(node_id, "schoolIcon.png");
+			myGV->setVertexIcon(node_id, "resources\\.png");
 		} else if (place == "cinema") {
-			myGV->setVertexIcon(node_id, "cinemaIcon.png");
+			myGV->setVertexIcon(node_id, "resources\\cinemaIcon.png");
 		} else if (place == "shopping") {
-			myGV->setVertexIcon(node_id, "shoppingIcon.png");
+			myGV->setVertexIcon(node_id, "resources\\shoppingIcon.png");
 		}
 	}
 
@@ -637,31 +637,14 @@ Vertex * Parking::getVertex(long id) {
 }
 
 
-/*vector<Road*> Parking::stringMatchingRoads(string roadName) {
-	vector<Road*>v;//vetor inicialmente com todas as ruas
-	map<long, Road*>::iterator it = roads.begin();
-	for(it; it != roads.end(); it++) {
-		v.push_back(it->second);
-	}
-	vector<string>stringSplited = split(roadName, ' ');//separar as palavras do input dado pelo utilizador
-	for(const string s : stringSplited) {
-		vector<Road*>v2;
-		for(Road * road : v) {
-			if(kmp(road->getName(), s)) {//se encontrou a palavra no nome da rua...
-				v2.push_back(road);//... guardamos a rua
-			}
-		}
-		v = v2;//atualizar o vetor de ruas validas
-	}
-
-	return v;
-}*/
 
 string Parking::stringMatchingRoads(string roadName) {
-
+	normalize(roadName);
 	map<string, vector<Road*>>::iterator it = roadsNames.begin();
 	for(it; it != roadsNames.end(); it++) {
-		if(kmp(it->first, roadName)) {
+		string roadFromFile = it->first;
+		normalize(roadFromFile);
+		if(kmp(roadFromFile, roadName) && roadFromFile.size() == roadName.size()) {
 			return it->first;
 		}
 	}

@@ -40,7 +40,7 @@ string UserInterface::chooseStreetName(){
     int menu_item = 0, x = 7;
     bool running = true;
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    vector<string> streetNames = p->getStreetNames();
+    vector<string> streetNames = currentParking->getStreetNames();
 
     SetConsoleTextAttribute(console, 240);
     gotoXY(25, 7); writeStreetName(0,streetNames);
@@ -105,7 +105,7 @@ Vertex * UserInterface::chooseVertex(string street){
     int menu_item = 0, x = 7;
     bool running = true;
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    vector<Vertex *> streetNodes = p->getStreetNodes(street);
+    vector<Vertex *> streetNodes = currentParking->getStreetNodes(street);
 
     SetConsoleTextAttribute(console, 240);
     gotoXY(50, 7); writeNodes(1,streetNodes);
@@ -171,7 +171,7 @@ Vertex * UserInterface::chooseDestiny(){
     int menu_item = 0, x = 7;
     bool running = true;
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    vector<DestPlace *> destinations= p->getDestinations();
+    vector<DestPlace *> destinations= currentParking->getDestinations();
 
     SetConsoleTextAttribute(console, 240);
     gotoXY(45, 7); writeDestiny(0,destinations);
@@ -584,10 +584,10 @@ string UserInterface::insertStreetName(){
 	string str;
 
 	gotoXY(42, 7); cout << "Street Name : ";
-	cin >> str;
-
+	//cin >> str;
+	getline(cin, str);
 	/*
-	vector<string> result = p->ApproximateStringMatching(str);
+	vector<string> result = currentParking->ApproximateStringMatching(str);
 	if(result.size() == 0) cout << "vetor vazio :(\n";
 	cout << endl;
 	cout << "tamanho do vetor: " << result.size() << endl << endl;
@@ -597,6 +597,43 @@ string UserInterface::insertStreetName(){
 	}
 	*/
 	return str;
+}
+
+string UserInterface::insertDistrictName(){
+
+	string str;
+
+	gotoXY(42, 7); cout << "District Name : ";
+	cin >> str;
+	//getline(cin, str);
+
+	return str;
+}
+
+bool UserInterface::strMatchingDistrict(){
+
+	clearScreen();
+	gotoXY(45,4); cout << "|| Insert the district name ||" << endl;
+	string str  = insertDistrictName();
+	cout << "\no inputo do utilizador foi: " << str <<"\n\n";
+	clearScreen();
+
+
+	//gotoXY(45,4); cout << "|| String Matching ||" << endl;
+
+	string result  =  stringMatchingDistrict(str);
+
+
+	if(result == ""){
+		return false;
+	}
+	if(result == "Brooklin") {
+		currentParking = p1;
+	} else {
+		//TODO: acrescentar o segudo distrito
+	}
+	return true;
+
 }
 
 Vertex * UserInterface::strMatching(){
@@ -609,7 +646,7 @@ Vertex * UserInterface::strMatching(){
 
 	//gotoXY(45,4); cout << "|| String Matching ||" << endl;
 
-	string result  =  p->stringMatchingRoads(str);
+	string result  =  currentParking->stringMatchingRoads(str);
 	Vertex * dst;
 
 	if(result == ""){
@@ -617,7 +654,7 @@ Vertex * UserInterface::strMatching(){
 	}
 	else {
 
-		p->toogleStreetNodes(str);
+		currentParking->toogleStreetNodes(str);
 		clearScreen();
 
 		gotoXY(28,4); cout << "|| From the green dots choose the closest to your position ||" << endl;
@@ -639,12 +676,12 @@ Vertex * UserInterface::aproxStrMatching(){
 
 
 	gotoXY(33,4); cout << "|| Approximate String Matching ||" << endl;
-	vector<string> result = p->ApproximateStringMatching(str);
+	vector<string> result = currentParking->ApproximateStringMatching(str);
 	Vertex * dst;
 
 	if(result.size() == 1){ // perfect match
 
-		p->toogleStreetNodes(str);
+		currentParking->toogleStreetNodes(str);
 		clearScreen();
 
 		gotoXY(28,4); cout << "|| From the green dots choose the closest to your position ||" << endl;
@@ -657,7 +694,7 @@ Vertex * UserInterface::aproxStrMatching(){
 		gotoXY(40,4); cout << "|| Maybe you are looking for one of those ||" << endl;
 		string street = chooseAproxStreetName(result);
 
-		p->toogleStreetNodes(str);
+		currentParking->toogleStreetNodes(str);
 		clearScreen();
 
 		gotoXY(28,4); cout << "|| From the green dots choose the closest to your position ||" << endl;
@@ -739,15 +776,23 @@ string UserInterface::chooseAproxStreetName(vector<string> streetNames){
 
 void UserInterface::start(){
 
+	while(!strMatchingDistrict()){
+
+		gotoXY(45,4); cout << "|| Insert the street name ||" << endl;
+		gotoXY(36,8); cout << "This district does not exist, please insert again";
+		system("pause>nul");
+	}
+	//currentParking = p1;
 	while(1){
+		p1 = new Parking("resources\\nodes.txt", "resources\\connections.txt", "resources\\roads.txt");
+		p2 = new Parking("resources\\nodes_2.txt", "resources\\connections_2.txt", "resources_2\\roads.txt");
 
-		this->p = new Parking("resources\\nodes.txt", "resources\\connections.txt", "resources\\roads.txt");
 
-		p->createGraphViewer();
-		p->readParks();
-		p->readDestinations();
-		p->readGasPumps();
-		p->getGraphViewer()->rearrange();
+		currentParking->createGraphViewer();
+		currentParking->readParks();
+		currentParking->readDestinations();
+		currentParking->readGasPumps();
+		currentParking->getGraphViewer()->rearrange();
 
 		clearScreen();
 		SetConsoleTextAttribute(console, 15);
@@ -759,7 +804,7 @@ void UserInterface::start(){
 
 		gotoXY(37,4); cout << "|| Please choose the street your in ||" << endl;
 		string street  = chooseStreetName();
-		p->toogleStreetNodes(street);
+		currentParking->toogleStreetNodes(street);
 		clearScreen();
 
 		gotoXY(28,4); cout << "|| From the green dots choose the closest to your position ||" << endl;
@@ -833,9 +878,9 @@ void UserInterface::start(){
 		switch(pref){
 		case 0:
 			if(gasBump)
-				car_park = p->planGasPumpShortPath(src,dst);
+				car_park = currentParking->planGasPumpShortPath(src,dst);
 			else
-				car_park = p->planDirectShortPath(src, dst);
+				car_park = currentParking->planDirectShortPath(src, dst);
 
 			if(car_park != NULL) displayRouteInformation(src,dst,car_park);
 			break;
@@ -847,9 +892,9 @@ void UserInterface::start(){
 
 
 			if(gasBump)
-				car_park = p->planGasPumpCheapestPath(src,dst, max_distance);
+				car_park = currentParking->planGasPumpCheapestPath(src,dst, max_distance);
 			else
-				car_park = p->planDirectCheapestPath(src,dst, max_distance);
+				car_park = currentParking->planDirectCheapestPath(src,dst, max_distance);
 
 
 			if(car_park != NULL) displayRouteInformation(src,dst,car_park);
@@ -861,7 +906,7 @@ void UserInterface::start(){
 		if(GetAsyncKeyState (VK_ESCAPE))
 			exit(1);
 
-		p->getGraphViewer()->closeWindow();
+		currentParking->getGraphViewer()->closeWindow();
 
 	}
 }
@@ -869,9 +914,9 @@ void UserInterface::start(){
 
 void UserInterface::displayRouteInformation(Vertex * src, Vertex * dst, ParkType * park)const {
 
-	vector<Vertex *> pathToPark = p->getGraph().getPath(src, park->getNode());
+	vector<Vertex *> pathToPark = currentParking->getGraph().getPath(src, park->getNode());
 
-	p->drawPath(pathToPark, "red");
+	currentParking->drawPath(pathToPark, "red");
 
 
 	gotoXY(45,4); cout << "|| Parking Information ||" << endl;
@@ -894,4 +939,14 @@ void UserInterface::displayRouteInformation(Vertex * src, Vertex * dst, ParkType
 	gotoXY(1,12); cout << "----------------------------------------------------------------------------------------------------------------------" << endl;
 
 
+}
+
+string UserInterface::stringMatchingDistrict (string input) {
+	normalize(input);
+	if(kmp("BROOKLIN", input)) {
+		return "Brooklin";
+	}
+
+
+	return "";
 }

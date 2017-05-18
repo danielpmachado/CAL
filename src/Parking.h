@@ -38,7 +38,7 @@ private:
 	vector<ParkType*>parkTypeSet;
 	vector<DestPlace *>destPlacesSet;
 	vector<GasPump *>gasPumpSet;
-
+	string district;
 
 public:
 	Graph myGraph = Graph();
