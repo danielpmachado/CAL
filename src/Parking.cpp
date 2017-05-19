@@ -1,11 +1,14 @@
 
 #include "Parking.h"
 
-Parking::Parking(string n_file_name, string c_file_name, string r_file_name){
+Parking::Parking(string district){
 
-	readNodesFile(n_file_name);
-	readRoadsFile(r_file_name);
-	readConnectionsFile(c_file_name);
+	this->district = district;
+
+	readNodesFile(getFilePath("nodes",district));
+	readRoadsFile(getFilePath("roads",district));
+	readConnectionsFile(getFilePath("connections",district));
+
 
 }
 
@@ -159,7 +162,7 @@ void Parking::readParks() {
 	ull_int node_id;
 	string type;
 	double price;
-	parksFile.open("resources\\parkingPlaces.txt");
+	parksFile.open(getFilePath("parkingPlaces",district));
 
 	if (!parksFile) {
 		cerr << "Unable to open file parkingPlaces.txt";
@@ -190,7 +193,7 @@ void Parking::readGasPumps() {
 	ifstream gasPumpFile;
 	string line;
 	ull_int node_id;
-	gasPumpFile.open("resources\\gaspump.txt");
+	gasPumpFile.open(getFilePath("gaspump",district));
 
 	if (!gasPumpFile) {
 		cerr << "Unable to open file gaspump.txt";
@@ -212,7 +215,7 @@ void Parking::readDestinations() {
 	string line;
 	ull_int node_id;
 	string place;
-	destFile.open("resources\\destination.txt");
+	destFile.open(getFilePath("destination",district));
 
 	if (!destFile) {
 		cerr << "Unable to open file destination.txt";
@@ -243,10 +246,28 @@ void Parking::readDestinations() {
 }
 void Parking::createGraphViewer() {
 
-	myGV= new GraphViewer(5000, 3496, false);
 
-	myGV->setBackground("resources\\map.png");
+
+
+	if(district == "Brooklyn"){
+
+		myGV= new GraphViewer(5000, 3496, false);
+	myGV->setBackground("resources\\map1.png");
+
 	myGV->createWindow(5000, 3496);
+
+	}
+
+	if(district == "Manhattan"){
+	myGV= new GraphViewer(IMAGE_X_2, IMAGE_Y_2, false);
+	myGV->setBackground("resources\\map2.png");
+
+	myGV->createWindow(IMAGE_X_2, IMAGE_Y_2);
+
+	}
+
+
+
 	myGV->defineVertexColor("blue");
 	myGV->defineEdgeColor("black");
 
@@ -257,8 +278,8 @@ void Parking::createGraphViewer() {
 	int y;
 	for (Vertex * v : myGraph.getVertexSet()) {
 		node_id = v->getID();
-		x = convertLongitudeToX(v->getLongitude());
-		y = convertLatitudeToY(v->getLatitude());
+		x = convertLongitudeToX(v->getLongitude(),district);
+		y = convertLatitudeToY(v->getLatitude(),district);
 
 		myGV->addNode(node_id, x, y);
 		myGV->setVertexSize(node_id, 30);
@@ -561,10 +582,10 @@ ParkType * Parking::planGasPumpCheapestPath(Vertex * src, Vertex * dest, double 
 }
 double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
-	int lat1r = convertLatitudeToY(v1->getLatitude());
-	int lon1r = convertLongitudeToX(v1->getLongitude());
-	int lat2r = convertLatitudeToY(v2->getLatitude());
-	int lon2r = convertLongitudeToX(v2->getLongitude());
+	int lat1r = convertLatitudeToY(v1->getLatitude(),district);
+	int lon1r = convertLongitudeToX(v1->getLongitude(),district);
+	int lat2r = convertLatitudeToY(v2->getLatitude(),district);
+	int lon2r = convertLongitudeToX(v2->getLongitude(),district);
 	return SCALE * sqrt(pow(lon2r - lon1r, 2) + pow(lat2r - lat1r, 2));
 
 }

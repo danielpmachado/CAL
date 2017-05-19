@@ -13,15 +13,38 @@
 
 #define earthRadiusKm 6371.0
 
-#define IMAGE_X 5000
-#define IMAGE_Y 3496
+#define IMAGE_X_1 5000
+#define IMAGE_Y_1 3496
+#define MAX_LAT_1 40.69559
+#define MIN_LAT_1 40.69026
+#define MAX_LNG_1 -73.98061
+#define MIN_LNG_1 -73.99066
+
+/*
+ *
+
+#define IMAGE_X_2 5000
+#define IMAGE_Y_2 4108
+#define MAX_LAT_2 40.79726
+#define MIN_LAT_2 40.7123
+#define MAX_LNG_2 -73.94052
+#define MIN_LNG_2 -74.00518
+
+*/
+
+#define IMAGE_X_2 5000
+#define IMAGE_Y_2 4108
+#define MAX_LAT_2 40.80380
+#define MIN_LAT_2 40.79820
+#define MAX_LNG_2 -73.94367
+#define MIN_LNG_2 -73.95269
+
+
+
 #define SCALE 0.14581997
 
 
-#define MAX_LAT 40.69559
-#define MIN_LAT 40.69026
-#define MAX_LNG -73.98061
-#define MIN_LNG -73.99066
+
 
 #define TAB "		"
 #define BIG_TAB "				"
@@ -33,20 +56,24 @@ typedef unsigned long long int ull_int;
  *
  * @param longitude the value of longitude
  *
+ * @param district
+ *
  * @return the x value
  *
  */
-int convertLongitudeToX(double longitude);
+int convertLongitudeToX(double longitude,string district);
 
 /**
  * @brief converts the latitude to y axis
  *
  * @param latitude the value of latitude
  *
+ * @param district
+ *
  * @return the y value
  *
  */
-int convertLatitudeToY(double latitude);
+int convertLatitudeToY(double latitude,string district);
 
 /**
  * @brief clears the screen
@@ -60,9 +87,6 @@ void clearScreen();
  */
 void pauseScreen();
 
-void normalize(string &str);
-
-void upCase(string &str);
 
 /**
  *@brief splits a string in a vector of strings
@@ -84,5 +108,11 @@ void pre_kmp(string pattern, vector<int> & prefix);
  * @brief number of changes that need to be done in the string text
  */
 int editDistance(string pattern, string text);
+
+void normalize(string &str);
+
+void upCase(string &str);
+
+string getFilePath(string file_name,string district);
 
 #endif /* SRC_UTILS_H_ */

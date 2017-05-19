@@ -45,15 +45,11 @@ public:
 	/**
 		 * @brief parking class Constructor
 		 *
-		 * @param n_file_name nodes file name
-		 *
-		 * @param c_file_name connections file name
-		 *
-		 * @param r_file_name roads file name
+		 * @param district
 		 *
 		 *
 		 */
-	Parking(string n_file_name, string c_file_name, string r_file_name);
+	Parking(string district);
 
 
 	/**

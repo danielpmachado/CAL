@@ -624,15 +624,18 @@ bool UserInterface::strMatchingDistrict(){
 	string result  =  stringMatchingDistrict(str);
 
 
-	if(result == ""){
-		return false;
-	}
-	if(result == "Brooklin") {
-		currentParking = p1;
-	} else {
-		//TODO: acrescentar o segudo distrito
-	}
+	if(result == "")return false;
+
+
+	//currentParking = new Parking(result);
+
+	currentParking = new Parking(result);
+
+
+
+
 	return true;
+
 
 }
 
@@ -776,19 +779,22 @@ string UserInterface::chooseAproxStreetName(vector<string> streetNames){
 
 void UserInterface::start(){
 
+
 	while(!strMatchingDistrict()){
 
 		gotoXY(45,4); cout << "|| Insert the street name ||" << endl;
 		gotoXY(36,8); cout << "This district does not exist, please insert again";
 		system("pause>nul");
 	}
-	//currentParking = p1;
+
+
+
+
 	while(1){
-		p1 = new Parking("resources\\nodes.txt", "resources\\connections.txt", "resources\\roads.txt");
-		p2 = new Parking("resources\\nodes_2.txt", "resources\\connections_2.txt", "resources\\roads_2.txt");
 
 
 		currentParking->createGraphViewer();
+
 		currentParking->readParks();
 		currentParking->readDestinations();
 		currentParking->readGasPumps();
@@ -943,9 +949,11 @@ void UserInterface::displayRouteInformation(Vertex * src, Vertex * dst, ParkType
 
 string UserInterface::stringMatchingDistrict (string input) {
 	normalize(input);
-	if(kmp("BROOKLIN", input)) {
-		return "Brooklin";
-	} //TODO: acrescentar o outro distrito
+	if(kmp("BROOKLYN", input))
+		return "Brooklyn";
+
+	if(kmp("MANHATTAN", input))
+		return "Manhattan";
 
 
 	return "";

@@ -1,0 +1,66 @@
+5669501;Malcolm X Boulevard;False
+5669822;West 120th Street;False
+5669985;West 113th Street;False
+5670354;East 115th Street;False
+5670540;West 116th Street;False
+5670811;East 118th Street;False
+5671162;East 120th Street;False
+5671282;Adam Clayton Powell Jr. Boulevard;False
+5671444;West 111th Street;False
+5671450;West 115th Street;False
+5672195;Malcolm X Boulevard;False
+5672660;West 114th Street;False
+5672766;West 119th Street;False
+5672860;East 121st Street;False
+5673236;East 116th Street;False
+5673505;West 117th Street;False
+22898583;5th Avenue;False
+44164416;Central Park North;False
+46240205;Park Avenue;False
+46240373;East 117th Street;False
+46613634;West 118th Street;False
+46613654;Saint Nicholas Avenue;False
+46613656;Saint Nicholas Avenue;True
+68668535;West 116th Street;True
+174827929;Adam Clayton Powell Jr. Boulevard;False
+194933371;Lexington Avenue;False
+195743181;Madison Avenue;False
+196116993;East 120th Street;False
+196117041;Lexington Avenue;False
+196117048;Park Avenue;False
+196117062;West 116th Street;False
+204085724;Adam Clayton Powell Jr. Boulevard;False
+225143100;;False
+226015233;East 119th Street;False
+226015234;East 119th Street;False
+275298533;West 112th Street;False
+275298538;West 112th Street;False
+275298541;West 112th Street;False
+305323025;Malcolm X Boulevard;False
+305323028;West 116th Street;False
+305323031;Malcolm X Boulevard;False
+353134391;Park Avenue;False
+378384814;;False
+420877066;Adam Clayton Powell Jr. Boulevard;False
+420877070;Adam Clayton Powell Jr. Boulevard;False
+420877100;Adam Clayton Powell Jr. Boulevard;False
+420878075;Malcolm X Boulevard;False
+420878076;Malcolm X Boulevard;False
+420878078;Malcolm X Boulevard;False
+420878079;Malcolm X Boulevard;False
+420878081;Malcolm X Boulevard;False
+420878082;Malcolm X Boulevard;False
+420878084;Malcolm X Boulevard;False
+420878085;Malcolm X Boulevard;False
+420878086;Malcolm X Boulevard;False
+420878087;Malcolm X Boulevard;False
+420878089;Malcolm X Boulevard;False
+420878099;Malcolm X Boulevard;False
+420878102;Malcolm X Boulevard;False
+420878110;Malcolm X Boulevard;False
+420878113;Malcolm X Boulevard;False
+420878115;Malcolm X Boulevard;False
+420878116;Malcolm X Boulevard;False
+420878119;Malcolm X Boulevard;False
+420883172;Madison Avenue;False
+420883173;Madison Avenue;False

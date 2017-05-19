@@ -1,0 +1,3 @@
+42481892;school
+278634849;cinema
+42464827;shopping
