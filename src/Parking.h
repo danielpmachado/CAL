@@ -263,8 +263,10 @@ public:
 	 *
 	 * @param street the street passed by param
 	 *
+	 * @param color new vertex color
+	 *
 	 */
-	void toogleStreetNodes(string street);
+	void toogleStreetNodes(string street,string color);
 
 	/**
 	 * @brief gets the street names

@@ -63,6 +63,31 @@ void normalize(string &str) {
 	str = final_str;
 }
 
+void normalize2(string &str){
+
+	istringstream iss(str);
+	    string final_str;
+
+	    while (iss >> str){
+	    	size_t i = 0;
+
+	    	    while (i < str.length()){
+	    	        str.at(i) = tolower(str.at(i));
+	    	        i++;
+	    	    }
+
+
+
+	    	 str.at(0)= toupper(str.at(0));
+	        final_str = final_str + " " + str;
+	    }
+
+	    final_str.erase(0, 1);
+
+	    str = final_str;
+
+}
+
 vector<string> split(string str) {
 	vector<string> result;
 	istringstream iss(str);

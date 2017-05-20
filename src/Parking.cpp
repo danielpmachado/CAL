@@ -590,13 +590,13 @@ double Parking::distanceBetweenVertex(Vertex * v1, Vertex * v2) {
 
 }
 
-void Parking::toogleStreetNodes(string street) {
+void Parking::toogleStreetNodes(string street, string color) {
 	vector<Vertex*> streetNodes = getStreetNodes(street);
 
 
 	for (int i = 0; i < streetNodes.size(); i++) {
 
-		myGV->setVertexColor(streetNodes.at(i)->getID(), "green");
+		myGV->setVertexColor(streetNodes.at(i)->getID(), color);
 
 		myGV->setVertexLabel(streetNodes.at(i)->getID(), to_string(i+1));
 	}
