@@ -658,11 +658,11 @@ Vertex * UserInterface::strMatching(){
 	else {
 
 		normalize2(str);
-		currentParking->toogleStreetNodes(str,"red");
+		currentParking->toogleStreetNodes(str,"orange");
 
 		clearScreen();
 
-		gotoXY(28,4); cout << "|| From the red dots choose the closest to your position ||" << endl;
+		gotoXY(28,4); cout << "|| From the orange dots choose the closest to your position ||" << endl;
 		dst = chooseVertex(result);
 		clearScreen();
 	}
@@ -687,10 +687,10 @@ Vertex * UserInterface::aproxStrMatching(){
 	if(result.size() == 1){ // perfect match
 
 
-		currentParking->toogleStreetNodes(str,"red");
+		currentParking->toogleStreetNodes(str,"orange");
 		clearScreen();
 
-		gotoXY(28,4); cout << "|| From the red dots choose the closest to your position ||" << endl;
+		gotoXY(28,4); cout << "|| From the orange dots choose the closest to your position ||" << endl;
 		dst = chooseVertex(result.at(0));
 		clearScreen();
 	}
@@ -700,10 +700,10 @@ Vertex * UserInterface::aproxStrMatching(){
 		gotoXY(40,4); cout << "|| Maybe you are looking for one of those ||" << endl;
 		string street = chooseAproxStreetName(result);
 
-		currentParking->toogleStreetNodes(street,"red");
+		currentParking->toogleStreetNodes(street,"orange");
 		clearScreen();
 
-		gotoXY(28,4); cout << "|| From the red dots choose the closest to your position ||" << endl;
+		gotoXY(28,4); cout << "|| From the orange dots choose the closest to your position ||" << endl;
 		dst = chooseVertex(street);
 		clearScreen();
 	}

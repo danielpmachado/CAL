@@ -234,7 +234,7 @@ void Parking::readDestinations() {
 		DestPlace * d = new DestPlace(place, myGraph.getVertex(node_id));
 		destPlacesSet.push_back(d);
 		if (place == "school") {
-			myGV->setVertexIcon(node_id, "resources\\.png");
+			myGV->setVertexIcon(node_id, "resources\\schoolIcon.png");
 		} else if (place == "cinema") {
 			myGV->setVertexIcon(node_id, "resources\\cinemaIcon.png");
 		} else if (place == "shopping") {
