@@ -688,7 +688,7 @@ vector<string> Parking::ApproximateStringMatching(string roadName) {
 				int changes = 1000;
 				for(const string & t : splitedText) {//comparar as palavras do input com as das ruas guardadas
 					int aux = editDistance(s, t);
-					changes = aux < changes ? aux : changes;//guardamos sempre o menor numero de alteracoes para uma determinada palavra de todo o input do utilizador
+					changes = (aux < changes && !(s.size() == t.size() && t.size() == aux)) ? aux : changes;//guardamos sempre o menor numero de alteracoes para uma determinada palavra de todo o input do utilizador
 				}
 				totalChanges += changes;
 			}
